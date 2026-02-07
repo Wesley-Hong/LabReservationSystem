@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Lab Slot Availability</title>
+  <style>
+    .filters {
+      margin-bottom: 15px;
+    }
+
+    .slot {
+      display: inline-block;
+      margin: 5px;
+      padding: 10px 14px;
+      border: 1px solid #ccc;
+      cursor: pointer;
+    }
+
+    .available { background: #e8f5e9; }
+    .unavailable { background: #ffcdd2; cursor: not-allowed; }
+  </style>
+</head>
+<body>
+
+<h2>Lab Slot Availability</h2>
+
+<div class="filters">
+  <label>
+    Lab:
+    <select id="lab">
+      <option value="1">Computer Lab 01</option>
+      <option value="2">Computer Lab 02</option>
+      <option value="3">Computer Lab 03</option>
+    </select>
+  </label>
+
+  <label style="margin-left:15px;">
+    Date:
+    <input type="date" id="date">
+  </label>
+</div>
+
+<hr>
+
+<div id="slots"></div>
+
+<script>
+const slotsDiv = document.getElementById("slots");
+const labSelect = document.getElementById("lab");
+const dateInput = document.getElementById("date");
+
+// default date to today
+const today = new Date().toISOString().split("T")[0];
+dateInput.value = today;
+
+// 7 day range
+const maxDate = new Date();
+maxDate.setDate(maxDate.getDate() + 6);
+dateInput.min = today;
+dateInput.max = maxDate.toISOString().split("T")[0];
+
+// display slots upon filter change
+labSelect.addEventListener("change", loadSlots);
+dateInput.addEventListener("change", loadSlots);
+
+function loadSlots() {
+  const lab = labSelect.value;
+  const date = dateInput.value;
+
+  slotsDiv.innerHTML = `<h3>Computer Lab 0${lab} – ${date}</h3>`;
+
+  // generate time slots
+  for (let h = 8; h < 18; h++) {
+    ["00", "30"].forEach(m => {
+      const slot = document.createElement("div");
+      slot.className = "slot available";
+      slot.textContent = `${String(h).padStart(2,"0")}:${m}`;
+      slotsDiv.appendChild(slot);
+    });
+  }
+}
+
+loadSlots();
+</script>
+
+</body>
+</html>
