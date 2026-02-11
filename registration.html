@@ -5,49 +5,155 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create an Account</title>
     <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: white;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            padding: 40px;
+            width: 100%;
+            max-width: 600px;
+            border: 2px solid #e0e0e0;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 30px;
+        }
+
+        .name-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .half-width {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        #email, 
+        #password {
+            width: 100%; 
+            height: 50px;
+        }
+
+        .form-footer {
+            grid-column: 1 / -1; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            margin-top: 10px;
+        }
+
+        .sign-in {
+            width: 100%;
+            padding: 12px;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+ 
+        .role-selection {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .role-selection label {
+            margin-bottom: 0; 
+        }
 
     </style>
 </head>
 <body>
-    <div>
+    <div class="container">
         <h1>Create an Account</h1>
 
         <div class="name-row">
-            <div class="form-group">
+            <div class="half-width">
                 <label for="firstName">First Name</label>
-                <input type="text" id="firstName" name="firstName" placeholder="hello" required>
+                <input type="text" id="firstName" name="firstName" placeholder="Juan" required>
             </div>
             
-            <div class="form-group">
+            <div class="half-width">
                 <label for="lastName">Last Name</label>
-                <input type="text" id="lastName" name="lastName" required>
+                <input type="text" id="lastName" name="lastName" placeholder="Cruz" required>
             </div>
 
-            <div class="form-group">
-                <label for="lastName">DLSU Email</label>
-                <input type="email" id="email" name="email" required>
+            <div class="full-width" >
+                <label for="email">DLSU Email</label>
+                <input type="email" id="email" name="email" placeholder="juan_cruz@dlsu.edu.ph" required>
             </div>
 
-             <div class="form-group">
-                <label for="lastName">Password</label>
-                <input type="password" id="password" name="password" required>
+             <div class="full-width">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
             </div>
 
-            <label class="circle-checkbox">
-                <input type="checkbox"> Student
-                <input type="checkbox"> Technician
-            </label>
+            <div class="form-footer">
+                <div class="role-selection">
+                    <input type="radio" id="student" name="role" value="student" checked>
+                    <label for="student">Student</label>
 
-            <div>
-                <p>Already have an account?
-                    <a href="login.html">Log in</a>
-                </p> 
+                    <input type="radio" id="technician" name="role" value="technician">
+                    <label for="technician">Technician</label>
+                </div>
+
+                <button class="sign-in">Sign in</button>
+
+                <div class="login-link">
+                    <p>Already have an account?
+                        <a href="login.html">Log in</a>
+                    </p> 
+                </div>
             </div>
-
-            <button>Sign in</button>
-
         </div>
     </div>
+
+    <script>
+
+    </script>
     
 </body>
 </html>
