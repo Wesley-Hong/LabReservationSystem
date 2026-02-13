@@ -26,6 +26,7 @@
             <div class="full-width" >
                 <label for="email">DLSU Email</label>
                 <input type="email" id="email" name="email" placeholder="juan_cruz@dlsu.edu.ph" required>
+                <p id="warning"></p>
             </div>
 
              <div class="full-width">
@@ -64,21 +65,22 @@
             const password = document.getElementById("password").value.trim();
             const role = document.querySelector('input[name=role]:checked').value;
 
-            // verify if valid dlsu email
+            const warning = document.getElementById("warning");
+
+            warning.innerHTML = "";
 
             if (!firstName || !lastName || !email || !password) {
-                showError("Required");
+                alert("Please complete all required fields.");
                 return;
             }
 
-            if(!email.endsWith("@dlsu.edu.ph")) {
-                showError("Enter valid DLSU email");
+            // verify if valid dlsu email
+            else if(!email.endsWith("@dlsu.edu.ph")) {
+                warning.innerHTML = "Please use DLSU email";
+                warning.style.color = "red";
                 return;
             }
 
-            // check if input is empty
-            
-//no need for this part
             // user object
             const user = {
                 firstName: firstName,
@@ -97,21 +99,6 @@
             window.location.href = "login.html";
   
         }  
-
-        function showError(message) {
-
-            let errorDiv = document.getElementById("errorMessage");
-
-            if (!errorDiv) {
-                errorDiv = document.createElement("p");
-                errorDiv.id = "errorMessage";
-                errorDiv.style.color = "red";
-                errorDiv.style.marginTop = "10px";
-                document.querySelector(".form-footer").prepend(errorDiv);
-            }
-
-            errorDiv.textContent = message;
-        }
 
     </script>
     
