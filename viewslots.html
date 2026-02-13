@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lab Slot Availability</title>
+  <link rel="stylesheet" href="viewslotsstyle.css"> 
+</head>
+<body>
+
+<h1>Lab Slot Availability</h1>
+
+<div class="filters">
+  <label>
+    Lab:
+    <select id="lab">
+      <option value="1">Computer Lab 01</option>
+      <option value="2">Computer Lab 02</option>
+      <option value="3">Computer Lab 03</option>
+    </select>
+  </label>
+
+  <label style="margin-left:15px;">
+    Date:
+    <input type="date" id="date">
+  </label>
+</div>
+
+<hr>
+
+<div id="slots"></div>
+
+<script>
+const slotsDiv = document.getElementById("slots");
+const labSelect = document.getElementById("lab");
+const dateInput = document.getElementById("date");
+
+// default date to today
+const today = new Date().toISOString().split("T")[0];
+dateInput.value = today;
+
+// 7 day range
+const maxDate = new Date();
+maxDate.setDate(maxDate.getDate() + 6);
+dateInput.min = today;
+dateInput.max = maxDate.toISOString().split("T")[0];
+
+// display slots upon filter change
+labSelect.addEventListener("change", loadSlots);
+dateInput.addEventListener("change", loadSlots);
+
+function loadSlots() {
+  const lab = labSelect.value;
+  const date = dateInput.value;
+
+  slotsDiv.innerHTML = "";
+
+  // array for timelslots (8am-6pm)
+  const slots = [
+    { start: "8:00AM", end: "8:30AM" },
+    { start: "8:30AM", end: "9:00AM" },
+    { start: "9:00AM", end: "9:30AM" },
+    { start: "9:30AM", end: "10:00AM" },
+    { start: "10:00AM", end: "10:30AM" },
+    { start: "10:30AM", end: "11:00AM" },
+    { start: "11:00AM", end: "11:30AM" },
+    { start: "11:30AM", end: "12:00PM" },
+    { start: "12:00PM", end: "12:30PM" },
+    { start: "12:30PM", end: "1:00PM" },
+    { start: "1:00PM", end: "1:30PM" },
+    { start: "1:30PM", end: "2:00PM" },
+    { start: "2:00PM", end: "2:30PM" },
+    { start: "2:30PM", end: "3:00PM" },
+    { start: "3:00PM", end: "3:30PM" },
+    { start: "3:30PM", end: "4:00PM" },
+    { start: "4:00PM", end: "4:30PM" },
+    { start: "4:30PM", end: "5:00PM" },
+    { start: "5:00PM", end: "5:30PM" },
+    { start: "5:30PM", end: "6:00PM" }
+  ];
+
+  slots.forEach(slot => {
+    const div = document.createElement("div");
+    div.className = "slot available";
+    div.textContent = `${slot.start} - ${slot.end}`;
+    div.dataset.start = slot.start; 
+    div.dataset.end = slot.end;
+    slotsDiv.appendChild(div);
+  });
+}
+
+loadSlots();
+</script>
+<a id="BackToHome" href="home.html">&lt- Back To Home</a>
+
+</body>
+</html>
+
