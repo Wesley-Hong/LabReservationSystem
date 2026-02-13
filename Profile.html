@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+
+<html >
+<head>
+    <title>User Profile</title>
+    <link rel="stylesheet" href="Profile_Stylesheet.css">
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="nav">
+            <a href="homePage.html" class="back">Back</a>
+        </div>
+
+        <div class="profile">
+            <div class="prof_pic"><img src="speed.jpg" alt="Profile Picture"></div>
+            <div class="info">
+                <h2>John Reservation</h2>
+                <p>johnreservation@gmail.com</p>
+
+            </div>
+        </div>
+
+    <div class="edit">
+        <h3>Edit Profile Information</h3>
+            <div class="name">
+                <div class="first_name">
+                    <label for="first_name">First Name:</label>
+                    <input type="text" id="first_name" name="first_name" value="John">
+                <div class="error" id="first_name_error"></div>                
+            </div>
+
+            <div class="last_name">
+                <label for="last_name">Last Name:</label>
+                <input type="text" id="last_name" name="last_name" value="Reservation">
+                <div class="error" id="last_name_error"></div>
+            </div>
+            </div>
+
+
+        <div class ="email">
+                <label for="email">Email Address:</label>
+                <input type="email" id="email" name="email" value="johnreservation@gmail.com">
+                <div class="error" id="email_error"></div>
+        </div>
+
+        <div class="changePass">
+
+            <div class="password">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" value="Johny123">
+                <div class="error" id="password_error"></div>
+            </div>
+            
+
+            <div class="confirmPass">
+                <label for="confirmPass">Confirm Password:</label>
+                <input type="password" id="confirmPass" name="confirmPass" value="johny123">
+                <div class="error" id="confirmPass_error"></div>
+            </div>
+        </div>
+
+    </div>
+
+        <button class="save" onclick="saveChanges()">Save Changes</button>
+
+    </div>
+</body>
+
+
+</html>
+
+<script>
+    var first_name= document.getElementById("first_name")
+    var last_name= document.getElementById("last_name")
+    var email= document.getElementById("email")
+    var password= document.getElementById("password")
+    var confirm_password= document.getElementById("confirmPass")
+
+    var first_name_error=document.getElementById("first_name_error")
+    var last_name_error=document.getElementById("last_name_error")
+    var email_error=document.getElementById("email_error")
+    var password_error=document.getElementById("password_error")
+    var confirmPass_error=document.getElementById("confirmPass_error")
+
+
+    function updateProfile(){
+       window.first_name=first_name.value;
+       window.last_name=last_name.value;    
+       window.email=email.value;
+       window.password=password.value;
+       window.confirm_password=confirm_password.value;  
+    }
+
+    function checkAt(){
+        var Atcount=0;
+        var emailString= email.value;
+
+        for(var i=0; i<emailString.length; i++){
+            if(emailString[i]=== "@"){
+                Atcount++;
+            }
+        }
+        return Atcount;
+    }
+
+    function saveChanges(){
+
+        var canChange=true;
+
+        if(first_name.value === ""){
+            canChange=false;
+        }
+        if(last_name.value === ""){
+            canChange=false;
+        }
+        if(email.value === "" || checkAt() !== 1 || !email.value.endsWith("@gmail.com")){
+            canChange=false;
+        }
+    
+        if(canChange===true){
+            updateProfile();
+            alert("Profile updated successfully!");
+        }
+
+    }
+
+</script>
