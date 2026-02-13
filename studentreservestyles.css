@@ -125,3 +125,11 @@ body {
     margin-right: 20px;
     margin-left: 15px;
 }
+
+.submit :disabled{
+    background-color: white;
+    color: lightgray;
+    border: 2px solid lightgray;
+    border-radius: 20px;
+}
+

@@ -119,50 +119,100 @@
     </div>
 
     <script>
+        // Declarations for Computer Lab buttons, chosen lab paragraph, and submit button
         const buttonlab1 = document.getElementById("ComputerLab1");
         const buttonlab2 = document.getElementById("ComputerLab2");
         const buttonlab3 = document.getElementById("ComputerLab3");
         const computerLabParagraph = document.getElementById("ComputerLab");
-        let isClickedButtonLab1 = false, isClickedButtonLab2 = false, isClickedButtonLab3 = false;
+        const submitButton = document.getElementById("submit");
+        submitButton.disabled = true;
 
+        // helper variable to store which lab button clicked
+        var labChosen = 0;
+
+        const checkboxes = document.querySelectorAll(".timeslot");
+        
+        // Formatting of chosen lab paragraph
         computerLabParagraph.style.fontWeight = "bold";
         computerLabParagraph.style.fontSize = "20px";
         
-        buttonlab1.addEventListener("click", function(){
-            isClickedButtonLab1 = true;
-            computerLabParagraph.textContent ="Chosen Lab: Computer Laboratory 1";
-            /*
-            const checkboxInputs = document.getElementById("8:00");
-            checkboxInputs.disabled = true;
-            */
+        // Constructor function for reservation data
+        function Reservation(lab, date, timeslots, anonymous) {
+            this.lab = lab;
+            this.date = date;
+            this.timeslots = timeslots;
+            this.anonymous = anonymous;
+        }
 
+        // Event listeners for computer lab buttons to set chosen lab and enable submit button
+        buttonlab1.addEventListener("click", function(){
+            labChosen = 1;
+            submitButton.disabled = false;
+            computerLabParagraph.textContent ="Chosen Lab: Computer Laboratory 1";
+
+            checkboxes.forEach(checkbox => {
+                checkbox.disabled = false;
+            });
+
+            reservations.forEach(reservation => {
+                if (dateInput.value === reservation.date && labChosen === parseInt(reservation.lab.slice(-1))) {
+                    reservation.timeslots.forEach(slot => {
+                        const checkbox = document.getElementById(slot);
+                        if (checkbox) {
+                            checkbox.disabled = true;
+                        }
+                    });
+                }
+            });
         })
 
         buttonlab2.addEventListener("click", function(){
-            isClickedButtonLab2 = true;
+            labChosen = 2;
+            submitButton.disabled = false;
             computerLabParagraph.textContent ="Chosen Lab: Computer Laboratory 2";
-            /*
-            const checkboxInputs = document.getElementById("10:00");
-            checkboxInputs.disabled = true;
-            */
+
+            checkboxes.forEach(checkbox => {
+                checkbox.disabled = false;
+            });
+
+            reservations.forEach(reservation => {
+                if (dateInput.value === reservation.date && labChosen === parseInt(reservation.lab.slice(-1))) {
+                    reservation.timeslots.forEach(slot => {
+                        const checkbox = document.getElementById(slot);
+                        if (checkbox) {
+                            checkbox.disabled = true;
+                        }
+                    });
+                }
+            });
         })
 
         buttonlab3.addEventListener("click", function(){
-            isClickedButtonLab3 = true;
+            labChosen = 3;
+            submitButton.disabled = false;
             computerLabParagraph.textContent ="Chosen Lab: Computer Laboratory 3";
+
+            checkboxes.forEach(checkbox => {
+                checkbox.disabled = false;
+            });
+
+            reservations.forEach(reservation => {
+                if (dateInput.value === reservation.date && labChosen === parseInt(reservation.lab.slice(-1))) {
+                    reservation.timeslots.forEach(slot => {
+                        const checkbox = document.getElementById(slot);
+                        if (checkbox) {
+                            checkbox.disabled = true;
+                        }
+                    });
+                }
+            });
         })
 
-        /*
-        if (isClickedButtonLab1 == false && isClickedButtonLab2 == false && isClickedButtonLab3 == false){
-            submitButton.disabled = true;
-        }
-        */
-       
+        // Declaration for date input
         const dateInput = document.getElementById("reserve_date");
 
         // default date to today
         const today = new Date().toISOString().split("T")[0];
-        dateInput.value = today;
 
         // 7 day range
         const maxDate = new Date();
@@ -170,10 +220,14 @@
         dateInput.min = today;
         dateInput.max = maxDate.toISOString().split("T")[0];
 
-        const submitButton = document.getElementById("reservationform");
+        // Declaration for reservation form
+        const reservationForm = document.getElementById("reservationform");
+        
+        // Array to store reservation data objects
+        const reservations = []; 
 
-
-        submitButton.addEventListener("submit", function(event) {
+        // Event listener for form submission to create reservation data object and store it in the array
+        reservationForm.addEventListener("submit", function(event) {
             event.preventDefault(); // prevent page refresh
 
             const selectedLab = computerLabParagraph.textContent;
@@ -182,31 +236,48 @@
             // query selector returns a NodeList, so we convert it to an array to easily map the values
             const selectedTimeslots = Array.from(document.querySelectorAll(".timeslot:checked")).map(input => input.value);
             
-            // .checked returns true if the checkbox is checked, false otherwise
+            // *.checked* returns true if the checkbox is checked, false otherwise
             const isAnonymous = document.getElementById("reserve_anonymous").checked;
 
+            // TESTING
             console.log("Selected Lab:", selectedLab);
             console.log("Selected Date:", selectedDate);
             console.log("Selected Timeslots:", selectedTimeslots);
             console.log("Reserve Anonymously:", isAnonymous);
+/*
             selectedTimeslots.forEach(slot => {
                 slot.disabled = true;
             });
-            
-            alert("Reservation submitted! Check console for details.");
+*/          
+            // create reservation data object and store it in the array
+            const reservationData = new Reservation(selectedLab, selectedDate, selectedTimeslots, isAnonymous);
+            reservations.push(reservationData);
+
+            // TESTING
+            console.log("Reservation Data Object:", reservationData);
+
+            alert("Reservation submitted successfully!");
             document.getElementById("reservationform").reset();
         });
 
-        const checkboxInputs = document.getElementsByClassName("timeslot");
+        dateInput.addEventListener("change", function() {
+            checkboxes.forEach(checkbox => {
+                checkbox.disabled = false;
+            });
+            reservations.forEach(reservation => {
+                if (dateInput.value === reservation.date && labChosen === parseInt(reservation.lab.slice(-1))) {
+                    reservation.timeslots.forEach(slot => {
+                        const checkbox = document.getElementById(slot);
+                        if (checkbox) {
+                            checkbox.disabled = true;
+                        }
+                    });
+                }
+            });
+        });
+
+
         
-        /*
-        checkboxInputs[0].disabled = true;
-        checkboxInputs[1].disabled = true;
-        checkboxInputs[2].disabled = true;
-        checkboxInputs[3].disabled = true;
-        checkboxInputs[4].disabled = true;
-        checkboxInputs[5].disabled = true;
-        */
     </script>
 </body>
 </html>
