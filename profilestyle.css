@@ -24,6 +24,9 @@ body {
   border-radius: 5px;
   font-weight: 600;
 }
+.back:hover {
+  background: #00ab1f;
+}
 
 .editprof {
   display: inline-block;
@@ -34,6 +37,9 @@ body {
   border-radius: 5px;
   font-weight: 600;
   margin-left: 10px;
+}
+.editprof:hover {
+  background: #00ab1f;
 }
 
 .container {
@@ -151,14 +157,6 @@ input {
   margin-bottom: 30px;
 }
 
-.error {
-  color: red;   
-  font-size: 12px;
-  margin-top: 5px;   
-  margin-left: 155px;
-  display: none;
-}
-
 .save {
   width: 75%;
   padding: 14px;
@@ -174,5 +172,9 @@ input {
   margin-right:auto;
   margin-left: auto;
   display: block;
+}
+
+.save:hover {
+  background: #00ab1f;
 }
 
