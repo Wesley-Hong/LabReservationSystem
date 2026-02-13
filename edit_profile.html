@@ -10,7 +10,7 @@
 
     <div class="container">
         <div class="nav">
-            <a href="home.html" class="back">Back</a>
+            <a href="profile.html" class="back">Back</a>
         </div>
 
         <div class="profile">
@@ -20,10 +20,13 @@
                 <h2>johnlab@gmail.com</h2>
 
                 <div class="role"> 
-                    <h3>Administrator</h3>
+                    <h3>Student</h3>
                 </div>
-
             </div>
+        </div>
+
+        <div class="description">
+            <textarea id="description" name="description" rows="3" cols="100">I like trains</textarea>
         </div>
 
     <div class="edit">
@@ -82,45 +85,13 @@
     var password= document.getElementById("password")
     var confirm_password= document.getElementById("confirmPass")
 
-    function updateProfile(){
-       window.first_name=first_name.value;
-       window.last_name=last_name.value;    
-       window.email=email.value;
-       window.password=password.value;
-       window.confirm_password=confirm_password.value;  
-    }
-
-    function checkAt(){
-        var Atcount=0;
-        var emailString= email.value;
-
-        for(var i=0; i<emailString.length; i++){
-            if(emailString[i]=== "@"){
-                Atcount++;
-            }
-        }
-        return Atcount;
-    }
-
     function saveChanges(){
-
+        
         var canChange=true;
 
-        /*if(first_name.value === ""){
-            canChange=false;
-        }
-        if(last_name.value === ""){
-            canChange=false;
-        }
-        if(email.value === "" || checkAt() !== 1 || !email.value.endsWith("@gmail.com")){
-            canChange=false;
-        }*/
-    
         if(canChange===true){
-            updateProfile();
             alert("Profile updated successfully!");
         }
-
     }
 
 </script>
