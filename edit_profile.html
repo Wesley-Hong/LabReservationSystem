@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+
+<html >
+<head>
+    <title>User Profile</title>
+    <link rel="stylesheet" href="profilestyle.css">
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="nav">
+            <a href="profile.html" class="back">Back</a>
+        </div>
+
+        <div class="profile">
+            <div class="prof_pic"><img src="speed.png" alt="Profile Picture"></div>
+            <div class="info">
+                <h1>John Lab</h1>
+                <h2>johnlab@gmail.com</h2>
+
+                <div class="role"> 
+                    <h3>Student</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="description">
+            <textarea id="description" name="description" rows="3" cols="100">I like trains</textarea>
+        </div>
+
+    <div class="edit">
+        <h4>Edit Profile Information</h4>
+            <div class="name">
+                <div class="first_name">
+                    <label for="first_name">First Name:</label>
+                    <input type="text" id="first_name" name="first_name" value="John">
+                <div class="error" id="first_name_error"></div>                
+            </div>
+
+            <div class="last_name">
+                <label for="last_name">Last Name:</label>
+                <input type="text" id="last_name" name="last_name" value="Lab">
+                <div class="error" id="last_name_error"></div>
+            </div>
+            </div>
+
+
+        <div class ="email">
+                <label for="email">Email Address:</label>
+                <input type="email" id="email" name="email" value="johnlab@gmail.com">
+                <div class="error" id="email_error"></div>
+        </div>
+
+        <div class="changePass">
+
+            <div class="password">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" value="Johnlab123">
+                <div class="error" id="password_error"></div>
+            </div>
+            
+
+            <div class="confirmPass">
+                <label for="confirmPass">Confirm Password:</label>
+                <input type="password" id="confirmPass" name="confirmPass" value="johnlab123">
+                <div class="error" id="confirmPass_error"></div>
+            </div>
+        </div>
+
+    </div>
+
+        <button class="save" onclick="saveChanges()">Save Changes</button>
+
+    </div>
+</body>
+
+
+</html>
+
+<script>
+    var first_name= document.getElementById("first_name")
+    var last_name= document.getElementById("last_name")
+    var email= document.getElementById("email")
+    var password= document.getElementById("password")
+    var confirm_password= document.getElementById("confirmPass")
+
+    function saveChanges(){
+        
+        var canChange=true;
+
+        if(canChange===true){
+            alert("Profile updated successfully!");
+        }
+    }
+
+</script>

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- For displaying of characters correctly-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Lab Reservation</title>
+    <link rel="stylesheet" href="technicianreservestyles.css"> 
+</head>
+<body>
+    <div id="reserve_outerContainer">
+        <h2>Student Laboratory Slot Reservation</h2>
+        
+        <form id="reservationform">
+        <div id="reserve_computerLabBox">
+        
+            <label>Pick a Laboratory:</label>
+
+            <button id="ComputerLab1" class="button" type="button" form="reservationform">Computer Lab 1</button>
+            <button id="ComputerLab2" class="button" type="button" form="reservationform">Computer Lab 2</button>
+            <button id="ComputerLab3" class="button" type="button" form="reservationform">Computer Lab 3</button>
+
+            <p id="ComputerLab">No Lab Chosen</p>
+        </div>
+
+        <div id="reserve_inputs">
+        
+            <div id="fieldGroup">
+                <label for="reserve_date">Date:</label>
+            <input id="reserve_date" name="reserve_date" type="date">
+            </div>
+            
+            <div id="fieldGroup">
+                <input type="radio" id="add" name="edit" value="add">
+                <label for="add">Add</label><br>
+                <input type="radio" id="remove" name="edit" value="remove">
+                <label for="remove">Remove</label><br>
+            </div>
+
+            <div id="fieldGroup">
+                <input type="search" id="searchuser" name="searchuser" placeholder="Search User">
+            </div>
+        </div>
+
+
+        <div class="reserve_timeslotBox">
+        
+            <label class="checkboxContainer">TIMESLOTS:</label>
+            <br>
+            
+            <div class="box1">
+
+            <input type="checkbox" class="timeslot" id="8:00" value="8:00">
+            <label for="8:00">8:00AM - 8:30AM</label>
+            
+            <input type="checkbox" class="timeslot" id="8:30" value="8:30">
+            <label for="8:30">8:30AM - 9:00AM</label>
+
+            <input type="checkbox" class="timeslot" id="9:00" value="9:00">
+            <label for="9:00">9:00AM - 9:30AM</label>
+
+            <input type="checkbox" class="timeslot" id="9:30" value="9:30">
+            <label for="9:30">9:30AM - 10:00AM</label>
+            <br>
+
+            <input type="checkbox" class="timeslot" id="10:00" value="10:00">
+            <label for="10:00">10:00AM - 10:30AM</label>
+
+            <input type="checkbox" class="timeslot" id="10:30" value="10:30">
+            <label for="10:30">10:30AM - 11:00AM</label>
+
+            <input type="checkbox" class="timeslot" id="11:00" value="11:00">
+            <label for="11:00">11:00AM - 11:30AM</label>
+
+            <input type="checkbox" class="timeslot" id="11:30" value="11:30">
+            <label for="11:30">11:30AM - 12:00PM</label>
+            <br>
+
+            <input type="checkbox" class="timeslot" id="12:00" value="12:00">
+            <label for="12:00">12:00PM - 12:30PM</label>
+
+            <input type="checkbox" class="timeslot" id="12:30" value="12:30">
+            <label for="12:30">12:30PM - 1:00PM</label>
+
+            <input type="checkbox" class="timeslot" id="13:00" value="13:00">
+            <label for="13:00">1:00PM - 1:30PM</label>
+
+            <input type="checkbox" class="timeslot" id="13:30" value="13:30">
+            <label for="13:30">1:30PM - 2:00PM</label>
+            <br>
+
+            <input type="checkbox" class="timeslot" id="14:00" value="14:00">
+            <label for="14:00">2:00PM - 2:30PM</label>
+
+            <input type="checkbox" class="timeslot" id="14:30" value="14:30">
+            <label for="14:30">2:30PM - 3:00PM</label>
+
+            <input type="checkbox" class="timeslot" id="15:00" value="15:00">
+            <label for="15:00">3:00PM - 3:30PM</label>
+
+            <input type="checkbox" class="timeslot" id="15:30" value="15:30">
+            <label for="15:30">3:30PM - 4:00PM</label>
+            <br>
+
+            <input type="checkbox" class="timeslot" id="16:00" value="16:00">
+            <label for="16:00">4:00PM - 4:30PM</label>
+
+            <input type="checkbox" class="timeslot" id="16:30" value="16:30">
+            <label for="16:30">4:30PM - 5:00PM</label>
+
+            <input type="checkbox" class="timeslot" id="17:00" value="17:00">
+            <label for="17:00">5:00PM - 5:30PM</label>
+
+            <input type="checkbox" class="timeslot" id="17:30" value="17:30">
+            <label for="17:30">5:30PM - 6:00PM</label>
+            <br>
+
+            </div>
+        
+        </div>
+        </form>
+
+
+        <div>
+            <button id="submit" class="button" type="submit" form="reservationform">Submit Reservation</button>
+        </div>
+        
+        <a id="BackToHome" href="home.html">&lt- Back To Home</a>
+    </div>
+
+    <script>
+        const buttonlab1 = document.getElementById("ComputerLab1");
+        const buttonlab2 = document.getElementById("ComputerLab2");
+        const buttonlab3 = document.getElementById("ComputerLab3");
+        const computerLabParagraph = document.getElementById("ComputerLab");
+        let isClickedButtonLab1 = false, isClickedButtonLab2 = false, isClickedButtonLab3 = false;
+
+        computerLabParagraph.style.fontWeight = "bold";
+        computerLabParagraph.style.fontSize = "20px";
+        
+        buttonlab1.addEventListener("click", function(){
+            isClickedButtonLab1 = true;
+            computerLabParagraph.textContent ="Chosen Lab: Computer Laboratory 1";
+            /*
+            const checkboxInputs = document.getElementById("8:00");
+            checkboxInputs.disabled = true;
+            */
+
+        })
+
+        buttonlab2.addEventListener("click", function(){
+            isClickedButtonLab2 = true;
+            computerLabParagraph.textContent ="Chosen Lab: Computer Laboratory 2";
+            /*
+            const checkboxInputs = document.getElementById("10:00");
+            checkboxInputs.disabled = true;
+            */
+        })
+
+        buttonlab3.addEventListener("click", function(){
+            isClickedButtonLab3 = true;
+            computerLabParagraph.textContent ="Chosen Lab: Computer Laboratory 3";
+        })
+
+        /*
+        if (isClickedButtonLab1 == false && isClickedButtonLab2 == false && isClickedButtonLab3 == false){
+            submitButton.disabled = true;
+        }
+        */
+       
+        const dateInput = document.getElementById("reserve_date");
+
+        // default date to today
+        const today = new Date().toISOString().split("T")[0];
+        dateInput.value = today;
+
+        // 7 day range
+        const maxDate = new Date();
+        maxDate.setDate(maxDate.getDate() + 6);
+        dateInput.min = today;
+        dateInput.max = maxDate.toISOString().split("T")[0];
+
+        const submitButton = document.getElementById("reservationform");
+
+
+        submitButton.addEventListener("submit", function(event) {
+            event.preventDefault(); // prevent page refresh
+
+            const selectedLab = computerLabParagraph.textContent;
+            const selectedDate = dateInput.value;
+
+            // query selector returns a NodeList, so we convert it to an array to easily map the values
+            const selectedTimeslots = Array.from(document.querySelectorAll(".timeslot:checked")).map(input => input.value);
+            
+            // .checked returns true if the checkbox is checked, false otherwise
+            const isAnonymous = document.getElementById("reserve_anonymous").checked;
+
+            console.log("Selected Lab:", selectedLab);
+            console.log("Selected Date:", selectedDate);
+            console.log("Selected Timeslots:", selectedTimeslots);
+            console.log("Reserve Anonymously:", isAnonymous);
+            selectedTimeslots.forEach(slot => {
+                slot.disabled = true;
+            });
+            
+            alert("Reservation submitted! Check console for details.");
+            document.getElementById("reservationform").reset();
+        });
+
+        const checkboxInputs = document.getElementsByClassName("timeslot");
+    
+    </script>
+</body>
+</html>

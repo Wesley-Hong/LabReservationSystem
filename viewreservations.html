@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Reservations</title>
+  <link rel="stylesheet" href="viewreservationsstyle.css">
+</head>
+<body>
+
+<h1>Reservations</h1>
+
+<div id="reservationsContainer"></div>
+
+<script>
+const reservationsContainer = document.getElementById("reservationsContainer");
+
+// sample data
+const myReservations = [
+  {
+    seat: "1",
+    lab: "Computer Lab 01",
+    requestDateTime: "2026-02-10 09:15 AM",
+    reservationDate: "2026-02-15",
+    reservationTime: "9:00AM - 9:30AM",
+    requester: "Jane Doe"
+  },
+  {
+    seat: "9",
+    lab: "Computer Lab 02",
+    requestDateTime: "2026-02-11 1:22 PM",
+    reservationDate: "2026-02-16",
+    reservationTime: "2:00PM - 2:30PM",
+    requester: "John Smith"
+  },
+  {
+    seat: "5",
+    lab: "Computer Lab 03",
+    requestDateTime: "2026-02-12 11:05 AM",
+    reservationDate: "2026-02-17",
+    reservationTime: "11:30AM - 12:00PM",
+    requester: "John Wick"
+  },
+  {
+    seat: "12",
+    lab: "Computer Lab 02",
+    requestDateTime: "2026-02-13 11:00 AM",
+    reservationDate: "2026-02-17",
+    reservationTime: "10:30AM - 11:00AM",
+    requester: "Kuya Willie"
+  },
+  {
+    seat: "2",
+    lab: "Computer Lab 03",
+    requestDateTime: "2026-02-12 9:05 PM",
+    reservationDate: "2026-02-17",
+    reservationTime: "11:30AM - 12:00PM",
+    requester: "Peter Parker"
+  }
+];
+
+function loadReservations() {
+
+  if (myReservations.length === 0) {
+    reservationsContainer.innerHTML = "<p>No reservations found.</p>";
+    return;
+  }
+
+  reservationsContainer.innerHTML = ""; // clear first
+
+  myReservations.forEach((res, index) => {
+
+    const container = document.createElement("div");
+    container.className = "reservation-container";
+
+    container.innerHTML = `
+      <button class="edit-btn" data-index="${index}">Edit</button>
+
+      <p><strong>Seat Number:</strong> ${res.seat}</p>
+      <p><strong>Laboratory:</strong> ${res.lab}</p>
+      <p><strong>Date & Time Requested:</strong> ${res.requestDateTime}</p>
+      <p><strong>Reservation Date:</strong> ${res.reservationDate}</p>
+      <p><strong>Reservation Time:</strong> ${res.reservationTime}</p>
+      <p><strong>Requester:</strong> ${res.requester}</p>
+    `;
+
+    reservationsContainer.appendChild(container);
+  });
+
+  document.querySelectorAll(".edit-btn").forEach(button => {
+    button.addEventListener("click", function() {
+      
+    });
+  });
+}
+
+
+loadReservations();
+</script>
+<a id="BackToHome" href="home.html">&lt- Back To Home</a>
+
+</body>
+</html>
+
