@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Edit Reservation</title>
+        <link rel="stylesheet" href=""> 
+    <!---
+    <style>
+            body {
+                font-family: Arial;
+                max-width: 500px;
+                margin: 40px auto;
+            }
+
+            h1 {
+                text-align: center;
+            }
+
+            input {
+                padding: 8px;
+                width: 70%;
+            }
+
+            button {
+                padding: 8px;
+                cursor: pointer;
+            }
+
+            li {
+                margin: 8px 0;
+                display: flex;
+                justify-content: space-between;
+            }
+
+            .completed {
+                text-decoration: line-through;
+                color: gray;
+            }
+        </style>
+    --->
+
+    </head>
+    <body>
+        <h1>Edit Reservation</h1>
+
+        <form id="editForm">
+            <input type="text" id="reservationIdInput" placeholder="Enter reservation ID..." required>
+            <button type="submit">Load Reservation</button>
+        </form>
+
+        <div id="reservationDetails" style="display:none; margin-top:20px;">
+            <p><strong>Reservation ID:</strong> <span id="reservationId"></span></p>
+            <p><strong>Lab:</strong> <span id="lab"></span></p>
+            <p><strong>Date:</strong> <span id="date"></span></p>
+            <p><strong>Time Slots:</strong> <span id="timeslots"></span></p>
+            <!-- Add form fields here to edit the reservation -->
+        </div>
+
+        <script src="editReservation.js"></script>
+    </body>
+</html>
