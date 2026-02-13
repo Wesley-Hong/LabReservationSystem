@@ -127,7 +127,7 @@ h3 {
 
 .description {
   background: beige;
-  max-width: 900px;
+  max-width: 600px;
   height: 50px;
   padding: 15px 20px;
   border-radius: 15px;
@@ -135,6 +135,8 @@ h3 {
   border: 1px solid rgba(255, 255, 255, 0.5);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   margin-top: 20px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 h4 {
@@ -197,12 +199,12 @@ input {
   border-radius: 8px;
   background-color: darkgray;
   margin-top: 30px;
-  width: 600px;
+  width: 400px;
   margin-left: auto;
   margin-right: auto;
 }
 
-.reservations {
+.reservations p {
   position: relative;
   border: 1px solid #ccc;
   padding: 15px;
@@ -210,7 +212,8 @@ input {
   border-radius: 8px;
   background-color: #ffffff;
   width: 350px;
+  height: 190px;
+  text-align: center;
   margin-left: auto;
   margin-right: auto;
 }
-
