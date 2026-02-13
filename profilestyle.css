@@ -8,6 +8,15 @@ body {
   padding: 20px;          
 }
 
+.container {
+  width: 800px;
+  max-width: 100%;
+  background: white;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
 .nav {
   width: 100%;
   display: flex;
@@ -42,15 +51,6 @@ body {
   background: #00ab1f;
 }
 
-.container {
-  width: 800px;
-  max-width: 100%;
-  background: white;
-  padding: 30px;
-  border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-}
-
 .prof_pic {
   width: 180px;
   height: 180px;
@@ -75,7 +75,7 @@ body {
 }
 
 .profile {
-  background: linear-gradient(145deg, #a4ceb1 0%, #a4ca9f 100%);
+  background: #a4ceb1;
   border-radius: 25px;
   padding: 40px 200px;
   margin-bottom: 10px;
@@ -84,7 +84,7 @@ body {
   justify-content: flex-start;
   gap: 30px;
   box-shadow: 
-      0 10px 30px rgba(102, 126, 234, 0.15),
+      0 10px 20px rgba(102, 126, 234, 0.15),
       inset 0 1px 3px rgba(255, 255, 255, 0.9);
   border: 1px solid rgba(255, 255, 255, 0.5);
   position: relative;
@@ -125,6 +125,18 @@ h3 {
   padding: 0;
 }
 
+.description {
+  background: beige;
+  max-width: 900px;
+  height: 50px;
+  padding: 15px 20px;
+  border-radius: 15px;
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+}
+
 h4 {
   font-size: 40px;
   font-weight: 700;
@@ -136,7 +148,7 @@ h4 {
   margin:auto;
   width:60%;
   max-width: 600px;
-  margin-top: -10px;
+  margin-top: -20px;
 }
 
 label {
@@ -173,8 +185,32 @@ input {
   margin-left: auto;
   display: block;
 }
-
 .save:hover {
   background: #00ab1f;
+}
+
+.reserve_container{
+  position: relative;
+  border: 1px solid #ccc;
+  padding: 30px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  background-color: darkgray;
+  margin-top: 30px;
+  width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.reservations {
+  position: relative;
+  border: 1px solid #ccc;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  background-color: #ffffff;
+  width: 350px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
