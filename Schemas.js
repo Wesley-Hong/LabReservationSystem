@@ -47,11 +47,6 @@ const labSchema = new mongoose.Schema({
         unique: true
     },
 
-    labName: {
-        type: String,
-        required: true
-    },
-
     seats: {
         type: Number,
         default: 12
@@ -112,4 +107,5 @@ module.exports = {
     User: mongoose.model('User', userSchema),
     Reservation: mongoose.model('Reservation', reserveSchema),
     Lab: mongoose.model('Lab', labSchema)
+
 }
