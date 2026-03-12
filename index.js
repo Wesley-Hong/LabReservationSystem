@@ -19,9 +19,11 @@ app.use(express.json());
 // static files (CSS, JS, images)
 app.use(express.static('public'));
 
+const userController = require('./controllers/usercontroller');
+const reservationController = require('./controllers/reservationcontroller');
 
 app.get('/', (req, res) => {
-  res.redirect('/home');
+  res.redirect('/user/login');
 });
 
 // --------------------
