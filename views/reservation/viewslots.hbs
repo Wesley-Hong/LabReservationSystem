@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lab Slot Availability</title>
+  <link rel="stylesheet" href="/css/viewslotsstyle.css"> 
+</head>
+<body>
+
+<h1>Lab Slot Availability</h1>
+
+<div class="fields">
+  <label>
+    Lab:
+    <select id="lab">
+      <option value="1">Computer Lab 01</option>
+      <option value="2">Computer Lab 02</option>
+      <option value="3">Computer Lab 03</option>
+    </select>
+  </label>
+
+  <label style="margin-left:15px;">
+    Date:
+    <input type="date" id="date">
+  </label>
+</div>
+
+<hr>
+
+<div id="slots"></div>
+
+<script>
+const slotsDiv = document.getElementById("slots");
+const labSelect = document.getElementById("lab");
+const dateInput = document.getElementById("date");
+
+// default date to today
+const today = new Date().toISOString().split("T")[0];
+dateInput.value = today;
+
+// 7 day range
+const maxDate = new Date();
+maxDate.setDate(maxDate.getDate() + 6);
+dateInput.min = today;
+dateInput.max = maxDate.toISOString().split("T")[0];
+
+// display slots upon filter change
+labSelect.addEventListener("change", loadSlots);
+dateInput.addEventListener("change", loadSlots);
+
+function loadSlots() {
+  const lab = labSelect.value;
+  const date = dateInput.value;
+
+  slotsDiv.innerHTML = "";
+
+  const slots = [
+    { start: "8:00AM", end: "8:30AM" },
+    { start: "8:30AM", end: "9:00AM" },
+    { start: "9:00AM", end: "9:30AM" },
+    { start: "9:30AM", end: "10:00AM" },
+    { start: "10:00AM", end: "10:30AM" },
+    { start: "10:30AM", end: "11:00AM" },
+    { start: "11:00AM", end: "11:30AM" },
+    { start: "11:30AM", end: "12:00PM" },
+    { start: "12:00PM", end: "12:30PM" },
+    { start: "12:30PM", end: "1:00PM" },
+    { start: "1:00PM", end: "1:30PM" },
+    { start: "1:30PM", end: "2:00PM" },
+    { start: "2:00PM", end: "2:30PM" },
+    { start: "2:30PM", end: "3:00PM" },
+    { start: "3:00PM", end: "3:30PM" },
+    { start: "3:30PM", end: "4:00PM" },
+    { start: "4:00PM", end: "4:30PM" },
+    { start: "4:30PM", end: "5:00PM" },
+    { start: "5:00PM", end: "5:30PM" },
+    { start: "5:30PM", end: "6:00PM" }
+  ];
+
+  const seats = 12;
+
+  const table = document.createElement("table");
+  table.className = "slots-table";
+
+  // header row
+  const header = document.createElement("tr");
+  const empty = document.createElement("th");
+  empty.textContent = "Time";
+  header.appendChild(empty);
+
+  for (let i = 1; i <= seats; i++) {
+    const th = document.createElement("th");
+    th.textContent = "Seat " + i;
+    header.appendChild(th);
+  }
+
+  table.appendChild(header);
+
+  // rows
+  slots.forEach(slot => {
+    const row = document.createElement("tr");
+
+    const timeCell = document.createElement("td");
+    timeCell.textContent = `${slot.start} - ${slot.end}`;
+    row.appendChild(timeCell);
+
+    for (let seat = 1; seat <= seats; seat++) {
+      const cell = document.createElement("td");
+
+      // random for now
+      const reserved = Math.random() < 0.3;
+
+      cell.className = reserved ? "reserved" : "available";
+
+      cell.dataset.seat = seat;
+      cell.dataset.start = slot.start;
+      cell.dataset.end = slot.end;
+
+      row.appendChild(cell);
+    }
+
+    table.appendChild(row);
+  });
+
+  slotsDiv.appendChild(table);
+}
+
+loadSlots();
+</script>
+<a id="BackToHome" href="/home">&lt- Back To Home</a>
+
+</body>
+</html>
+

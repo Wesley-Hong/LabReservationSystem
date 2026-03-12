@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- For displaying of characters correctly-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Lab Reservation</title>
+    <link rel="stylesheet" href="/css/studentreservestyles.css"> 
+</head>
+<body>
+    <div id="reserve_outerContainer">
+        <h2>Student Laboratory Slot Reservation</h2>
+        
+        <form id="reservationform">
+        <div id="reserve_computerLabBox">
+        
+            <label>Pick a Laboratory:</label>
+
+            <button id="ComputerLab1" class="button" type="button" form="reservationform">Computer Lab 1</button>
+            <button id="ComputerLab2" class="button" type="button" form="reservationform">Computer Lab 2</button>
+            <button id="ComputerLab3" class="button" type="button" form="reservationform">Computer Lab 3</button>
+
+            <p id="ComputerLab">No Lab Chosen</p>
+        </div>
+
+        <div id="reserve_dateBox">
+        
+            <label for="reserve_date">Date:</label>
+            <input id="reserve_date" name="reserve_date" type="date">
+        
+        </div>
+
+        <div class="reserve_timeslotBox">
+        
+            <label class="checkboxContainer">TIMESLOTS:</label>
+            <br>
+            
+            <div class="box1">
+
+            <input type="checkbox" class="timeslot" id="8:00" value="8:00">
+            <label for="8:00">8:00AM - 8:30AM<br><span id="8:00-slots">12 slots left</span></label>
+            
+            <input type="checkbox" class="timeslot" id="8:30" value="8:30">
+            <label for="8:30">8:30AM - 9:00AM<br><span id="8:30-slots">12 slots left</span></label>
+
+            <input type="checkbox" class="timeslot" id="9:00" value="9:00">
+            <label for="9:00">9:00AM - 9:30AM<br><span id="9:00-slots">12 slots left</span></label>
+
+            <input type="checkbox" class="timeslot" id="9:30" value="9:30">
+            <label for="9:30">9:30AM - 10:00AM<br><span id="9:30-slots">12 slots left</span></label>
+            <br>
+
+            <input type="checkbox" class="timeslot" id="10:00" value="10:00">
+            <label for="10:00">10:00AM - 10:30AM<br><span id="10:00-slots">12 slots left</span></label>
+
+            <input type="checkbox" class="timeslot" id="10:30" value="10:30">
+            <label for="10:30">10:30AM - 11:00AM<br><span id="10:30-slots">12 slots left</span></label>
+
+            <input type="checkbox" class="timeslot" id="11:00" value="11:00">
+            <label for="11:00">11:00AM - 11:30AM<br><span id="11:00-slots">12 slots left</span></label>
+
+            <input type="checkbox" class="timeslot" id="11:30" value="11:30">
+            <label for="11:30">11:30AM - 12:00PM<br><span id="11:30-slots">12 slots left</span></label>
+            <br>
+
+            <input type="checkbox" class="timeslot" id="12:00" value="12:00">
+            <label for="12:00">12:00PM - 12:30PM<br><span id="12:00-slots">12 slots left</span></label>
+
+            <input type="checkbox" class="timeslot" id="12:30" value="12:30">
+            <label for="12:30">12:30PM - 1:00PM<br><span id="12:30-slots">12 slots left</span></label>
+
+            <input type="checkbox" class="timeslot" id="13:00" value="13:00">
+            <label for="13:00">1:00PM - 1:30PM<br><span id="13:00-slots">12 slots left</span></label>
+
+            <input type="checkbox" class="timeslot" id="13:30" value="13:30">
+            <label for="13:30">1:30PM - 2:00PM<br><span id="13:30-slots">12 slots left</span></label>
+            <br>
+
+            <input type="checkbox" class="timeslot" id="14:00" value="14:00">
+            <label for="14:00">2:00PM - 2:30PM<br><span id="14:00-slots">12 slots left</span></label>
+
+            <input type="checkbox" class="timeslot" id="14:30" value="14:30">
+            <label for="14:30">2:30PM - 3:00PM<br><span id="14:30-slots">12 slots left</span></label>
+
+            <input type="checkbox" class="timeslot" id="15:00" value="15:00">
+            <label for="15:00">3:00PM - 3:30PM<br><span id="15:00-slots">12 slots left</span></label>
+
+            <input type="checkbox" class="timeslot" id="15:30" value="15:30">
+            <label for="15:30">3:30PM - 4:00PM<br><span id="15:30-slots">12 slots left</span></label>
+            <br>
+
+            <input type="checkbox" class="timeslot" id="16:00" value="16:00">
+            <label for="16:00">4:00PM - 4:30PM<br><span id="16:00-slots">12 slots left</span></label>
+
+            <input type="checkbox" class="timeslot" id="16:30" value="16:30">
+            <label for="16:30">4:30PM - 5:00PM<br><span id="16:30-slots">12 slots left</span></label>
+
+            <input type="checkbox" class="timeslot" id="17:00" value="17:00">
+            <label for="17:00">5:00PM - 5:30PM<br><span id="17:00-slots">12 slots left</span></label>
+
+            <input type="checkbox" class="timeslot" id="17:30" value="17:30">
+            <label for="17:30">5:30PM - 6:00PM<br><span id="17:30-slots">12 slots left</span></label>
+            <br>
+
+            </div>
+        
+        </div>
+
+            <input type="checkbox" id="reserve_anonymous" value="1">
+            <label for="reserve_anonymous">Reserve Anonymously?</label>
+        </form>
+
+
+        <div>
+            <button id="submit" class="button" type="submit" form="reservationform">Submit Reservation</button>
+        </div>
+        
+        <a id="BackToHome" href="/home">&lt- Back To Home</a>
+    </div>
+
+    <script>
+        // Declarations for Computer Lab buttons, chosen lab paragraph
+        const buttonlab1 = document.getElementById("ComputerLab1");
+        const buttonlab2 = document.getElementById("ComputerLab2");
+        const buttonlab3 = document.getElementById("ComputerLab3");
+        const computerLabParagraph = document.getElementById("ComputerLab");
+        
+        const slotsTakenArray = [];
+
+        // Declaration for submit button
+        const submitButton = document.getElementById("submit");
+        submitButton.disabled = true;
+
+        // helper variable to store which lab button clicked
+        var labChosen = 0;
+
+        const checkboxes = document.querySelectorAll(".timeslot");
+        
+        // Formatting of chosen lab paragraph
+        computerLabParagraph.style.fontWeight = "bold";
+        computerLabParagraph.style.fontSize = "20px";
+        
+        // Constructor function for reservation data
+        function Reservation(lab, date, timeslots, anonymous) {
+            this.lab = lab;
+            this.date = date;
+            this.timeslots = timeslots;
+            this.anonymous = anonymous;
+        }
+
+        // Constructor function for slots taken in a laboratory at a specific date and timeslot
+        function Slot(computerLab, date, timeslot, slotsTaken) {
+            this.computerLab = computerLab;
+            this.date = date;
+            this.timeslot = timeslot;
+            this.slotsTaken = slotsTaken;
+        }
+
+        // Event listeners for computer lab buttons to set chosen lab and enable submit button
+        buttonlab1.addEventListener("click", function(){
+            labChosen = 1;
+            submitButton.disabled = false;
+            computerLabParagraph.textContent ="Chosen Lab: Computer Laboratory 1";
+
+            checkboxes.forEach(checkbox => {
+                checkbox.disabled = false;
+            });
+
+            reservations.forEach(reservation => {
+                if (dateInput.value === reservation.date && labChosen === reservation.lab) {
+                    slotsTakenArray.forEach(slot => {
+                            reservation.timeslots.forEach(timeslot => {
+                            if (slot.computerLab === reservation.lab && slot.date === reservation.date && timeslot === slot.timeslot) {
+                                if (slot.slotsTaken >= 12) {
+                                    const checkbox = document.getElementById(timeslot);
+                                    if (checkbox) {
+                                        checkbox.disabled = true;
+                                        const slotsLeftSpan = document.getElementById(timeslot + "-slots");
+                                        if (slotsLeftSpan) {
+                                            slotsLeftSpan.textContent = `0 slots left`;
+                                        }
+                                    }                                 
+                                }
+                                else {
+                                    const slotsLeftSpan = document.getElementById(timeslot + "-slots");
+                                    if (slotsLeftSpan) {
+                                        slotsLeftSpan.textContent = `${12 - slot.slotsTaken} slots left`;
+                                    }
+                                }
+                            }
+                        });
+                    })
+                }
+            });
+        })
+
+        buttonlab2.addEventListener("click", function(){
+            labChosen = 2;
+            submitButton.disabled = false;
+            computerLabParagraph.textContent ="Chosen Lab: Computer Laboratory 2";
+
+            checkboxes.forEach(checkbox => {
+                checkbox.disabled = false;
+            });
+
+            reservations.forEach(reservation => {
+                if (dateInput.value === reservation.date && labChosen === reservation.lab) {
+                    slotsTakenArray.forEach(slot => {
+                            reservation.timeslots.forEach(timeslot => {
+                            if (slot.computerLab === reservation.lab && slot.date === reservation.date && timeslot === slot.timeslot) {
+                                if (slot.slotsTaken >= 12) {
+                                    const checkbox = document.getElementById(timeslot);
+                                    if (checkbox) {
+                                        checkbox.disabled = true;
+                                        const slotsLeftSpan = document.getElementById(timeslot + "-slots");
+                                        if (slotsLeftSpan) {
+                                            slotsLeftSpan.textContent = `0 slots left`;
+                                        }
+                                    }                                 
+                                }
+                                else {
+                                    const slotsLeftSpan = document.getElementById(timeslot + "-slots");
+                                    if (slotsLeftSpan) {
+                                        slotsLeftSpan.textContent = `${12 - slot.slotsTaken} slots left`;
+                                    }
+                                }
+                            }
+                        });
+                    })
+                }
+            });
+        })
+
+        buttonlab3.addEventListener("click", function(){
+            labChosen = 3;
+            submitButton.disabled = false;
+            computerLabParagraph.textContent ="Chosen Lab: Computer Laboratory 3";
+
+            checkboxes.forEach(checkbox => {
+                checkbox.disabled = false;
+            });
+
+            reservations.forEach(reservation => {
+                if (dateInput.value === reservation.date && labChosen === reservation.lab) {
+                    slotsTakenArray.forEach(slot => {
+                            reservation.timeslots.forEach(timeslot => {
+                            if (slot.computerLab === reservation.lab && slot.date === reservation.date && timeslot === slot.timeslot) {
+                                if (slot.slotsTaken >= 12) {
+                                    const checkbox = document.getElementById(timeslot);
+                                    if (checkbox) {
+                                        checkbox.disabled = true;
+                                        const slotsLeftSpan = document.getElementById(timeslot + "-slots");
+                                        if (slotsLeftSpan) {
+                                            slotsLeftSpan.textContent = `0 slots left`;
+                                        }
+                                    }                                 
+                                }
+                                else {
+                                    const slotsLeftSpan = document.getElementById(timeslot + "-slots");
+                                    if (slotsLeftSpan) {
+                                        slotsLeftSpan.textContent = `${12 - slot.slotsTaken} slots left`;
+                                    }
+                                }
+                            }
+                        });
+                    })
+                }
+            });
+        })
+
+        // Declaration for date input
+        const dateInput = document.getElementById("reserve_date");
+
+        // default date to today
+        const today = new Date().toISOString().split("T")[0];
+
+        // 7 day range
+        const maxDate = new Date();
+        maxDate.setDate(maxDate.getDate() + 6);
+        dateInput.min = today;
+        dateInput.max = maxDate.toISOString().split("T")[0];
+
+        // Declaration for reservation form
+        const reservationForm = document.getElementById("reservationform");
+        
+        // Array to store reservation data objects
+        const reservations = []; 
+
+        // Event listener for form submission to create reservation data object and store it in the array
+        reservationForm.addEventListener("submit", function(event) {
+            event.preventDefault(); // prevent page refresh
+
+            const selectedLab = computerLabParagraph.textContent;
+            const selectedDate = dateInput.value;
+
+            // query selector returns a NodeList, so we convert it to an array to easily map the values
+            const selectedTimeslots = Array.from(document.querySelectorAll(".timeslot:checked")).map(input => input.value);
+            
+            // *.checked* returns true if the checkbox is checked, false otherwise
+            const isAnonymous = document.getElementById("reserve_anonymous").checked;
+
+            // TESTING
+            console.log("Selected Lab:", selectedLab);
+            console.log("Selected Date:", selectedDate);
+            console.log("Selected Timeslots:", selectedTimeslots);
+            console.log("Reserve Anonymously:", isAnonymous);
+
+            // create reservation data object and store it in the array
+            const reservationData = new Reservation(selectedLab, selectedDate, selectedTimeslots, isAnonymous);
+            reservations.push(reservationData);
+            
+            var slotFound = false;
+            
+            selectedTimeslots.forEach(timeslot => {   
+                slotFound = false;         
+                slotsTakenArray.forEach(slot => {
+                    if (slot.computerLab === selectedLab && slot.date === selectedDate && timeslot === slot.timeslot) {
+                        slot.slotsTaken += 1;
+                        slotFound = true;
+                    }
+                });
+
+                if (!slotFound) {
+                    const slotTaken = new Slot(selectedLab, selectedDate, timeslot, 1);
+                    slotsTakenArray.push(slotTaken);
+                    console.log("Slot Taken Object:", slotTaken);
+                }
+            });
+
+            // TESTING
+            console.log("Reservation Data Object:", reservationData);
+            console.log("Slots Taken Array:", slotsTakenArray);
+
+            alert("Reservation submitted successfully!");
+            document.getElementById("reservationform").reset();
+        });
+
+        dateInput.addEventListener("change", function() {
+            checkboxes.forEach(checkbox => {
+                checkbox.disabled = false;
+            });
+            reservations.forEach(reservation => {
+                if (dateInput.value === reservation.date && labChosen === reservation.lab) {
+                    slotsTakenArray.forEach(slot => {
+                            reservation.timeslots.forEach(timeslot => {
+                            if (slot.computerLab === reservation.lab && slot.date === reservation.date && timeslot === slot.timeslot) {
+                                if (slot.slotsTaken >= 12) {
+                                    const checkbox = document.getElementById(timeslot);
+                                    if (checkbox) {
+                                        checkbox.disabled = true;
+                                        const slotsLeftSpan = document.getElementById(timeslot + "-slots");
+                                        if (slotsLeftSpan) {
+                                            slotsLeftSpan.textContent = `0 slots left`;
+                                        }
+                                    }                                 
+                                }
+                                else {
+                                    const slotsLeftSpan = document.getElementById(timeslot + "-slots");
+                                    if (slotsLeftSpan) {
+                                        slotsLeftSpan.textContent = `${12 - slot.slotsTaken} slots left`;
+                                    }
+                                }
+                            }
+                        });
+                    })
+                }
+            });
+        });
+
+
+        
+    </script>
+</body>
+</html>
