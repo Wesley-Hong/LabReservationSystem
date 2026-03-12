@@ -19,16 +19,16 @@ app.use(express.json());
 // static files (CSS, JS, images)
 app.use(express.static('public'));
 
+// controllers
 const userController = require('./controllers/usercontroller');
 const reservationController = require('./controllers/reservationcontroller');
 
+// start at login page
 app.get('/', (req, res) => {
   res.redirect('/user/login');
 });
 
-// --------------------
-// Home
-// --------------------
+// home page
 app.get('/home', (req, res) => {
   res.render('home', {
     firstName: "Student",
@@ -36,49 +36,19 @@ app.get('/home', (req, res) => {
   });
 });
 
+// user routes
+app.get('/user/login', userController.showLogin);
+app.get('/user/registration', userController.showRegistration);
+app.get('/user/profile', userController.showProfile);
+app.get('/user/edit_profile', userController.showEditProfile);
+app.post('/user/login', userController.loginUser);
 
-// --------------------
-// User routes
-// --------------------
-app.get('/user/login', (req, res) => {
-  res.render('user/login');
-});
-
-app.get('/user/registration', (req, res) => {
-  res.render('user/registration');
-});
-
-app.get('/user/profile', (req, res) => {
-  res.render('user/profile');
-});
-
-app.get('/user/edit_profile', (req, res) => {
-  res.render('user/edit_profile');
-});
-
-
-// --------------------
-// Reservation routes
-// --------------------
-app.get('/reservation/viewslots', (req, res) => {
-  res.render('reservation/viewslots');
-});
-
-app.get('/reservation/viewreservations', (req, res) => {
-  res.render('reservation/viewreservations');
-});
-
-app.get('/reservation/studentreserve', (req, res) => {
-  res.render('reservation/studentreserve');
-});
-
-app.get('/reservation/technicianreserve', (req, res) => {
-  res.render('reservation/technicianreserve');
-});
-
-app.get('/reservation/editReservation', (req, res) => {
-  res.render('reservation/editReservation');
-});
+// reservation routes
+app.get('/reservation/viewslots', reservationController.viewSlots);
+app.get('/reservation/viewreservations', reservationController.viewReservations);
+app.get('/reservation/studentreserve', reservationController.studentReserve);
+app.get('/reservation/technicianreserve', reservationController.technicianReserve);
+app.get('/reservation/editReservation', reservationController.editReservation);
 
 
 // start server
