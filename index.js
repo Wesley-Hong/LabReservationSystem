@@ -30,7 +30,20 @@ app.use(express.static('public'));
 const userController = require('./controllers/usercontroller');
 const reservationController = require('./controllers/reservationcontroller');
 
+// API route to get available slots for a specific lab and date
 app.get('/api/slots', reservationController.getSlots);
+
+// route for student reservation to autofill form
+app.get('/studentreserve', (req, res) => {
+  const { lab, date, timeStart, timeEnd, seat } = req.query;
+  res.render('reservation/studentreserve', {
+    lab,
+    date,
+    timeStart,
+    timeEnd,
+    seat
+  });
+});
 
 // start at login page
 app.get('/', (req, res) => {
