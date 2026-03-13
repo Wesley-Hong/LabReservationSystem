@@ -13,7 +13,7 @@
     <div class="container">
         <div class="nav">
             <a href="/home?email={{user.email}}" class="back">Back</a>
-            <a href="/user/edit_profile?email={{user.email}}" class="editprof">Edit Profile</a>
+            {{#if isUser}}<a href="/user/edit_profile?email={{user.email}}" class="editprof">Edit Profile</a>{{/if}}
         </div>
 
         <div class="profile">
@@ -37,10 +37,10 @@
 
                 {{#each reservations}}
                 <p>
-                    <br>Laboratory: {{this.lab}}</br>
+                    <br>Laboratory: {{this.lab.labNum}}</br>
                     <br>Date and Time Requested: {{this.requestDateTime}}</br>
                     <br>Reservation Date: {{this.reservationDate}}</br>
-                    <br>Reservation Time: {{this.reservationTime}}</br>
+                    <br>Reservation Time: {{this.timeStart}}</br>
                 </p>
                 {{else}}
                 <p>You have no reservations yet</p>
