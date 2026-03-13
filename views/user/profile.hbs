@@ -40,10 +40,11 @@
 
                 {{#each reservations}}
                 <p>
-                    <br>Laboratory: {{this.lab.labNum}}</br>
-                    <br>Date and Time Requested: {{this.requestDateTime}}</br>
-                    <br>Reservation Date: {{this.reservationDate}}</br>
-                    <br>Reservation Time: {{this.timeStart}}</br>
+                    <strong>Seat Number:</strong> {{this.seatNumber}}<br>
+                    <strong>Laboratory:</strong> {{this.lab.labNum}}<br>
+                    <strong>Date & Time Requested:</strong> {{this.requestDateTime}}<br>
+                    <strong>Reservation Date:</strong> {{this.reservationDate}}<br>
+                    <strong>Reservation Time:</strong> {{this.timeStart}} - {{this.timeEnd}}<br>
                 </p>
                 {{else}}
                 <p>You have no reservations yet</p>
