@@ -37,6 +37,9 @@ const reservationController = require('./controllers/reservationcontroller');
 // API route to get available slots for a specific lab and date
 app.get('/api/slots', reservationController.getSlots);
 
+// API route to get reservation info for a specific slot  
+app.get('/api/slotinfo', reservationController.getSlotInfo);
+
 // route for student reservation to autofill form
 app.get('/studentreserve', (req, res) => {
   const { lab, date, timeStart, timeEnd, seat } = req.query;
