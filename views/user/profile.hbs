@@ -39,10 +39,10 @@
             <div class="reservations">
 
                 {{#each reservations}}
-                <p>
+                 <p>
                     <strong>Seat Number:</strong> {{this.seatNumber}}<br>
                     <strong>Laboratory:</strong> {{this.lab.labNum}}<br>
-                    <strong>Date & Time Requested:</strong> {{this.requestDateTime}}<br>
+                    <strong>Date & Time Requested:</strong> {{formatDate this.requestDateTime}}<br>
                     <strong>Reservation Date:</strong> {{this.reservationDate}}<br>
                     <strong>Reservation Time:</strong> {{this.timeStart}} - {{this.timeEnd}}<br>
                 </p>
