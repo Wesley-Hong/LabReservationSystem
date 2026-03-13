@@ -60,26 +60,32 @@ exports.studentReservePrefill = (req, res) => {
     res.render('reservation/studentreserve', { lab, date, timeStart, timeEnd, seat });
 };
 
-exports.createReservation = async (req, res) => {
+// get reservation info for a specific slot ---
+exports.getSlotInfo = async (req, res) => {
+    const { lab: labNum, date, timeStart, timeEnd, seat } = req.query;
+
     try {
-        const { lab, date, timeslot, seatNumber } = req.body;
+        // Find the lab first
+        const lab = await Lab.findOne({ labNum: labNum });
+        if (!lab) return res.status(404).json({ error: 'Lab not found' });
 
-        // 1. Find the Lab document by its name (e.g., "Computer Lab 01")
-        const labDoc = await Lab.findOne({ labNum: lab });
-
-        // 2. Create the new reservation
-        const newBooking = new Reservation({
-            lab: labDoc._id,           // Links to the Lab collection
+        // Find the reservation for this specific slot
+        const reservation = await Reservation.findOne({
+            lab: lab._id,
             reservationDate: date,
-            timeslot: timeslot,
-            seat: seatNumber,
-            student: req.user._id // Links to the logged-in student
-        });
+            timeStart,
+            timeEnd,
+            seatNumber: seat
+        }).populate('ReservedUnder'); // populate user info
 
-        await newBooking.save();
-        res.status(200).json({ message: "Success" });
+        if (!reservation) {
+            return res.status(404).json({ error: 'No reservation found' });
+        }
+
+        res.json(reservation);
+
     } catch (err) {
         console.error(err);
-        res.status(500).json({ error: "Failed to save" });
+        res.status(500).json({ error: 'Server error' });
     }
 };
