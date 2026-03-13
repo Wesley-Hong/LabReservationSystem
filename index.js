@@ -30,6 +30,8 @@ app.use(express.static('public'));
 const userController = require('./controllers/usercontroller');
 const reservationController = require('./controllers/reservationcontroller');
 
+app.get('/api/slots', reservationController.getSlots);
+
 // start at login page
 app.get('/', (req, res) => {
   res.redirect('/user/login');
