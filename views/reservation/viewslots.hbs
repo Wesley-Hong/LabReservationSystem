@@ -13,11 +13,11 @@
 <div class="fields">
   <label>
     Lab:
-    <select id="lab">
-      <option value="1">Computer Lab 01</option>
-      <option value="2">Computer Lab 02</option>
-      <option value="3">Computer Lab 03</option>
-    </select>
+  <select id="lab">
+    {{#each labs}}
+      <option value="{{this.labNum}}">{{this.labNum}}</option>
+    {{/each}}
+  </select>
   </label>
 
   <label style="margin-left:15px;">
@@ -45,15 +45,20 @@ maxDate.setDate(maxDate.getDate() + 6);
 dateInput.min = today;
 dateInput.max = maxDate.toISOString().split("T")[0];
 
-// display slots upon filter change
+// reload slots when filters change
 labSelect.addEventListener("change", loadSlots);
 dateInput.addEventListener("change", loadSlots);
 
-function loadSlots() {
+loadSlots(); // initial load
+
+async function loadSlots() {
   const lab = labSelect.value;
   const date = dateInput.value;
 
   slotsDiv.innerHTML = "";
+
+  const response = await fetch(`/api/slots?lab=${lab}&date=${date}`);
+  const reservations = await response.json();
 
   const slots = [
     { start: "8:00AM", end: "8:30AM" },
@@ -79,55 +84,60 @@ function loadSlots() {
   ];
 
   const seats = 12;
-
   const table = document.createElement("table");
   table.className = "slots-table";
 
-  // header row
+  // --- Header ---
   const header = document.createElement("tr");
   const empty = document.createElement("th");
   empty.textContent = "Time";
   header.appendChild(empty);
-
   for (let i = 1; i <= seats; i++) {
     const th = document.createElement("th");
     th.textContent = "Seat " + i;
     header.appendChild(th);
   }
-
   table.appendChild(header);
 
-  // rows
+  // --- Slots rows ---
   slots.forEach(slot => {
     const row = document.createElement("tr");
-
     const timeCell = document.createElement("td");
     timeCell.textContent = `${slot.start} - ${slot.end}`;
     row.appendChild(timeCell);
 
     for (let seat = 1; seat <= seats; seat++) {
       const cell = document.createElement("td");
-
-      // random for now
-      const reserved = Math.random() < 0.3;
-
+      const reserved = reservations.some(r =>
+        r.seatNumber == seat &&
+        r.timeStart == slot.start &&
+        r.timeEnd == slot.end
+      );
       cell.className = reserved ? "reserved" : "available";
-
-      cell.dataset.seat = seat;
-      cell.dataset.start = slot.start;
-      cell.dataset.end = slot.end;
-
       row.appendChild(cell);
     }
-
     table.appendChild(row);
   });
 
   slotsDiv.appendChild(table);
+
+  // --- Attach click listeners AFTER table is added to DOM ---
+  table.querySelectorAll("td.available").forEach(cell => {
+    cell.style.cursor = "pointer";
+    cell.addEventListener("click", () => {
+      const timeRange = cell.parentElement.firstChild.textContent;
+      const [timeStart, timeEnd] = timeRange.split(" - ");
+      const seatNumber = Array.from(cell.parentElement.children).indexOf(cell);
+      const lab = labSelect.value;
+      const date = dateInput.value;
+
+      window.location.href = `/studentreserve?lab=${encodeURIComponent(lab)}&date=${encodeURIComponent(date)}&timeStart=${encodeURIComponent(timeStart)}&timeEnd=${encodeURIComponent(timeEnd)}&seat=${seatNumber}`;
+    });
+  });
 }
 
-loadSlots();
 </script>
+
 <a id="BackToHome" href="/home">&lt- Back To Home</a>
 
 </body>
