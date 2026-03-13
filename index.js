@@ -41,7 +41,8 @@ app.get('/', (req, res) => {
 app.get('/home', (req, res) => {
   res.render('home', {
     firstName: "Student",
-    lastName: "User"
+    lastName: "User",
+    email: userEmail
   });
 });
 
