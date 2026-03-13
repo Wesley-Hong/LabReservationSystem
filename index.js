@@ -39,6 +39,7 @@ app.get('/', (req, res) => {
 
 // home page
 app.get('/home', (req, res) => {
+  const userEmail = req.query.email;
   res.render('home', {
     firstName: "Student",
     lastName: "User",
