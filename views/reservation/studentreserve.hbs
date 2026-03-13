@@ -205,6 +205,26 @@
             this.slotsTaken = slotsTaken;
         }
 
+        async function refreshTakenSeats() {
+            const selectedDate = document.getElementById("reserve_date").value;
+            const labName = `Computer Lab ${labChosen}`;
+
+            if (!selectedDate || labChosen === 0) return;
+
+            const response = await fetch(`/api/slots?lab=${labName}&date=${selectedDate}`);
+            const takenReservations = await response.json();
+
+            //disable the checkboxes based on DB data
+            checkboxes.forEach(box => {
+                const isBooked = takenReservations.some(res => res.timeslot === box.value);
+                if (isBooked) {
+                    box.disabled = true;
+                } else {
+                    box.disabled = false;
+                }
+            });
+        }
+
         // Event listeners for computer lab buttons to set chosen lab and enable submit button
         buttonlab1.addEventListener("click", function(){
             labChosen = 1;
@@ -335,6 +355,7 @@
         // Array to store reservation data objects
         const reservations = []; 
 
+        /*
         // Event listener for form submission to create reservation data object and store it in the array
         reservationForm.addEventListener("submit", function(event) {
             event.preventDefault(); // prevent page refresh
@@ -383,6 +404,45 @@
             alert("Reservation submitted successfully!");
             document.getElementById("reservationform").reset();
         });
+
+        */
+
+    reservationForm.addEventListener("submit", async function(event) {
+        event.preventDefault(); 
+
+        // Gather data from existing UI variables
+        const reservationData = {
+            lab: `Computer Lab 0${labChosen}`, // Formats it for the DB
+            date: dateInput.value,
+            // Get the selected timeslot
+            timeslot: Array.from(document.querySelectorAll(".timeslot:checked")).map(i => i.value)[0],
+            // Get the selected seat from the modal
+            seatNumber: Array.from(document.querySelectorAll(".labSeat:checked")).map(i => i.value)[0]
+        };
+
+        // Basic Validation
+        if (!reservationData.timeslot || !reservationData.seatNumber) {
+            alert("Please select both a timeslot and a seat!");
+            return;
+        }
+
+        try {
+            const response = await fetch('/reservation/save', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(reservationData)
+            });
+
+            if (response.ok) {
+                alert("Reservation Saved to Database!");
+                window.location.href = "/reservation/viewReservations"; 
+            } else {
+                alert("Error: Seat might already be taken.");
+            }
+        } catch (err) {
+            console.error("Submission error:", err);
+        }
+    });
         
         dateInput.addEventListener("change", function() {
             checkboxes.forEach(checkbox => {

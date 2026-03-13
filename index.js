@@ -88,7 +88,7 @@ app.get('/reservation/viewreservations', reservationController.viewReservations)
 app.get('/reservation/studentreserve', reservationController.studentReserve);
 app.get('/reservation/technicianreserve', reservationController.technicianReserve);
 app.get('/reservation/editReservation', reservationController.editReservation);
-
+app.post('/reservation/save', reservationController.createReservation);
 
 // start server
 app.listen(PORT, () => {

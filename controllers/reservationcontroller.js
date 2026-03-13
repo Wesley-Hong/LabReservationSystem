@@ -59,3 +59,27 @@ exports.studentReservePrefill = (req, res) => {
     const { lab, date, timeStart, timeEnd, seat } = req.query;
     res.render('reservation/studentreserve', { lab, date, timeStart, timeEnd, seat });
 };
+
+exports.createReservation = async (req, res) => {
+    try {
+        const { lab, date, timeslot, seatNumber } = req.body;
+
+        // 1. Find the Lab document by its name (e.g., "Computer Lab 01")
+        const labDoc = await Lab.findOne({ labNum: lab });
+
+        // 2. Create the new reservation
+        const newBooking = new Reservation({
+            lab: labDoc._id,           // Links to the Lab collection
+            reservationDate: date,
+            timeslot: timeslot,
+            seat: seatNumber,
+            student: req.user._id // Links to the logged-in student
+        });
+
+        await newBooking.save();
+        res.status(200).json({ message: "Success" });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Failed to save" });
+    }
+};
