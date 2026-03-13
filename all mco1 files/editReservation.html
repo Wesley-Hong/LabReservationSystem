@@ -107,6 +107,51 @@
                 <br>
                 </div>
             </div>
+            <div id="myModal" class="modal">
+            <div class="modal-content">
+                <div id="modalHeading">
+                <!-- The "close" class is used to style the close button (the "x") and position it in the top right corner of the modal -->
+                <span class="close">&times;</span>
+                    <p id="modalHeader">SEAT SELECTION</p>
+                </div>
+                <div class="modalSeats">
+                    <input type="checkbox" class="labSeat" id="labSeat1" value="1">
+                    <label for="labSeat1">1</label>
+                    <input type="checkbox" class="labSeat" id="labSeat2" value="2">
+                    <label for="labSeat2">2</label>
+                    <input type="checkbox" class="labSeat" id="labSeat3" value="3">
+                    <label for="labSeat3">3</label>
+
+                    <br>
+
+                    <input type="checkbox" class="labSeat" id="labSeat4" value="4">
+                    <label for="labSeat4">4</label>
+                    <input type="checkbox" class="labSeat" id="labSeat5" value="5">
+                    <label for="labSeat5">5</label>
+                    <input type="checkbox" class="labSeat" id="labSeat6" value="6">
+                    <label for="labSeat6">6</label>
+
+                    <br>
+
+                    <input type="checkbox" class="labSeat" id="labSeat7" value="7">
+                    <label for="labSeat7">7</label>
+                    <input type="checkbox" class="labSeat" id="labSeat8" value="8">
+                    <label for="labSeat8">8</label>
+                    <input type="checkbox" class="labSeat" id="labSeat9" value="9">
+                    <label for="labSeat9">9</label>
+
+                    <br>
+                    
+                    <input type="checkbox" class="labSeat" id="labSeat10" value="10">
+                    <label for="labSeat10">10</label>
+                    <input type="checkbox" class="labSeat" id="labSeat11" value="11">
+                    <label for="labSeat11">11</label>
+                    <input type="checkbox" class="labSeat" id="labSeat12" value="12">
+                    <label for="labSeat12">12</label>                    
+                </div>
+
+            </div>
+        </div>
 
             <div>
                 <button id="submit" class="button" type="submit" form="editReservationForm">Submit Edited Reservation</button><br>
@@ -121,6 +166,36 @@
                     alert("Reservation updated successfully!");
                     editReservationForm.reset();
                 });
+
+                        var modal = document.getElementById("myModal");
+        var seats = document.querySelectorAll(".labSeat");
+        var closeModal = document.getElementsByClassName("close")[0];
+        
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener("change", function(event) {
+                if (event.target.checked) {
+                    modal.style.display = "block";
+                }
+
+                else if (!event.target.checked) {
+                    seats.forEach(seat => {
+                        seat.checked = false;
+                    });
+                }
+
+                updateModalHeading(checkbox.value);
+            });
+        });
+
+
+        closeModal.onclick = function() {
+            modal.style.display = "none";
+        }
+        
+        function updateModalHeading(timeslot) {
+            const modalHeader = document.getElementById("modalHeader");
+            modalHeader.textContent = `SEAT SELECTION - ${timeslot}`;
+        }
             </script>
         </form>
         </div>
