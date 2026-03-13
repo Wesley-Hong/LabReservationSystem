@@ -66,17 +66,23 @@ exports.showEditProfile = async (req, res) => {
 // updates user profile
 exports.updateProfile = async (req, res) => {
     try {
-        const { firstName, lastName, email, description, originalEmail } = req.body;
+        const {firstName, lastName, email, description, originalEmail, password} = req.body;
         const findemail = originalEmail;
 
+        const updateData =
+        { 
+            firstName, 
+            lastName, 
+            email,
+            description 
+        };
+
+        if (password && password.trim() !== '') {
+            updateData.password = password;
+        }
         await User.findOneAndUpdate(
-            {email: findemail},
-            { 
-              firstName, 
-              lastName, 
-              email,
-              description 
-            }
+            { email: findemail },
+            updateData
         );
         res.redirect(`/user/profile?email=${encodeURIComponent(email)}`);
     }
