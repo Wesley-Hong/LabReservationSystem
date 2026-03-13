@@ -52,6 +52,32 @@ app.get('/studentreserve', (req, res) => {
   });
 });
 
+// dynamic profile page by user ID
+app.get('/profile/:id', async (req, res) => {
+  const { id } = req.params;
+  const { User, Reservation, Lab } = require('./models/Schemas');
+
+  try {
+    // fetch user
+    const user = await User.findById(id).lean();
+    if (!user) return res.status(404).send('User not found');
+
+    // fetch reservations for this user and populate lab info
+    const reservations = await Reservation.find({ ReservedUnder: id })
+      .populate('lab')
+      .lean();
+
+    res.render('profile', {
+      user,
+      reservations,
+      isUser: true  // optional, controls edit/logout buttons
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server error');
+  }
+});
+
 // start at login page
 app.get('/', (req, res) => {
   res.redirect('/user/login');
