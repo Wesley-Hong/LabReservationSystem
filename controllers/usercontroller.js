@@ -1,3 +1,5 @@
+const { User, Reservation } = require('../models/Schemas');
+
 // show login page
 exports.showLogin = (req, res) => {
   res.render('user/login');
@@ -9,6 +11,32 @@ exports.showRegistration = (req, res) => {
 };
 
 // show profile page
+exports.showProfile = async (req, res) => {
+  try {
+        const email = req.query.email;
+        
+        const user = await User.findOne({ email });
+        
+        if (!user) {
+            return res.redirect('/user/login');
+        }
+
+        const reservations = await Reservation.find({ 
+            reservedUnder: user._id,
+            status: 'active'
+        }).sort({createdAt: -1});
+
+        res.render('user/profile', {
+            user,
+            reservations
+        });
+    } 
+    catch (error) {
+        console.error('Profile error:', error);
+        res.redirect('/home');
+    }
+};
+
 // show edit profile page
 exports.showEditProfile = async (req, res) => {
   try {
@@ -54,17 +82,7 @@ exports.updateProfile = async (req, res) => {
     }
 };
 
-// process login form
-exports.loginUser = (req, res) => {
-  const { username, password } = req.body;
-
-  console.log(username, password);
-
-  res.redirect('/user/profile');
-};
-
-const { User } = require('../models/Schemas');
-
+// process registration form
 exports.registerUser = async (req, res) => {
     const { firstName, lastName, email, password, role } = req.body;
 
