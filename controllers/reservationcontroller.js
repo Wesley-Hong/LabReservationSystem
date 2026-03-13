@@ -1,6 +1,5 @@
 const { Lab, Reservation } = require('../models/Schemas'); // import both models
 
-
 // Show reservations page
 exports.viewReservations = (req, res) => {
   res.render('reservation/viewreservations');
