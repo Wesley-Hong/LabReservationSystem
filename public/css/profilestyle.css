@@ -51,6 +51,19 @@ body {
   background: #00ab1f;
 }
 
+.logout{
+  display: inline-block;
+  padding: 10px 20px;
+  background: #007e48;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: 600;
+}
+.logout:hover {
+   background: #00ab1f;
+}
+
 .prof_pic {
   width: 180px;
   height: 180px;
