@@ -13,22 +13,26 @@ exports.showRegistration = (req, res) => {
 // show profile page
 exports.showProfile = async (req, res) => {
   try {
-        const email = req.query.email;
+        const profEmail = req.query.email;
+        const viewerEmail = req.query.viewer;
         
-        const user = await User.findOne({ email });
+        const user = await User.findOne({ email: profEmail });
         
         if (!user) {
             return res.redirect('/user/login');
         }
 
         const reservations = await Reservation.find({ 
-            reservedUnder: user._id,
+            ReservedUnder: user._id,
             status: 'active'
         }).sort({createdAt: -1});
 
+        const isUser = viewerEmail === profEmail;
+
         res.render('user/profile', {
             user,
-            reservations
+            reservations, 
+            isUser
         });
     } 
     catch (error) {
@@ -126,4 +130,9 @@ exports.loginUser = async (req, res) => {
         console.error(err);
         res.status(500).json({ error: 'Server error.' });
     }
+};
+
+// logs user out
+exports.logoutUser = (req, res) => {
+    res.redirect('/user/login');
 };
