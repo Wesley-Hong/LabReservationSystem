@@ -418,7 +418,7 @@
 
         // Gather data from existing UI variables
         const reservationData = {
-            lab: `Computer Lab 0${labChosen}`, // Formats it for the DB
+            lab: `Computer Lab ${labChosen}`, // Formats it for the DB
             date: dateInput.value,
             // Get the selected timeslot
             timeslot: Array.from(document.querySelectorAll(".timeslot:checked")).map(i => i.value)[0],
@@ -456,7 +456,7 @@
             });
 
             refreshTakenSeats();
-            
+
             reservations.forEach(reservation => {
                 if (dateInput.value === reservation.date && labChosen === reservation.lab) {
                     slotsTakenArray.forEach(slot => {

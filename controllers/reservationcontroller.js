@@ -102,7 +102,7 @@ exports.createReservation = async (req, res) => {
             reservationDate: date,
             timeslot: timeslot,
             seat: seatNumber,
-            student: req.user._id // Links to the logged-in student
+            student: req.session.user._id // Links to the logged-in student
         });
 
         await newBooking.save();
