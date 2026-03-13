@@ -44,7 +44,7 @@ exports.editReservation = (req, res) => {
   res.render('reservation/editReservation');
 };
 
-// API: Get slots for a specific lab and date
+// Get slots for a specific lab and date
 exports.getSlots = async (req, res) => {
   const { lab: labNum, date } = req.query; // labNum = "Computer Lab 01"
 
