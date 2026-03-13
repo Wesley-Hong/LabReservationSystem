@@ -1,8 +1,15 @@
 const express = require('express');
 const exphbs = require('express-handlebars');
+const mongoose = require('mongoose');    
 
 const app = express();
 const PORT = 3000;
+
+// MongoDB connection  
+/* Edit the db */             
+mongoose.connect('mongodb://127.0.0.1:27017')
+  .then(() => console.log('MongoDB connected'))
+  .catch(err => console.error('MongoDB error:', err));
 
 // handlebars setup
 app.engine('hbs', exphbs.engine({
@@ -39,6 +46,7 @@ app.get('/home', (req, res) => {
 // user routes
 app.get('/user/login', userController.showLogin);
 app.get('/user/registration', userController.showRegistration);
+app.post('/user/registration', userController.registerUser);
 app.get('/user/profile', userController.showProfile);
 app.get('/user/edit_profile', userController.showEditProfile);
 app.post('/user/login', userController.loginUser);
