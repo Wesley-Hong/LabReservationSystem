@@ -67,7 +67,7 @@ app.get('/profile/:id', async (req, res) => {
       .populate('lab')
       .lean();
 
-    res.render('profile', {
+    res.render('user/profile', {
       user,
       reservations,
       isUser: true  // optional, controls edit/logout buttons
