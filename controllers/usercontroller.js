@@ -9,14 +9,50 @@ exports.showRegistration = (req, res) => {
 };
 
 // show profile page
-exports.showProfile = (req, res) => {
-  res.render('user/profile');
+// show edit profile page
+exports.showEditProfile = async (req, res) => {
+  try {
+        const email = req.query.email;
+        
+        const user = await User.findOne({email});
+        
+        if (!user) {
+            return res.redirect('/user/login');
+        }
+
+        res.render('user/edit_profile', { 
+            user,
+            userEmail: email
+        });
+  } 
+  catch (error) {
+        console.error('Edit profile error:', error);
+        res.redirect('/user/profile');
+  }
 };
 
-// show edit profile page
-exports.showEditProfile = (req, res) => {
-  res.render('user/edit_profile');
-}
+// updates user profile
+exports.updateProfile = async (req, res) => {
+    try {
+        const { firstName, lastName, email, description, originalEmail } = req.body;
+        const findemail = originalEmail;
+
+        await User.findOneAndUpdate(
+            {email: findemail},
+            { 
+              firstName, 
+              lastName, 
+              email,
+              description 
+            }
+        );
+        res.redirect(`/user/profile?email=${encodeURIComponent(email)}`);
+    }
+    catch (error) {
+        console.error('Error updating profile', error);
+        res.redirect('/user/edit_profile');
+    }
+};
 
 // process login form
 exports.loginUser = (req, res) => {
