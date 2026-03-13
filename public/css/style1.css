@@ -57,6 +57,9 @@ h1 {
 
 .full-width {
     grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 }
 
 label {

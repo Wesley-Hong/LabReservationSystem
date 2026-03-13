@@ -39,8 +39,35 @@
     </div>
 
     <script>
-        function login() {
-            window.location.href = "/home";
+        
+        async function login() {
+            const email    = document.getElementById("email").value.trim();
+            const password = document.getElementById("password").value.trim();
+
+            if (!email || !password) {
+                alert("Please fill in all fields.");
+                return;
+            }
+
+            try {
+                const response = await fetch('/user/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    alert(data.error);
+                    return;
+                }
+
+                window.location.href = "/home";
+
+            } catch (err) {
+                alert("Network error. Please try again.");
+            }
         }
         
     </script>

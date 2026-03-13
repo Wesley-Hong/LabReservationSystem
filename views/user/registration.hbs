@@ -56,16 +56,13 @@
 
     <script>
         
-        function createAccount() {
-
-            // values
+        async function createAccount() {
             const firstName = document.getElementById("firstName").value.trim();
-            const lastName = document.getElementById("lastName").value.trim();
-            const email = document.getElementById("email").value.trim();
-            const password = document.getElementById("password").value.trim();
-            const role = document.querySelector('input[name=role]:checked').value;
-
-            const warning = document.getElementById("warning");
+            const lastName  = document.getElementById("lastName").value.trim();
+            const email     = document.getElementById("email").value.trim();
+            const password  = document.getElementById("password").value.trim();
+            const role      = document.querySelector('input[name=role]:checked').value;
+            const warning   = document.getElementById("warning");
 
             warning.innerHTML = "";
 
@@ -74,31 +71,34 @@
                 return;
             }
 
-            // verify if valid dlsu email
-            else if(!email.endsWith("@dlsu.edu.ph")) {
-                warning.innerHTML = "Please use DLSU email";
+            if (!email.endsWith("@dlsu.edu.ph")) {
+                warning.innerHTML = "Please use a DLSU email.";
                 warning.style.color = "red";
                 return;
             }
 
-            // user object
-            const user = {
-                firstName: firstName,
-                lastName: lastName,
-                email: email,
-                password: password,
-                role: role
-            };
+            try {
+                const response = await fetch('/user/registration', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ firstName, lastName, email, password, role })
+                });
 
-            localStorage.setItem("userAccount", JSON.stringify(user));
+                const data = await response.json();
 
-            // Success popup
-            alert("Successfully created an account!");
+                if (!response.ok) {
+                    warning.innerHTML = data.error;
+                    warning.style.color = "red";
+                    return;
+                }
 
-            // Redirect to login page
-            window.location.href = "/user/login";
-  
-        }  
+                alert("Successfully created an account!");
+                window.location.href = "/user/login";
+
+            } catch (err) {
+                alert("Network error. Please try again.");
+            }
+        }
 
     </script>
     

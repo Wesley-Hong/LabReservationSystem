@@ -1,8 +1,15 @@
 const express = require('express');
 const exphbs = require('express-handlebars');
+const mongoose = require('mongoose');    
 
 const app = express();
 const PORT = 3000;
+
+// MongoDB connection  
+/* Edit the db */             
+mongoose.connect('mongodb://127.0.0.1:27017')
+  .then(() => console.log('MongoDB connected'))
+  .catch(err => console.error('MongoDB error:', err));
 
 // handlebars setup
 app.engine('hbs', exphbs.engine({
@@ -19,14 +26,18 @@ app.use(express.json());
 // static files (CSS, JS, images)
 app.use(express.static('public'));
 
+// controllers
+const userController = require('./controllers/usercontroller');
+const reservationController = require('./controllers/reservationcontroller');
 
+app.get('/api/slots', reservationController.getSlots);
+
+// start at login page
 app.get('/', (req, res) => {
-  res.redirect('/home');
+  res.redirect('/user/login');
 });
 
-// --------------------
-// Home
-// --------------------
+// home page
 app.get('/home', (req, res) => {
   res.render('home', {
     firstName: "Student",
@@ -34,49 +45,20 @@ app.get('/home', (req, res) => {
   });
 });
 
+// user routes
+app.get('/user/login', userController.showLogin);
+app.get('/user/registration', userController.showRegistration);
+app.post('/user/registration', userController.registerUser);
+app.get('/user/profile', userController.showProfile);
+app.get('/user/edit_profile', userController.showEditProfile);
+app.post('/user/login', userController.loginUser);
 
-// --------------------
-// User routes
-// --------------------
-app.get('/user/login', (req, res) => {
-  res.render('user/login');
-});
-
-app.get('/user/registration', (req, res) => {
-  res.render('user/registration');
-});
-
-app.get('/user/profile', (req, res) => {
-  res.render('user/profile');
-});
-
-app.get('/user/edit_profile', (req, res) => {
-  res.render('user/edit_profile');
-});
-
-
-// --------------------
-// Reservation routes
-// --------------------
-app.get('/reservation/viewslots', (req, res) => {
-  res.render('reservation/viewslots');
-});
-
-app.get('/reservation/viewreservations', (req, res) => {
-  res.render('reservation/viewreservations');
-});
-
-app.get('/reservation/studentreserve', (req, res) => {
-  res.render('reservation/studentreserve');
-});
-
-app.get('/reservation/technicianreserve', (req, res) => {
-  res.render('reservation/technicianreserve');
-});
-
-app.get('/reservation/editReservation', (req, res) => {
-  res.render('reservation/editReservation');
-});
+// reservation routes
+app.get('/reservation/viewslots', reservationController.viewSlots);
+app.get('/reservation/viewreservations', reservationController.viewReservations);
+app.get('/reservation/studentreserve', reservationController.studentReserve);
+app.get('/reservation/technicianreserve', reservationController.technicianReserve);
+app.get('/reservation/editReservation', reservationController.editReservation);
 
 
 // start server
