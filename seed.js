@@ -52,11 +52,9 @@ const users = [
 ];
 
 const labs = [
-    { labNum: 'G301', seats: 12 },
-    { labNum: 'G302', seats: 12 },
-    { labNum: 'G303', seats: 12 },
-    { labNum: 'G304', seats: 12 },
-    { labNum: 'G305', seats: 12 }
+    { labNum: 'Computer Lab 01', seats: 12 },
+    { labNum: 'Computer Lab 02', seats: 12 },
+    { labNum: 'Computer Lab 03', seats: 12 },
 ];
 
 async function seedDatabase() {
@@ -80,7 +78,7 @@ async function seedDatabase() {
             {
                 ReservedUnder: insertedUsers[0]._id,
                 lab: insertedLabs[0]._id,
-                reservationDate: '2024-10-01',
+                reservationDate: '2026-03-13',
                 timeStart: '8:00AM',
                 timeEnd: '8:30AM',
                 timeSlotLabel: '8:00AM - 8:30AM',
@@ -91,7 +89,7 @@ async function seedDatabase() {
             {
                 ReservedUnder: insertedUsers[1]._id,
                 lab: insertedLabs[1]._id,
-                reservationDate: '2024-10-02',
+                reservationDate: '2026-03-14',
                 timeStart: '9:00AM',
                 timeEnd: '9:30AM',
                 timeSlotLabel: '9:00AM - 9:30AM',
@@ -102,7 +100,7 @@ async function seedDatabase() {
             {
                 ReservedUnder: insertedUsers[2]._id,
                 lab: insertedLabs[2]._id,
-                reservationDate: '2024-10-03',
+                reservationDate: '2026-03-13',
                 timeStart: '10:30AM',
                 timeEnd: '11:00AM',
                 timeSlotLabel: '10:30AM - 11:00AM',
@@ -112,8 +110,8 @@ async function seedDatabase() {
             },
             {
                 ReservedUnder: insertedUsers[3]._id,
-                lab: insertedLabs[3]._id,
-                reservationDate: '2024-10-04',
+                lab: insertedLabs[0]._id,
+                reservationDate: '2026-03-13',
                 timeStart: '1:30PM',
                 timeEnd: '2:00PM',
                 timeSlotLabel: '1:30PM - 2:00PM',
@@ -123,8 +121,8 @@ async function seedDatabase() {
             },
             {
                 ReservedUnder: insertedUsers[4]._id,
-                lab: insertedLabs[4]._id,
-                reservationDate: '2024-10-05',
+                lab: insertedLabs[2]._id,
+                reservationDate: '2026-03-15',
                 timeStart: '2:30PM',
                 timeEnd: '3:00PM',
                 timeSlotLabel: '2:30PM - 3:00PM',
