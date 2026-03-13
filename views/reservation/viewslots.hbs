@@ -121,17 +121,50 @@ async function loadSlots() {
 
   slotsDiv.appendChild(table);
 
-  // --- Attach click listeners AFTER table is added to DOM ---
-  table.querySelectorAll("td.available").forEach(cell => {
+
+  // After building the table in loadSlots()
+table.querySelectorAll("td").forEach(cell => {
     cell.style.cursor = "pointer";
-    cell.addEventListener("click", () => {
-      const timeRange = cell.parentElement.firstChild.textContent;
+    cell.addEventListener("click", async () => {
+      const row = cell.parentElement;
+      const timeRange = row.firstChild.textContent;
       const [timeStart, timeEnd] = timeRange.split(" - ");
-      const seatNumber = Array.from(cell.parentElement.children).indexOf(cell);
-      const lab = labSelect.value;
+      const seatNumber = Array.from(row.children).indexOf(cell);
+
+      const labNum = labSelect.value;
       const date = dateInput.value;
 
-      window.location.href = `/studentreserve?lab=${encodeURIComponent(lab)}&date=${encodeURIComponent(date)}&timeStart=${encodeURIComponent(timeStart)}&timeEnd=${encodeURIComponent(timeEnd)}&seat=${seatNumber}`;
+      if (cell.classList.contains("available")) {
+        // Redirect to reservation form for available slot
+        window.location.href = `/studentreserve?lab=${encodeURIComponent(labNum)}&date=${encodeURIComponent(date)}&timeStart=${encodeURIComponent(timeStart)}&timeEnd=${encodeURIComponent(timeEnd)}&seat=${seatNumber}`;
+      } else if (cell.classList.contains("reserved")) {
+        // Fetch reservation info for this reserved slot
+        const response = await fetch(`/api/slotinfo?lab=${encodeURIComponent(labNum)}&date=${encodeURIComponent(date)}&timeStart=${encodeURIComponent(timeStart)}&timeEnd=${encodeURIComponent(timeEnd)}&seat=${seatNumber}`);
+        const resInfo = await response.json();
+
+        let message;
+        if (resInfo.isAnonymous) {
+          message = `Reserved by: Anonymous`;
+        } else {
+          message = `Reserved by: <a href="/profile/${resInfo.ReservedUnder._id}" target="_blank">${resInfo.ReservedUnder.firstName} ${resInfo.ReservedUnder.lastName}</a>`;
+        }
+
+        const popup = document.createElement("div");
+        popup.innerHTML = message;
+        popup.style.position = "fixed";
+        popup.style.top = "50%";
+        popup.style.left = "50%";
+        popup.style.transform = "translate(-50%, -50%)";
+        popup.style.background = "#fff";
+        popup.style.border = "1px solid #333";
+        popup.style.padding = "20px";
+        popup.style.zIndex = 1000;
+        popup.style.boxShadow = "0 0 10px rgba(0,0,0,0.5)";
+        popup.style.textAlign = "center";
+
+        popup.addEventListener("click", () => popup.remove());
+        document.body.appendChild(popup);
+     }
     });
   });
 }
