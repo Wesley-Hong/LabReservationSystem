@@ -30,6 +30,8 @@ app.use(express.static('public'));
 const userController = require('./controllers/usercontroller');
 const reservationController = require('./controllers/reservationcontroller');
 
+app.get('/api/slots', reservationController.getSlots);
+
 // start at login page
 app.get('/', (req, res) => {
   res.redirect('/user/login');
@@ -37,9 +39,11 @@ app.get('/', (req, res) => {
 
 // home page
 app.get('/home', (req, res) => {
+  const userEmail = req.query.email;
   res.render('home', {
     firstName: "Student",
-    lastName: "User"
+    lastName: "User",
+    email: userEmail
   });
 });
 
@@ -50,6 +54,7 @@ app.post('/user/registration', userController.registerUser);
 app.get('/user/profile', userController.showProfile);
 app.get('/user/edit_profile', userController.showEditProfile);
 app.post('/user/login', userController.loginUser);
+app.post('/user/update_profile', userController.updateProfile);
 
 // reservation routes
 app.get('/reservation/viewslots', reservationController.viewSlots);
