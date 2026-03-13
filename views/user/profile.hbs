@@ -13,7 +13,10 @@
     <div class="container">
         <div class="nav">
             <a href="/home?email={{user.email}}" class="back">Back</a>
-            {{#if isUser}}<a href="/user/edit_profile?email={{user.email}}" class="editprof">Edit Profile</a>{{/if}}
+            {{#if isUser}}
+            <a href="/user/edit_profile?email={{user.email}}" class="editprof">Edit Profile</a>
+            <a href="/user/login" class="logout">Logout</a>
+            {{/if}}
         </div>
 
         <div class="profile">
