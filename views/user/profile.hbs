@@ -13,41 +13,37 @@
     <div class="container">
         <div class="nav">
             <a href="/home" class="back">Back</a>
-            <a href="/user/edit_profile" class="editprof">Edit Profile</a>
+            <a href="/user/edit_profile?email={{user.email}}" class="editprof">Edit Profile</a>
         </div>
 
         <div class="profile">
             <div class="prof_pic"><img src="/images/speed.png" alt="Profile Picture"></div>
             <div class="info">
-                <h1>John Lab</h1>
-                <h2>johnlab@gmail.com</h2>
+                <h1>{{user.firstName}} {{user.lastName}}</h1>
+                <h2>{{user.email}}</h2>
 
                 <div class="role"> 
-                    <h3>Student</h3>
+                    <h3>{{user.role}}</h3>
                 </div>
             </div>
         </div>
 
         <div class="description">
-            <p>I like trains</p>
+            <p>{{user.description}}</p>
         </div>
 
         <div class="reserve_container">
             <div class="reservations">
+                {{#each reservations}}
                 <p>
-                    <br>Laboratory: Computer Lab 01</br>
-                    <br>Date and Time Requested: 2026-02-10 09:15 AM</br>
-                    <br>Reservation Date: 2026-02-15</br>
-                    <br>reservationTime: 9:00AM - 9:30AM</br>
+                    <br>Laboratory: {{this.lab}}</br>
+                    <br>Date and Time Requested: {{this.requestDateTime}}</br>
+                    <br>Reservation Date: {{this.reservationDate}}</br>
+                    <br>reservationTime: {{this.reservationTime}}</br>
                 </p>
-
-                <p>
-                    <br>Laboratory: Computer Lab 02</br>
-                    <br>Date and Time Requested: 2026-02-11 01:22 PM</br>
-                    <br>Reservation Date: 2026-02-16</br>
-                    <br>reservationTime: 2:00PM - 2:30PM</br>
-                </p>
-
+                {{else}}
+                <p>You have no reservations yet</p>
+                {{/each}}
             </div>
         </div>
     </div>
