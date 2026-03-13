@@ -1,24 +1,54 @@
-// show available lab slots
-exports.viewSlots = (req, res) => {
-  res.render('reservation/viewslots');
+const { Lab, Reservation } = require('../models/Schemas'); // import both models
+
+// show available lab slots page 
+exports.viewSlots = async (req, res) => {
+  try {
+    const labs = await Lab.find().lean(); // fetch all labs from DB
+    res.render('reservation/viewslots', { labs }); // pass to HBS
+  } catch (err) {
+    console.error(err);
+    res.render('reservation/viewslots', { labs: [] }); // fallback
+  }
 };
 
-// show reservations page
+// Show reservations page
 exports.viewReservations = (req, res) => {
   res.render('reservation/viewreservations');
 };
 
-// show reservation form
+// Show reservation form
 exports.studentReserve = (req, res) => {
   res.render('reservation/studentreserve');
 };
 
-// show technician reservation page
+// Show technician reservation page
 exports.technicianReserve = (req, res) => {
   res.render('reservation/technicianreserve');
 };
 
-// show edit reservation page
+// Show edit reservation page
 exports.editReservation = (req, res) => {
   res.render('reservation/editReservation');
+};
+
+// API: Get slots for a specific lab and date
+exports.getSlots = async (req, res) => {
+  const { lab: labNum, date } = req.query; // labNum = "Computer Lab 01"
+
+  try {
+    // Find the lab object first
+    const lab = await Lab.findOne({ labNum: labNum });
+    if (!lab) return res.json([]); // no lab found
+
+    // Query reservations for this lab and date
+    const reservations = await Reservation.find({
+      lab: lab._id,
+      reservationDate: date
+    }).lean();
+
+    res.json(reservations);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to load slots" });
+  }
 };
