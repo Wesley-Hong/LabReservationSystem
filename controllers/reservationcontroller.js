@@ -1,15 +1,5 @@
 const { Lab, Reservation } = require('../models/Schemas'); // import both models
 
-// show available lab slots page 
-exports.viewSlots = async (req, res) => {
-  try {
-    const labs = await Lab.find().lean(); // fetch all labs from DB
-    res.render('reservation/viewslots', { labs }); // pass to HBS
-  } catch (err) {
-    console.error(err);
-    res.render('reservation/viewslots', { labs: [] }); // fallback
-  }
-};
 
 // Show reservations page
 exports.viewReservations = (req, res) => {
@@ -51,4 +41,21 @@ exports.getSlots = async (req, res) => {
     console.error(err);
     res.status(500).json({ error: "Failed to load slots" });
   }
+};
+
+// show available lab slots page 
+exports.viewSlots = async (req, res) => {
+  try {
+    const labs = await Lab.find().lean(); // fetch all labs from DB
+    res.render('reservation/viewslots', { labs }); // pass to HBS
+  } catch (err) {
+    console.error(err);
+    res.render('reservation/viewslots', { labs: [] }); // fallback
+  }
+};
+
+// for prefilling student reservation form from view slots page
+exports.studentReservePrefill = (req, res) => {
+    const { lab, date, timeStart, timeEnd, seat } = req.query;
+    res.render('reservation/studentreserve', { lab, date, timeStart, timeEnd, seat });
 };
