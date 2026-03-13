@@ -54,6 +54,7 @@ app.post('/user/registration', userController.registerUser);
 app.get('/user/profile', userController.showProfile);
 app.get('/user/edit_profile', userController.showEditProfile);
 app.post('/user/login', userController.loginUser);
+app.post('/user/update_profile', userController.updateProfile);
 
 // reservation routes
 app.get('/reservation/viewslots', reservationController.viewSlots);
