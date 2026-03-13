@@ -126,7 +126,7 @@ exports.createReservation = async (req, res) => {
             reservationDate: date,
             timeslot: timeslot,
             seat: seatNumber,
-            ReservedUnder: req.user._id // Assuming req.user is set after authentication
+            ReservedUnder: req.user._id
         });
 
         await newBooking.save();
