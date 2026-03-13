@@ -487,15 +487,22 @@
         });
 
         var modal = document.getElementById("myModal");
+        var seats = document.querySelectorAll(".labSeat");
         var closeModal = document.getElementsByClassName("close")[0];
         
         checkboxes.forEach(checkbox => {
-            checkbox.addEventListener("change", function() {
-                if (checkbox.checked) {
+            checkbox.addEventListener("change", function(event) {
+                if (event.target.checked) {
                     modal.style.display = "block";
                 }
 
-                updateModal(checkbox.value);
+                else if (!event.target.checked) {
+                    seats.forEach(seat => {
+                        seat.checked = false;
+                    });
+                }
+
+                updateModalHeading(checkbox.value);
             });
         });
 
@@ -508,6 +515,9 @@
             const modalHeader = document.getElementById("modalHeader");
             modalHeader.textContent = `SEAT SELECTION - ${timeslot}`;
         }
+
+        
+
     </script>
 </body>
 </html>
