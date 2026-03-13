@@ -1,8 +1,32 @@
 const { Lab, Reservation } = require('../models/Schemas'); // import both models
 
 // Show reservations page
-exports.viewReservations = (req, res) => {
-  res.render('reservation/viewreservations');
+exports.viewReservations = async (req, res) => {
+  try {
+    const { User, Reservation } = require('../models/Schemas');
+
+    const userEmail = req.query.email;
+
+    const user = await User.findOne({ email: userEmail });
+
+    if (!user) {
+      return res.render('reservation/viewreservations', { reservations: [] });
+    }
+
+    const reservations = await Reservation.find({
+      ReservedUnder: user._id,
+      status: 'active'
+    })
+    .populate('lab')
+    .populate('ReservedUnder')
+    .lean();
+
+    res.render('reservation/viewreservations', { reservations });
+
+  } catch (err) {
+    console.error(err);
+    res.render('reservation/viewreservations', { reservations: [] });
+  }
 };
 
 // Show reservation form
