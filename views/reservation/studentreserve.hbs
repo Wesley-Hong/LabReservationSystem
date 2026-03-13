@@ -235,6 +235,8 @@
                 checkbox.disabled = false;
             });
 
+            refreshTakenSeats();
+
             reservations.forEach(reservation => {
                 if (dateInput.value === reservation.date && labChosen === reservation.lab) {
                     slotsTakenArray.forEach(slot => {
@@ -272,6 +274,8 @@
                 checkbox.disabled = false;
             });
 
+            refreshTakenSeats();
+
             reservations.forEach(reservation => {
                 if (dateInput.value === reservation.date && labChosen === reservation.lab) {
                     slotsTakenArray.forEach(slot => {
@@ -308,6 +312,8 @@
             checkboxes.forEach(checkbox => {
                 checkbox.disabled = false;
             });
+
+            refreshTakenSeats();
 
             reservations.forEach(reservation => {
                 if (dateInput.value === reservation.date && labChosen === reservation.lab) {
@@ -448,6 +454,9 @@
             checkboxes.forEach(checkbox => {
                 checkbox.disabled = false;
             });
+
+            refreshTakenSeats();
+            
             reservations.forEach(reservation => {
                 if (dateInput.value === reservation.date && labChosen === reservation.lab) {
                     slotsTakenArray.forEach(slot => {
