@@ -19,7 +19,7 @@
             <input type="hidden" name="originalEmail" value="{{user.email}}">
 
         <div class="profile">
-            <div class="prof_pic"><img src="/user/speed.png" alt="Profile Picture"></div>
+             <div class="prof_pic"><img src="/images/{{user.profilePicture}}" alt="Profile Picture"></div>
             <div class="info">
                 <h1>{{user.firstName}} {{user.lastName}}</h1>
                 <h2>{{user.email}}</h2>
@@ -37,10 +37,11 @@
 
     <div class="edit">
         <h4>Edit Profile Information</h4>
-            <div class="name">
-                <div class="first_name">
-                    <label for="firstName">First Name:</label>
-                    <input type="text" id="firstName" name="firstName" value="{{user.firstName}}">
+        
+        <div class="name">
+            <div class="first_name">
+                <label for="firstName">First Name:</label>
+                <input type="text" id="firstName" name="firstName" value="{{user.firstName}}">
                 <div class="error" id="first_name_error"></div>                
             </div>
 
