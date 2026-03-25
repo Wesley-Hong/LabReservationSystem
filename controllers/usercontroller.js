@@ -1,4 +1,5 @@
 const { User, Reservation } = require('../models/Schemas');
+const bcrypt = require ('bcrypt');
 
 // show login page
 exports.showLogin = (req, res) => {
@@ -78,7 +79,7 @@ exports.updateProfile = async (req, res) => {
         };
 
         if (password && password.trim() !== '') {
-            updateData.password = password;
+            updateData.password = await bcrypt.hash(password, 10);
         }
         await User.findOneAndUpdate(
             { email: findemail },
@@ -102,7 +103,9 @@ exports.registerUser = async (req, res) => {
             return res.status(409).json({ error: 'Email already registered.' });
         }
 
-        const user = new User({ firstName, lastName, email, password, role });
+        const hashing= await bcrypt.hash(password, 10);
+
+        const user = new User({ firstName, lastName, email, password: hashing, role });
         await user.save();
 
         res.status(201).json({ message: 'Account created successfully!' });
@@ -123,9 +126,10 @@ exports.loginUser = async (req, res) => {
         if (!user) {
             return res.status(401).json({ error: 'Email not found.' });
         }
-
-        // check password (plain text for now, no hashing yet per Phase 2)
-        if (user.password !== password) {
+        
+        const matching= await bcrypt.compare(password, user.password)
+        // added hashing
+        if (!matching) {
             return res.status(401).json({ error: 'Incorrect password.' });
         }
 
