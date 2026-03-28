@@ -14,14 +14,16 @@
         </div>
         
         
-        <form id="reservationform" action="/reservation/save" method="POST">
+        <form id="reservationform" action="/reservationcontroller/createReservation" method="POST">
         <div id="reserve_computerLabBox">
         
             <label>Pick a Laboratory:</label>
 
-            <button id="ComputerLab1" class="button" type="button" form="reservationform">Computer Lab 1</button>
-            <button id="ComputerLab2" class="button" type="button" form="reservationform">Computer Lab 2</button>
-            <button id="ComputerLab3" class="button" type="button" form="reservationform">Computer Lab 3</button>
+            <input type="hidden" name="lab" id="labInput">
+
+            <button id="ComputerLab1" class="button" type="button" form="reservationform" onclick="selectLab('lab1')">Computer Lab 1</button>
+            <button id="ComputerLab2" class="button" type="button" form="reservationform" onclick="selectLab('lab2')">Computer Lab 2</button>
+            <button id="ComputerLab3" class="button" type="button" form="reservationform" onclick="selectLab('lab3')">Computer Lab 3</button>
 
             <p id="ComputerLab">No Lab Chosen</p>
         </div>
@@ -29,7 +31,7 @@
         <div id="reserve_dateBox">
         
             <label for="reserve_date">Date:</label>
-            <input id="reserve_date" name="reserve_date" type="date">
+            <input id="reserve_date" name="reservationDate" type="date">
         
         </div>
 
@@ -40,68 +42,68 @@
             
             <div class="box1">
 
-            <input type="checkbox" class="timeslot" id="8:00" value="8:00">
+            <input type="checkbox" class="timeslot" id="8:00" name="timeStart" value="8:00">
             <label for="8:00">8:00AM - 8:30AM<br><span id="8:00-slots"></span></label>
             
-            <input type="checkbox" class="timeslot" id="8:30" value="8:30">
+            <input type="checkbox" class="timeslot" id="8:30" name="timeStart" value="8:30">
             <label for="8:30">8:30AM - 9:00AM<br><span id="8:30-slots"></span></label>
 
-            <input type="checkbox" class="timeslot" id="9:00" value="9:00">
+            <input type="checkbox" class="timeslot" id="9:00" name="timeStart" value="9:00">
             <label for="9:00">9:00AM - 9:30AM<br><span id="9:00-slots"></span></label>
 
-            <input type="checkbox" class="timeslot" id="9:30" value="9:30">
+            <input type="checkbox" class="timeslot" id="9:30" name="timeStart" value="9:30">
             <label for="9:30">9:30AM - 10:00AM<br><span id="9:30-slots"></span></label>
             <br>
 
-            <input type="checkbox" class="timeslot" id="10:00" value="10:00">
+            <input type="checkbox" class="timeslot" id="10:00" name="timeStart" value="10:00">
             <label for="10:00">10:00AM - 10:30AM<br><span id="10:00-slots"></span></label>
 
-            <input type="checkbox" class="timeslot" id="10:30" value="10:30">
+            <input type="checkbox" class="timeslot" id="10:30" name="timeStart" value="10:30">
             <label for="10:30">10:30AM - 11:00AM<br><span id="10:30-slots"></span></label>
 
-            <input type="checkbox" class="timeslot" id="11:00" value="11:00">
+            <input type="checkbox" class="timeslot" id="11:00" name="timeStart" value="11:00">
             <label for="11:00">11:00AM - 11:30AM<br><span id="11:00-slots"></span></label>
 
-            <input type="checkbox" class="timeslot" id="11:30" value="11:30">
+            <input type="checkbox" class="timeslot" id="11:30" name="timeStart" value="11:30">
             <label for="11:30">11:30AM - 12:00PM<br><span id="11:30-slots"></span></label>
             <br>
 
-            <input type="checkbox" class="timeslot" id="12:00" value="12:00">
+            <input type="checkbox" class="timeslot" id="12:00" name="timeStart" value="12:00">
             <label for="12:00">12:00PM - 12:30PM<br><span id="12:00-slots"></span></label>
 
-            <input type="checkbox" class="timeslot" id="12:30" value="12:30">
+            <input type="checkbox" class="timeslot" id="12:30" name="timeStart" value="12:30">
             <label for="12:30">12:30PM - 1:00PM<br><span id="12:30-slots"></span></label>
 
-            <input type="checkbox" class="timeslot" id="13:00" value="13:00">
+            <input type="checkbox" class="timeslot" id="13:00" name="timeStart" value="13:00">
             <label for="13:00">1:00PM - 1:30PM<br><span id="13:00-slots"></span></label>
 
-            <input type="checkbox" class="timeslot" id="13:30" value="13:30">
+            <input type="checkbox" class="timeslot" id="13:30" name="timeStart" value="13:30">
             <label for="13:30">1:30PM - 2:00PM<br><span id="13:30-slots"></span></label>
             <br>
 
-            <input type="checkbox" class="timeslot" id="14:00" value="14:00">
+            <input type="checkbox" class="timeslot" id="14:00" name="timeStart" value="14:00">
             <label for="14:00">2:00PM - 2:30PM<br><span id="14:00-slots"></span></label>
 
-            <input type="checkbox" class="timeslot" id="14:30" value="14:30">
+            <input type="checkbox" class="timeslot" id="14:30" name="timeStart" value="14:30">
             <label for="14:30">2:30PM - 3:00PM<br><span id="14:30-slots"></span></label>
 
-            <input type="checkbox" class="timeslot" id="15:00" value="15:00">
+            <input type="checkbox" class="timeslot" id="15:00" name="timeStart" value="15:00">
             <label for="15:00">3:00PM - 3:30PM<br><span id="15:00-slots"></span></label>
 
-            <input type="checkbox" class="timeslot" id="15:30" value="15:30">
+            <input type="checkbox" class="timeslot" id="15:30" name="timeStart" value="15:30">
             <label for="15:30">3:30PM - 4:00PM<br><span id="15:30-slots"></span></label>
             <br>
 
-            <input type="checkbox" class="timeslot" id="16:00" value="16:00">
+            <input type="checkbox" class="timeslot" id="16:00" name="timeStart" value="16:00">
             <label for="16:00">4:00PM - 4:30PM<br><span id="16:00-slots"></span></label>
 
-            <input type="checkbox" class="timeslot" id="16:30" value="16:30">
+            <input type="checkbox" class="timeslot" id="16:30" name="timeStart" value="16:30">
             <label for="16:30">4:30PM - 5:00PM<br><span id="16:30-slots"></span></label>
 
-            <input type="checkbox" class="timeslot" id="17:00" value="17:00">
+            <input type="checkbox" class="timeslot" id="17:00" name="timeStart" value="17:00">
             <label for="17:00">5:00PM - 5:30PM<br><span id="17:00-slots"></span></label>
 
-            <input type="checkbox" class="timeslot" id="17:30" value="17:30">
+            <input type="checkbox" class="timeslot" id="17:30" name="timeStart" value="17:30">
             <label for="17:30">5:30PM - 6:00PM<br><span id="17:30-slots"></span></label>
             <br>
 
@@ -117,45 +119,45 @@
                     <p id="modalHeader">SEAT SELECTION</p>
                 </div>
                 <div class="modalSeats">
-                    <input type="checkbox" class="labSeat" id="labSeat1" value="1">
+                    <input type="checkbox" class="labSeat" id="labSeat1" value="1" name="seatNumber">
                     <label for="labSeat1">1</label>
-                    <input type="checkbox" class="labSeat" id="labSeat2" value="2">
+                    <input type="checkbox" class="labSeat" id="labSeat2" value="2" name="seatNumber">
                     <label for="labSeat2">2</label>
-                    <input type="checkbox" class="labSeat" id="labSeat3" value="3">
+                    <input type="checkbox" class="labSeat" id="labSeat3" value="3" name="seatNumber">
                     <label for="labSeat3">3</label>
 
                     <br>
 
-                    <input type="checkbox" class="labSeat" id="labSeat4" value="4">
+                    <input type="checkbox" class="labSeat" id="labSeat4" value="4" name="seatNumber">
                     <label for="labSeat4">4</label>
-                    <input type="checkbox" class="labSeat" id="labSeat5" value="5">
+                    <input type="checkbox" class="labSeat" id="labSeat5" value="5" name="seatNumber">
                     <label for="labSeat5">5</label>
-                    <input type="checkbox" class="labSeat" id="labSeat6" value="6">
+                    <input type="checkbox" class="labSeat" id="labSeat6" value="6" name="seatNumber">
                     <label for="labSeat6">6</label>
 
                     <br>
 
-                    <input type="checkbox" class="labSeat" id="labSeat7" value="7">
+                    <input type="checkbox" class="labSeat" id="labSeat7" value="7" name="seatNumber">
                     <label for="labSeat7">7</label>
-                    <input type="checkbox" class="labSeat" id="labSeat8" value="8">
+                    <input type="checkbox" class="labSeat" id="labSeat8" value="8" name="seatNumber">
                     <label for="labSeat8">8</label>
-                    <input type="checkbox" class="labSeat" id="labSeat9" value="9">
+                    <input type="checkbox" class="labSeat" id="labSeat9" value="9" name="seatNumber">
                     <label for="labSeat9">9</label>
 
                     <br>
                     
-                    <input type="checkbox" class="labSeat" id="labSeat10" value="10">
+                    <input type="checkbox" class="labSeat" id="labSeat10" value="10" name="seatNumber">
                     <label for="labSeat10">10</label>
-                    <input type="checkbox" class="labSeat" id="labSeat11" value="11">
+                    <input type="checkbox" class="labSeat" id="labSeat11" value="11" name="seatNumber">
                     <label for="labSeat11">11</label>
-                    <input type="checkbox" class="labSeat" id="labSeat12" value="12">
+                    <input type="checkbox" class="labSeat" id="labSeat12" value="12" name="seatNumber">
                     <label for="labSeat12">12</label>                    
                 </div>
 
             </div>
         </div>
 
-            <input type="checkbox" id="reserve_anonymous" value="1">
+            <input type="checkbox" id="reserve_anonymous" value="1" name="isAnonymous">
             <label for="reserve_anonymous">Reserve Anonymously?</label>
         </form>
 
@@ -164,7 +166,7 @@
             <button id="submit" class="button" type="submit" form="reservationform">Submit Reservation</button>
         </div>
         
-        <a id="BackToHome" href="home.html">&lt- Back To Home</a>
+        <a id="BackToHome" href="/home">&lt- Back To Home</a>
     </div>
 
     <script>
@@ -179,6 +181,11 @@
         // Declaration for submit button
         const submitButton = document.getElementById("submit");
         submitButton.disabled = true;
+
+        // Function to set the value of the hidden lab input when a lab button is clicked
+        function selectLab(labId) {
+            document.getElementById('labInput').value = labId;
+        }
 
         // helper variable to store which lab button clicked
         var labChosen = 0;
