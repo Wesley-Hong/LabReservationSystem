@@ -60,12 +60,19 @@ exports.editReservation = async (req, res) => {
 };
 
 exports.createReservation = async (req, res) => {
-  const { Reservation } = require('../models/Schemas');
+  const { Reservation, Lab } = require('../models/Schemas');
   const userSession = req.session.user;
   if (!userSession) return res.status(401).json({ error: 'Unauthorized' });
 
   const { lab, reservationDate, isAnonymous, selectedSeatsByTime } = req.body;
   const reservationsToInsert = [];
+
+  const labDoc = await Lab.findOne({ labNum: lab });
+  if (!labDoc) {
+    return res.status(400).json({ error: 'Invalid lab number' });
+  }
+
+  const labId = labDoc._id;
 
   try {
     const add30Min = (time) => {
@@ -86,7 +93,7 @@ exports.createReservation = async (req, res) => {
         
         const seatNum = Number(s);
         const existing = await Reservation.findOne({
-          lab,
+          lab: labId,
           reservationDate,
           timeStart: timeStart,
           timeEnd: timeEnd,
@@ -100,12 +107,12 @@ exports.createReservation = async (req, res) => {
 
         reservationsToInsert.push(new Reservation({
           ReservedUnder: userSession._id,
-          lab,
+          lab: labId,
           reservationDate,
           timeStart: timeStart,
           timeEnd: timeEnd,
           timeSlotLabel: `${timeStart} - ${timeEnd}`,
-          seatNumber: s,
+          seatNumber: seatNum,
           isAnonymous,
           status: 'active',
           requestDateTime: new Date()

@@ -380,7 +380,16 @@
             currentTimeslot = timeslot;
         
             fetch(`/reservation/booked?lab=${lab}&date=${date}&timeStart=${timeslot}`)
-            .then(res => res.json())
+            .then(async res => {
+                const text = await res.text();
+
+                try {
+                    return JSON.parse(text);
+                } catch (e) {
+                    console.error("Non-JSON response:", text);
+                    throw new Error("Server did not return JSON");
+                }
+            })
             .then(data => {
                 /*
                 if (!Array.isArray(data)) {
