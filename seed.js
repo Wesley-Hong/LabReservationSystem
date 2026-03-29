@@ -78,7 +78,7 @@ async function seedDatabase() {
             {
                 ReservedUnder: insertedUsers[0]._id,
                 lab: insertedLabs[0]._id,
-                reservationDate: '2026-03-13',
+                reservationDate: '2026-04-01',
                 timeStart: '8:00AM',
                 timeEnd: '8:30AM',
                 timeSlotLabel: '8:00AM - 8:30AM',
@@ -89,7 +89,7 @@ async function seedDatabase() {
             {
                 ReservedUnder: insertedUsers[1]._id,
                 lab: insertedLabs[1]._id,
-                reservationDate: '2026-03-14',
+                reservationDate: '2026-04-01',
                 timeStart: '9:00AM',
                 timeEnd: '9:30AM',
                 timeSlotLabel: '9:00AM - 9:30AM',
@@ -100,7 +100,7 @@ async function seedDatabase() {
             {
                 ReservedUnder: insertedUsers[2]._id,
                 lab: insertedLabs[2]._id,
-                reservationDate: '2026-03-13',
+                reservationDate: '2026-03-30',
                 timeStart: '10:30AM',
                 timeEnd: '11:00AM',
                 timeSlotLabel: '10:30AM - 11:00AM',
@@ -111,7 +111,7 @@ async function seedDatabase() {
             {
                 ReservedUnder: insertedUsers[3]._id,
                 lab: insertedLabs[0]._id,
-                reservationDate: '2026-03-13',
+                reservationDate: '2026-03-30',
                 timeStart: '1:30PM',
                 timeEnd: '2:00PM',
                 timeSlotLabel: '1:30PM - 2:00PM',
@@ -122,7 +122,7 @@ async function seedDatabase() {
             {
                 ReservedUnder: insertedUsers[4]._id,
                 lab: insertedLabs[2]._id,
-                reservationDate: '2026-03-15',
+                reservationDate: '2026-03-30',
                 timeStart: '2:30PM',
                 timeEnd: '3:00PM',
                 timeSlotLabel: '2:30PM - 3:00PM',
