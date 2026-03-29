@@ -8,7 +8,7 @@ const users = [
         firstName: 'Juan',
         lastName: 'Cruz',
         email: 'juan_cruz@dlsu.edu.ph',
-        password: 'password123',
+        password: '$2a$12$PyhXvRQ1BCUCMbwYchwDuOfvSOyuq4C3PUhUbZTOujbQ6v9g2YvAS',
         role: 'student',
         description: 'CS student',
         profilePicture: 'default.png'
@@ -17,7 +17,7 @@ const users = [
         firstName: 'Maria',
         lastName: 'Clara',
         email: 'maria_clara@dlsu.edu.ph',
-        password: 'password123',
+        password: '$2a$12$PyhXvRQ1BCUCMbwYchwDuOfvSOyuq4C3PUhUbZTOujbQ6v9g2YvAS',
         role: 'student',
         description: 'IT student',
         profilePicture: 'default.png'
@@ -26,7 +26,7 @@ const users = [
         firstName: 'Jose',
         lastName: 'Rizal',
         email: 'jose_rizal@dlsu.edu.ph',
-        password: 'password123',
+        password: '$2a$12$v5R7GLSwJEvKqa4hOPsXr.fFPBEjlImuv774cjPfhZ46n8mkNULMC',
         role: 'student',
         description: 'Math student',
         profilePicture: 'default.png'
@@ -35,7 +35,7 @@ const users = [
         firstName: 'Ana',
         lastName: 'Gomez',
         email: 'ana_gomez@dlsu.edu.ph',
-        password: 'password123',
+        password: '$2a$12$v5R7GLSwJEvKqa4hOPsXr.fFPBEjlImuv774cjPfhZ46n8mkNULMC',
         role: 'student',
         description: 'BM student at DLSU',
         profilePicture: 'default.png'
@@ -44,9 +44,18 @@ const users = [
         firstName: 'Carlos',
         lastName: 'Tech',
         email: 'carlos_tech@dlsu.edu.ph',
-        password: 'password123',
+        password: '$2a$12$v5R7GLSwJEvKqa4hOPsXr.fFPBEjlImuv774cjPfhZ46n8mkNULMC',
         role: 'technician',
         description: 'Lab technician',
+        profilePicture: 'default.png'
+    },
+    {
+        firstName: 'Zen',
+        lastName: 'Coluso',
+        email: 'zen_coluso@dlsu.edu.ph',
+        password: '$2a$12$6bJlZlWlMKfK9E8mlyQCyuPTcUDripMbrhzfZKey7SnT4OM0uX24O',
+        role: 'student',
+        description: 'please work',
         profilePicture: 'default.png'
     }
 ];
