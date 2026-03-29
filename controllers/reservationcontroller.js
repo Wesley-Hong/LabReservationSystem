@@ -29,16 +29,15 @@ exports.viewReservations = async (req, res) => {
   }
 };
 
+/*
 // Show reservation form
 exports.studentReserve = async (req, res) => {
   try{
     const { User , Reservation } = require('../models/Schemas');
-    const { lab, date, timeStart, timeEnd } = req.query;
+    const { lab, date } = req.query;
     const reservations = await Reservation.find({
       lab: lab,
       reservationDate: date,
-      timeStart: timeStart,
-      timeEnd: timeEnd,
       status: 'active'
     }).populate('lab').populate('ReservedUnder').lean(); // fetch all active reservations with lab and user info
 
@@ -47,6 +46,12 @@ exports.studentReserve = async (req, res) => {
     console.error(err);
     res.render('reservation/studentreserve', { reservations: [] }); // fallback to empty array on error
   }
+};
+*/
+
+// Show reservation form (rendering the page without fetching reservations)
+exports.studentReserve = (req, res) => {
+  res.render('reservation/studentreserve');
 };
 
 // Show technician reservation page
@@ -133,19 +138,21 @@ exports.createReservation = async (req, res) => {
     // You would extract form data from req.body, validate it, check for conflicts, and save to DB
 
     const { User , Reservation } = require('../models/Schemas');
-    const { ReservedUnder, lab, reservationDate, timeStart, timeEnd, timeSlotLabel, seatNumber, isAnonymous, status, requestDateTime } = req.body;
+    
+    // const { ReservedUnder, lab, reservationDate, timeStart, timeEnd, timeSlotLabel, seatNumber, isAnonymous, status, requestDateTime } = req.body;
+    // For handling multiple time slots and seats, we can expect timeStart and seatNumber to be arrays
+    const { lab, reservationDate, selectedSeatsByTime, isAnonymous } = req.body;
     const reservationsToInsert = [];
 
     try {
-        if (!Array.isArray(timeStart)) {
-          timeStart = [timeStart];
+
+        if (!lab || !reservationDate || !selectedSeatsByTime) {
+          return res.status(400).json({ error: 'Missing required fields' });
         }
 
-        if (!Array.isArray(seatNumber)) {
-          seatNumber = [seatNumber];
+        if (Object.keys(selectedSeatsByTime).length === 0) {
+          return res.status(400).json({ error: "No time slots selected" });
         }
-
-        // For simplicity, this example assumes one reservation per request. In a real app, you would loop through timeStart and seatNumber arrays to create multiple reservations if needed.
 
         const add30Min = (time) => {
           const [hour, minute] = time.split(':').map(Number);
@@ -153,33 +160,35 @@ exports.createReservation = async (req, res) => {
           date.setHours(hour, minute + 30);
           return date.toTimeString().slice(0, 5);
         }
-
-        for (let i = 0; i < timeStart.length; i++) {
-          for (let j = 0; j < seatNumber.length; j++) {
-            const start = timeStart[i];
-            const end = add30Min(start); // calculate end time based on start time
-
-            const seat = seatNumber[j] || seatNumber[0]; // handle case where seatNumber is not an array
-
+        
+        for (let timeStart in selectedSeatsByTime) {
+          const seats = selectedSeatsByTime[timeStart];
+          const timeEnd = add30Min(timeStart);
+          
+          if (!Array.isArray(seats) || seats.length === 0) {
+            return res.status(400).json({ error: "No seats selected" });
+          }
+          
+          for (let seat of seats) {
             const existing = await Reservation.findOne({
               lab,
               reservationDate,
-              timeStart: start,
-              timeEnd: end,
+              timeStart,
+              timeEnd: timeEnd,
               seatNumber: seat,
               status: 'active'
             });
             if (existing) {
-              return res.status(409).json({ error: `Slot ${start}-${end} for seat ${seat} is already reserved.` });
+              return res.status(409).json({ error: `Slot ${timeStart}-${timeEnd} for seat ${seat} is already reserved.` });
             }
 
             const newReservation = new Reservation({
               ReservedUnder: req.user._id,
               lab,
               reservationDate,
-              timeStart: start,
-              timeEnd: end, 
-              timeSlotLabel: `${start} - ${end}`, 
+              timeStart,
+              timeEnd: timeEnd, 
+              timeSlotLabel: `${timeStart} - ${timeEnd}`, 
               seatNumber: seat, 
               isAnonymous, 
               status: 'active', 
@@ -188,9 +197,8 @@ exports.createReservation = async (req, res) => {
             reservationsToInsert.push(newReservation);
         }
       }
-
       await Reservation.insertMany(reservationsToInsert);
-      res.status(201).json({ message: 'Reservation created successfully' });
+      res.status(201).json({ message: 'Reservation created successfully', count: reservationsToInsert.length });
       console.log(req.body); // Log the form data to the console for debugging
 
     } catch (err) {

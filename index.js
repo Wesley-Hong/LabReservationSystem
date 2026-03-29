@@ -70,6 +70,36 @@ app.get('/studentreserve', (req, res) => {
   });
 });
 
+app.get('/reservation/booked', async (req, res) => {
+  const { lab, date, timeStart } = req.query;
+
+  try {
+    if (!lab || !date) {
+      return res.status(400).json({ error: "Missing lab or date" });
+    }
+    
+    // Find the lab first, then find reservations for that lab, date, and time
+    const query = {
+      lab,
+      reservationDate: date,
+      status: 'active'
+    };
+
+    // only filter by timeStart if provided
+    if (timeStart) {
+      query.timeStart = timeStart;
+    }
+
+    const reservations = await Reservation.find(query).lean();
+    
+    res.json(reservations); // return as JSON
+  }
+
+  catch (err) {
+    res.status(500).json({ error: 'Failed to load reservations' });
+  }
+});
+
 // dynamic profile page by user ID
 app.get('/profile/:id', async (req, res) => {
   const { id } = req.params;

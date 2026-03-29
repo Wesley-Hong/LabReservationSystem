@@ -14,7 +14,7 @@
         </div>
         
         
-        <form id="reservationform" action="/reservationcontroller/createReservation" method="POST">
+        <form id="reservationform">
         <div id="reserve_computerLabBox">
         
             <label>Pick a Laboratory:</label>
@@ -175,8 +175,6 @@
         const buttonlab2 = document.getElementById("ComputerLab2");
         const buttonlab3 = document.getElementById("ComputerLab3");
         const computerLabParagraph = document.getElementById("ComputerLab");
-        
-        const slotsTakenArray = [];
 
         // Declaration for submit button
         const submitButton = document.getElementById("submit");
@@ -195,159 +193,25 @@
         // Formatting of chosen lab paragraph
         computerLabParagraph.style.fontWeight = "bold";
         computerLabParagraph.style.fontSize = "20px";
-        
-        // Constructor function for reservation data
-        function Reservation(lab, date, timeslots, anonymous) {
-            this.lab = lab;
-            this.date = date;
-            this.timeslots = timeslots;
-            this.anonymous = anonymous;
-        }
 
-        // Constructor function for slots taken in a laboratory at a specific date and timeslot
-        function Slot(computerLab, date, timeslot, slotsTaken) {
-            this.computerLab = computerLab;
-            this.date = date;
-            this.timeslot = timeslot;
-            this.slotsTaken = slotsTaken;
-        }
-
-        async function refreshTakenSeats() {
-            const selectedDate = document.getElementById("reserve_date").value;
-            const labName = `Computer Lab ${labChosen}`;
-
-            if (!selectedDate || labChosen === 0) return;
-
-            const response = await fetch(`/api/slots?lab=${labName}&date=${selectedDate}`);
-            const takenReservations = await response.json();
-
-            //disable the checkboxes based on DB data
-            checkboxes.forEach(box => {
-                const isBooked = takenReservations.some(res => res.timeslot === box.value);
-                if (isBooked) {
-                    box.disabled = true;
-                } else {
-                    box.disabled = false;
-                }
-            });
-        }
 
         // Event listeners for computer lab buttons to set chosen lab and enable submit button
         buttonlab1.addEventListener("click", function(){
             labChosen = 1;
             submitButton.disabled = false;
             computerLabParagraph.textContent ="Chosen Lab: Computer Laboratory 1";
-
-            checkboxes.forEach(checkbox => {
-                checkbox.disabled = false;
-            });
-
-            refreshTakenSeats();
-
-            reservations.forEach(reservation => {
-                if (dateInput.value === reservation.date && labChosen === reservation.lab) {
-                    slotsTakenArray.forEach(slot => {
-                            reservation.timeslots.forEach(timeslot => {
-                            if (slot.computerLab === reservation.lab && slot.date === reservation.date && timeslot === slot.timeslot) {
-                                if (slot.slotsTaken >= 12) {
-                                    const checkbox = document.getElementById(timeslot);
-                                    if (checkbox) {
-                                        checkbox.disabled = true;
-                                        const slotsLeftSpan = document.getElementById(timeslot + "-slots");
-                                        if (slotsLeftSpan) {
-                                            slotsLeftSpan.textContent = `0 slots left`;
-                                        }
-                                    }                                 
-                                }
-                                else {
-                                    const slotsLeftSpan = document.getElementById(timeslot + "-slots");
-                                    if (slotsLeftSpan) {
-                                        slotsLeftSpan.textContent = `${12 - slot.slotsTaken} slots left`;
-                                    }
-                                }
-                            }
-                        });
-                    })
-                }
-            });
         })
 
         buttonlab2.addEventListener("click", function(){
             labChosen = 2;
             submitButton.disabled = false;
             computerLabParagraph.textContent ="Chosen Lab: Computer Laboratory 2";
-
-            checkboxes.forEach(checkbox => {
-                checkbox.disabled = false;
-            });
-
-            refreshTakenSeats();
-
-            reservations.forEach(reservation => {
-                if (dateInput.value === reservation.date && labChosen === reservation.lab) {
-                    slotsTakenArray.forEach(slot => {
-                            reservation.timeslots.forEach(timeslot => {
-                            if (slot.computerLab === reservation.lab && slot.date === reservation.date && timeslot === slot.timeslot) {
-                                if (slot.slotsTaken >= 12) {
-                                    const checkbox = document.getElementById(timeslot);
-                                    if (checkbox) {
-                                        checkbox.disabled = true;
-                                        const slotsLeftSpan = document.getElementById(timeslot + "-slots");
-                                        if (slotsLeftSpan) {
-                                            slotsLeftSpan.textContent = `0 slots left`;
-                                        }
-                                    }                                 
-                                }
-                                else {
-                                    const slotsLeftSpan = document.getElementById(timeslot + "-slots");
-                                    if (slotsLeftSpan) {
-                                        slotsLeftSpan.textContent = `${12 - slot.slotsTaken} slots left`;
-                                    }
-                                }
-                            }
-                        });
-                    })
-                }
-            });
         })
 
         buttonlab3.addEventListener("click", function(){
             labChosen = 3;
             submitButton.disabled = false;
             computerLabParagraph.textContent ="Chosen Lab: Computer Laboratory 3";
-
-            checkboxes.forEach(checkbox => {
-                checkbox.disabled = false;
-            });
-
-            refreshTakenSeats();
-
-            reservations.forEach(reservation => {
-                if (dateInput.value === reservation.date && labChosen === reservation.lab) {
-                    slotsTakenArray.forEach(slot => {
-                            reservation.timeslots.forEach(timeslot => {
-                            if (slot.computerLab === reservation.lab && slot.date === reservation.date && timeslot === slot.timeslot) {
-                                if (slot.slotsTaken >= 12) {
-                                    const checkbox = document.getElementById(timeslot);
-                                    if (checkbox) {
-                                        checkbox.disabled = true;
-                                        const slotsLeftSpan = document.getElementById(timeslot + "-slots");
-                                        if (slotsLeftSpan) {
-                                            slotsLeftSpan.textContent = `0 slots left`;
-                                        }
-                                    }                                 
-                                }
-                                else {
-                                    const slotsLeftSpan = document.getElementById(timeslot + "-slots");
-                                    if (slotsLeftSpan) {
-                                        slotsLeftSpan.textContent = `${12 - slot.slotsTaken} slots left`;
-                                    }
-                                }
-                            }
-                        });
-                    })
-                }
-            });
         })
 
         // Declaration for date input
@@ -364,154 +228,100 @@
 
         // Declaration for reservation form
         const reservationForm = document.getElementById("reservationform");
-        
-        // Array to store reservation data objects
-        const reservations = []; 
 
-        /*
-        // Event listener for form submission to create reservation data object and store it in the array
         reservationForm.addEventListener("submit", function(event) {
             event.preventDefault(); // prevent page refresh
-
-            const selectedLab = computerLabParagraph.textContent;
-            const selectedDate = dateInput.value;
-
-            // query selector returns a NodeList, so we convert it to an array to easily map the values
-            const selectedTimeslots = Array.from(document.querySelectorAll(".timeslot:checked")).map(input => input.value);
-            
-            // *.checked* returns true if the checkbox is checked, false otherwise
+            const lab = `Computer Lab 0${labChosen}`;
+            const date = dateInput.value;
             const isAnonymous = document.getElementById("reserve_anonymous").checked;
 
-            // TESTING
-            console.log("Selected Lab:", selectedLab);
-            console.log("Selected Date:", selectedDate);
-            console.log("Selected Timeslots:", selectedTimeslots);
-            console.log("Reserve Anonymously:", isAnonymous);
+            const payload = {
+                lab,
+                reservationDate: date,
+                isAnonymous,
+                selectedSeatsByTime
+            };
 
-            // create reservation data object and store it in the array
-            const reservationData = new Reservation(selectedLab, selectedDate, selectedTimeslots, isAnonymous);
-            reservations.push(reservationData);
-            
-            var slotFound = false;
-            
-            selectedTimeslots.forEach(timeslot => {   
-                slotFound = false;         
-                slotsTakenArray.forEach(slot => {
-                    if (slot.computerLab === selectedLab && slot.date === selectedDate && timeslot === slot.timeslot) {
-                        slot.slotsTaken += 1;
-                        slotFound = true;
-                    }
-                });
+            // Lab must be selected
+            if (!labChosen) {
+                alert("Please select a lab.");
+                return;
+            }
 
-                if (!slotFound) {
-                    const slotTaken = new Slot(selectedLab, selectedDate, timeslot, 1);
-                    slotsTakenArray.push(slotTaken);
-                    console.log("Slot Taken Object:", slotTaken);
-                }
-            });
+            // Date must be selected
+            if (!date) {
+                alert("Please select a date.");
+                return;
+            }
 
-            // TESTING
-            console.log("Reservation Data Object:", reservationData);
-            console.log("Slots Taken Array:", slotsTakenArray);
+            // Must select at least one timeslot
+            if (Object.keys(selectedSeatsByTime).length === 0) {
+                alert("Please select at least one time slot.");
+                return;
+            }
 
-            alert("Reservation submitted successfully!");
-            document.getElementById("reservationform").reset();
-        });
+            // Must select at least one seat total
+            const hasSeats = Object.values(selectedSeatsByTime).some(seats => seats.length > 0);
+            if (!hasSeats) {
+                alert("Please select at least one seat.");
+                return;
+            }
 
-        */
-
-    reservationForm.addEventListener("submit", async function(event) {
-        event.preventDefault(); 
-
-        // Gather data from existing UI variables
-        const reservationData = {
-            lab: `Computer Lab ${labChosen}`, // Formats it for the DB
-            date: dateInput.value,
-            // Get the selected timeslot
-            timeslot: Array.from(document.querySelectorAll(".timeslot:checked")).map(i => i.value)[0],
-            // Get the selected seat from the modal
-            seatNumber: Array.from(document.querySelectorAll(".labSeat:checked")).map(i => i.value)[0]
-        };
-
-        // Basic Validation
-        if (!reservationData.timeslot || !reservationData.seatNumber) {
-            alert("Please select both a timeslot and a seat!");
-            return;
-        }
-
-        try {
-            const response = await fetch('/reservation/save', {
+            fetch('/reservation/studentreserve', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(reservationData)
-            });
+                body: JSON.stringify(payload)
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message || data.error);
+                console.log(data);
 
-            if (response.ok) {
-                alert("Reservation Saved to Database!");
-                window.location.href = "/reservation/viewReservations"; 
-            } else {
-                alert("Error: Seat might already be taken.");
-            }
-        } catch (err) {
-            console.error("Submission error:", err);
-        }
-    });
-        
-        dateInput.addEventListener("change", function() {
-            checkboxes.forEach(checkbox => {
-                checkbox.disabled = false;
-            });
+                selectedSeatsByTime = {};
+                reservationForm.reset();
 
-            refreshTakenSeats();
-
-            reservations.forEach(reservation => {
-                if (dateInput.value === reservation.date && labChosen === reservation.lab) {
-                    slotsTakenArray.forEach(slot => {
-                            reservation.timeslots.forEach(timeslot => {
-                            if (slot.computerLab === reservation.lab && slot.date === reservation.date && timeslot === slot.timeslot) {
-                                if (slot.slotsTaken >= 12) {
-                                    const checkbox = document.getElementById(timeslot);
-                                    if (checkbox) {
-                                        checkbox.disabled = true;
-                                        const slotsLeftSpan = document.getElementById(timeslot + "-slots");
-                                        if (slotsLeftSpan) {
-                                            slotsLeftSpan.textContent = `0 slots left`;
-                                        }
-                                    }                                 
-                                }
-                                else {
-                                    const slotsLeftSpan = document.getElementById(timeslot + "-slots");
-                                    if (slotsLeftSpan) {
-                                        slotsLeftSpan.textContent = `${12 - slot.slotsTaken} slots left`;
-                                    }
-                                }
-                            }
-                        });
-                    })
-                }
-            });
+                document.querySelectorAll(".labSeat").forEach(seatCheckbox => {
+                    seatCheckbox.disabled = false;
+                    seatCheckbox.classList.remove("selected");
+                });
+            })
+            .catch(err => {
+                console.error("Submission error:", err);
+                alert("An error occurred while submitting your reservation. Please try again.");
+            })
         });
 
         var modal = document.getElementById("myModal");
         var seats = document.querySelectorAll(".labSeat");
         var closeModal = document.getElementsByClassName("close")[0];
-        
+        let currentTimeslot = null;
+
+        function openSeatModal(timeslot) {
+            currentTimeslot = timeslot;
+            modal.style.display = "block";
+            updateModalHeading(timeslot);
+            refreshTakenSeats(timeslot);
+        }
+
+        let currentTimeslot = null;
+
         checkboxes.forEach(checkbox => {
             checkbox.addEventListener("change", function(event) {
+                if (!labChosen || !dateInput.value) {
+                    alert("Please select a lab and date before choosing a time slot.");
+                    event.target.checked = false;
+                    return;
+                }
+
+                const timeslot = event.target.value;
+                currentTimeslot = timeslot;
+
+                // When a timeslot checkbox is checked, show the seat selection modal
                 if (event.target.checked) {
-                    modal.style.display = "block";
+                    openSeatModal(timeslot);
                 }
-
-                else if (!event.target.checked) {
-                    seats.forEach(seat => {
-                        seat.checked = false;
-                    });
-                }
-
-                updateModalHeading(checkbox.value);
             });
         });
-
 
         closeModal.onclick = function() {
             modal.style.display = "none";
@@ -522,8 +332,79 @@
             modalHeader.textContent = `SEAT SELECTION - ${timeslot}`;
         }
 
-        
+        const selectedSeatsByTime = {};
 
+        document.querySelectorAll(".labSeat").forEach(seatCheckbox => {
+            seatCheckbox.addEventListener("click", function(event) {
+                if (currentTimeslot) {
+                    if (!selectedSeatsByTime[currentTimeslot]) {
+                        selectedSeatsByTime[currentTimeslot] = [];
+                    }
+
+                    // event.target.value = the seat number, event.target.checked = whether the seat is selected or deselected
+                    if (event.target.checked) {
+                        
+                        // in the case of duplicate seat selection being added to the timeslot seat array, we alert the user and remove the duplicate selection. 
+                        // This is to prevent a user from selecting the same seat multiple times for the same timeslot, which could cause issues with reservation creation and database storage
+                        if (selectedSeatsByTime[currentTimeslot].includes(event.target.value)) {
+                            alert("You have already selected this seat for this timeslot!");
+                            event.target.checked = false;
+                            return;
+                        }
+                        
+                        selectedSeatsByTime[currentTimeslot].push(event.target.value);
+                        event.target.classList.add("selected");
+                    } else if (event.target.checked === false) {
+                        // Remove the deselected seat from the array of selected seats for the current timeslot
+                        selectedSeatsByTime[currentTimeslot] = selectedSeatsByTime[currentTimeslot].filter(seat => seat !== event.target.value);
+                        event.target.classList.remove("selected");
+                    }
+                }
+            });
+        });
+
+        function refreshTakenSeats(timeslot){
+            const lab = `Computer Lab 0${labChosen}`;
+            const date = dateInput.value;
+
+            currentTimeslot = timeslot;
+        
+            fetch(`/reservation/booked?lab=${lab}&date=${date}&timeStart=${timeslot}`)
+            .then(res => res.json())
+            .then(data => {
+                
+                // First, enable all seats and remove taken styling so we can reset the seat selection UI before applying the new data
+                document.querySelectorAll(".labSeat").forEach(seatCheckbox => {
+                    seatCheckbox.disabled = false;
+                    seatCheckbox.classList.remove("taken", "selected"); // Remove class to reset styling
+                    seatCheckbox.checked = false; // Uncheck all seats to reset selection
+                });
+                // We can use this data to disable timeslots that are fully booked and show how many slots are left for others
+                data.forEach(resv => {
+                    const seat = resv.seatNumber;
+                    const seatCheckbox2 = document.getElementById(`labSeat${seat}`);
+
+                    if (seatCheckbox2) {
+                        seatCheckbox2.disabled = true;
+                        seatCheckbox2.classList.add("taken"); // Add taken class to style taken seats
+                    }
+                });
+
+                const savedSeats = selectedSeatsByTime[timeslot] || [];
+
+                savedSeats.forEach(seat => {
+                    const seatCheckbox3 = document.getElementById(`labSeat${seat}`);
+                    if (seatCheckbox3 && !seatCheckbox3.disabled) {
+                        seatCheckbox3.checked = true;
+                        seatCheckbox3.classList.add("selected"); // Add selected class to style user's selected seats
+                    }
+                });
+            })
+
+            .catch(err => {
+                console.error("Error fetching booked seats:", err);
+            });
+        }
     </script>
 </body>
 </html>
