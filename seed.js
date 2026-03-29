@@ -53,8 +53,8 @@ const users = [
         firstName: 'Zen',
         lastName: 'Coluso',
         email: 'zen_coluso@dlsu.edu.ph',
-        password: '$2a$12$6bJlZlWlMKfK9E8mlyQCyuPTcUDripMbrhzfZKey7SnT4OM0uX24O',
-        role: 'student',
+        password: '$2a$12$PyhXvRQ1BCUCMbwYchwDuOfvSOyuq4C3PUhUbZTOujbQ6v9g2YvAS',
+        role: 'technician',
         description: 'please work',
         profilePicture: 'default.png'
     }
