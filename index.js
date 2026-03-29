@@ -2,11 +2,9 @@ const express = require('express');
 const exphbs = require('express-handlebars');
 const mongoose = require('mongoose');    
 const session = require('express-session');
-const MongoStore = require('connect-mongo');
+const MongoStore = require('connect-mongo').MongoStore;
 const app = express();
 const PORT = 3000;
-
-
 
 // MongoDB connection  
 /* Edit the db */             
@@ -45,14 +43,43 @@ app.set('view engine', 'hbs');
 app.set('views', './views');
 
 // middleware
-app.use(express.urlencoded({ extended: true }));
+
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 app.use(session({
-    secret: 'special123', 
-    resave: false,
-    saveUninitialized: false,
-    store: MongoStore.create({ mongoUrl: 'mongodb://127.0.0.1:27017/labreservation' }),
-    cookie: { maxAge: 1000 * 60 * 60 * 2 } // 2 hours
+  secret: 'your-secret',
+  resave: false,
+  saveUninitialized: false,
+  store: MongoStore.create({
+    mongoUrl: 'mongodb://127.0.0.1:27017/mongodb-data'
+  })
+}));
+
+app.engine('hbs', exphbs.engine({
+  extname: '.hbs',
+  helpers: {
+    formatDate: function(date) { 
+      if (!date) return '';
+      const d = new Date(date);
+      const year = d.getFullYear();
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      let hours = d.getHours();
+      const minutes = String(d.getMinutes()).padStart(2, '0');
+      const ampm = hours >= 12 ? 'PM' : 'AM';
+      hours = hours % 12;
+      hours = hours ? hours : 12;
+      return `${year}-${month}-${day} ${hours}:${minutes} ${ampm}`;
+    },
+    eq: function(a, b) {
+      return a === b;
+    }
+  },
+  runtimeOptions: {
+    allowProtoPropertiesByDefault: true,
+    allowProtoMethodsByDefault: true
+  }
 }));
 
 // session management middleware
@@ -125,6 +152,7 @@ app.get('/reservation/booked', async (req, res) => {
       query.timeStart = timeStart;
     }
 
+    const { Reservation } = require('./models/Schemas');
     const reservations = await Reservation.find(query).lean();
     
     res.json(reservations); // return as JSON
@@ -167,21 +195,17 @@ app.get('/', (req, res) => {
 });
 
 // home page
-app.get('/home', async (req, res) => {
-  try {
-    const { User } = require('./models/Schemas');
-    const userEmail = req.query.email;
-    const user = await User.findOne({ email: userEmail }).lean();
-
-    res.render('home', {
-      firstName: user ? user.firstName : '',
-      lastName: user ? user.lastName : '',
-      email: userEmail
-    });
-  } catch (err) {
-    console.error(err);
-    res.redirect('/user/login');
+app.get('/home', (req, res) => {
+  if (!req.session.user) {
+    return res.redirect('/user/login');
   }
+
+  // Pass user info to template
+  res.render('home', {
+    user: req.session.user,                   
+    isStudent: req.session.user.role === 'student',
+    isTechnician: req.session.user.role === 'technician'
+  });
 });
 
 // user routes
@@ -201,7 +225,7 @@ app.get('/reservation/viewslots', requireLogin, reservationController.viewSlots)
 app.get('/reservation/viewreservations', requireLogin, reservationController.viewReservations);
 app.get('/reservation/studentreserve',requireLogin, requireRole('student'), reservationController.studentReserve);
 app.get('/reservation/technicianreserve', requireLogin, requireRole('technician'), reservationController.technicianReserve);
-app.get('/reservation/editReservation', requireLogin, reservationController.editReservation);
+app.get('/reservation/editReservation/:id', requireLogin, reservationController.editReservation);
 
 app.post('/reservation/studentreserve', requireLogin, requireRole('student'), reservationController.createReservation);
 app.post('/reservation/technicianreserve', requireLogin, requireRole('technician'), reservationController.createTechnicianReservation);
