@@ -1,9 +1,12 @@
 const express = require('express');
 const exphbs = require('express-handlebars');
 const mongoose = require('mongoose');    
-
+const session = require('express-session');
+const MongoStore = require('connect-mongo');
 const app = express();
 const PORT = 3000;
+
+
 
 // MongoDB connection  
 /* Edit the db */             
@@ -44,6 +47,38 @@ app.set('views', './views');
 // middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(session({
+    secret: 'special123', 
+    resave: false,
+    saveUninitialized: false,
+    store: MongoStore.create({ mongoUrl: 'mongodb://127.0.0.1:27017/labreservation' }),
+    cookie: { maxAge: 1000 * 60 * 60 * 2 } // 2 hours
+}));
+
+// session management middleware
+function requireLogin(req, res, next) {
+    if (!req.session.user) {
+        return res.redirect('/user/login');
+    }
+    next();
+}
+
+function requireRole(role) {
+    return function(req, res, next) {
+        if (!req.session.user || req.session.user.role !== role) {
+            return res.status(403).send('Forbidden');
+        }
+        next();
+    }
+}
+
+module.exports = { requireLogin, requireRole };
+
+// Make session user available in templates
+app.use((req, res, next) => {
+    res.locals.user = req.session.user; // now HBS can access {{user}}
+    next();
+});
 
 // static files (CSS, JS, images)
 app.use(express.static('public'));
@@ -150,23 +185,26 @@ app.get('/home', async (req, res) => {
 });
 
 // user routes
-app.get('/user/login', userController.showLogin);
 app.get('/user/registration', userController.showRegistration);
-app.post('/user/registration', userController.registerUser);
-app.get('/user/profile', userController.showProfile);
-app.get('/user/edit_profile', userController.showEditProfile);
-app.post('/user/login', userController.loginUser);
-app.post('/user/update_profile', userController.updateProfile);
+app.get('/user/login', userController.showLogin);
 app.get('/user/logout', userController.logoutUser);
+app.get('/user/profile', requireLogin, userController.showProfile);
+app.get('/user/edit_profile', requireLogin, userController.showEditProfile);
+
+app.post('/user/registration', userController.registerUser);
+app.post('/user/login', userController.loginUser);
+app.post('/user/update_profile', requireLogin, userController.updateProfile);
+
 
 // reservation routes
-app.get('/reservation/viewslots', reservationController.viewSlots);
-app.get('/reservation/viewreservations', reservationController.viewReservations);
-app.get('/reservation/studentreserve', reservationController.studentReserve);
-app.get('/reservation/technicianreserve', reservationController.technicianReserve);
-app.get('/reservation/editReservation', reservationController.editReservation);
-app.post('/reservation/studentreserve', reservationController.createReservation);
+app.get('/reservation/viewslots', requireLogin, reservationController.viewSlots);
+app.get('/reservation/viewreservations', requireLogin, reservationController.viewReservations);
+app.get('/reservation/studentreserve',requireLogin, requireRole('student'), reservationController.studentReserve);
+app.get('/reservation/technicianreserve', requireLogin, requireRole('technician'), reservationController.technicianReserve);
+app.get('/reservation/editReservation', requireLogin, reservationController.editReservation);
 
+app.post('/reservation/studentreserve', requireLogin, requireRole('student'), reservationController.createReservation);
+app.post('/reservation/technicianreserve', requireLogin, requireRole('technician'), reservationController.createTechnicianReservation);
 // start server
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);

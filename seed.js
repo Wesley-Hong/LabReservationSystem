@@ -8,7 +8,7 @@ const users = [
         firstName: 'Juan',
         lastName: 'Cruz',
         email: 'juan_cruz@dlsu.edu.ph',
-        password: 'password123',
+        password: '$2a$12$PyhXvRQ1BCUCMbwYchwDuOfvSOyuq4C3PUhUbZTOujbQ6v9g2YvAS',
         role: 'student',
         description: 'CS student',
         profilePicture: 'default.png'
@@ -17,7 +17,7 @@ const users = [
         firstName: 'Maria',
         lastName: 'Clara',
         email: 'maria_clara@dlsu.edu.ph',
-        password: 'password123',
+        password: '$2a$12$PyhXvRQ1BCUCMbwYchwDuOfvSOyuq4C3PUhUbZTOujbQ6v9g2YvAS',
         role: 'student',
         description: 'IT student',
         profilePicture: 'default.png'
@@ -26,7 +26,7 @@ const users = [
         firstName: 'Jose',
         lastName: 'Rizal',
         email: 'jose_rizal@dlsu.edu.ph',
-        password: 'password123',
+        password: '$2a$12$v5R7GLSwJEvKqa4hOPsXr.fFPBEjlImuv774cjPfhZ46n8mkNULMC',
         role: 'student',
         description: 'Math student',
         profilePicture: 'default.png'
@@ -35,7 +35,7 @@ const users = [
         firstName: 'Ana',
         lastName: 'Gomez',
         email: 'ana_gomez@dlsu.edu.ph',
-        password: 'password123',
+        password: '$2a$12$v5R7GLSwJEvKqa4hOPsXr.fFPBEjlImuv774cjPfhZ46n8mkNULMC',
         role: 'student',
         description: 'BM student at DLSU',
         profilePicture: 'default.png'
@@ -44,9 +44,18 @@ const users = [
         firstName: 'Carlos',
         lastName: 'Tech',
         email: 'carlos_tech@dlsu.edu.ph',
-        password: 'password123',
+        password: '$2a$12$v5R7GLSwJEvKqa4hOPsXr.fFPBEjlImuv774cjPfhZ46n8mkNULMC',
         role: 'technician',
         description: 'Lab technician',
+        profilePicture: 'default.png'
+    },
+    {
+        firstName: 'Zen',
+        lastName: 'Coluso',
+        email: 'zen_coluso@dlsu.edu.ph',
+        password: '$2a$12$PyhXvRQ1BCUCMbwYchwDuOfvSOyuq4C3PUhUbZTOujbQ6v9g2YvAS',
+        role: 'technician',
+        description: 'please work',
         profilePicture: 'default.png'
     }
 ];
@@ -78,7 +87,7 @@ async function seedDatabase() {
             {
                 ReservedUnder: insertedUsers[0]._id,
                 lab: insertedLabs[0]._id,
-                reservationDate: '2026-03-13',
+                reservationDate: '2026-04-01',
                 timeStart: '8:00AM',
                 timeEnd: '8:30AM',
                 timeSlotLabel: '8:00AM - 8:30AM',
@@ -89,7 +98,7 @@ async function seedDatabase() {
             {
                 ReservedUnder: insertedUsers[1]._id,
                 lab: insertedLabs[1]._id,
-                reservationDate: '2026-03-14',
+                reservationDate: '2026-04-01',
                 timeStart: '9:00AM',
                 timeEnd: '9:30AM',
                 timeSlotLabel: '9:00AM - 9:30AM',
@@ -100,7 +109,7 @@ async function seedDatabase() {
             {
                 ReservedUnder: insertedUsers[2]._id,
                 lab: insertedLabs[2]._id,
-                reservationDate: '2026-03-13',
+                reservationDate: '2026-03-30',
                 timeStart: '10:30AM',
                 timeEnd: '11:00AM',
                 timeSlotLabel: '10:30AM - 11:00AM',
@@ -111,7 +120,7 @@ async function seedDatabase() {
             {
                 ReservedUnder: insertedUsers[3]._id,
                 lab: insertedLabs[0]._id,
-                reservationDate: '2026-03-13',
+                reservationDate: '2026-03-30',
                 timeStart: '1:30PM',
                 timeEnd: '2:00PM',
                 timeSlotLabel: '1:30PM - 2:00PM',
@@ -122,7 +131,7 @@ async function seedDatabase() {
             {
                 ReservedUnder: insertedUsers[4]._id,
                 lab: insertedLabs[2]._id,
-                reservationDate: '2026-03-15',
+                reservationDate: '2026-03-30',
                 timeStart: '2:30PM',
                 timeEnd: '3:00PM',
                 timeSlotLabel: '2:30PM - 3:00PM',

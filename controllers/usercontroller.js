@@ -14,85 +14,72 @@ exports.showRegistration = (req, res) => {
 // show profile page
 exports.showProfile = async (req, res) => {
   try {
-        const profEmail = req.query.email;
-        const viewerEmail = req.query.viewer;
-        
-        const user = await User.findOne({ email: profEmail });
-        
-        if (!user) {
-            return res.redirect('/user/login');
-        }
+    const userSession = req.session.user;
+    if (!userSession) return res.redirect('/user/login');
 
-        const reservations = await Reservation.find({ 
-            ReservedUnder: user._id,
-            status: 'active'
-        }).sort({createdAt: -1});
+    const user = await User.findById(userSession._id).lean();
+    if (!user) return res.redirect('/user/login');
 
-        const isUser = viewerEmail === profEmail;
+    const reservations = await Reservation.find({ 
+        ReservedUnder: user._id,
+        status: 'active'
+    }).sort({ createdAt: -1 }).populate('lab').lean();
 
-        res.render('user/profile', {
-            user,
-            reservations, 
-            isUser
-        });
-    } 
-    catch (error) {
-        console.error('Profile error:', error);
-        res.redirect('/home');
-    }
+    res.render('user/profile', {
+        user,
+        reservations,
+        isUser: true  // always the logged-in user
+    });
+  } catch (error) {
+    console.error('Profile error:', error);
+    res.redirect('/home');
+  }
 };
 
 // show edit profile page
 exports.showEditProfile = async (req, res) => {
   try {
-        const email = req.query.email;
-        
-        const user = await User.findOne({email});
-        
-        if (!user) {
-            return res.redirect('/user/login');
-        }
+    const userSession = req.session.user;
+    if (!userSession) return res.redirect('/user/login');
 
-        res.render('user/edit_profile', { 
-            user,
-            userEmail: email
-        });
-  } 
-  catch (error) {
-        console.error('Edit profile error:', error);
-        res.redirect('/user/profile');
+    const user = await User.findById(userSession._id).lean();
+    if (!user) return res.redirect('/user/login');
+
+    res.render('user/edit_profile', { 
+        user,
+        userEmail: user.email
+    });
+  } catch (error) {
+    console.error('Edit profile error:', error);
+    res.redirect('/user/profile');
   }
 };
 
 // updates user profile
 exports.updateProfile = async (req, res) => {
-    try {
-        const {firstName, lastName, email, description, originalEmail, password} = req.body;
-        const findemail = originalEmail;
+  try {
+    const { firstName, lastName, email, description, password } = req.body;
+    const userId = req.session.user._id;
 
-        const updateData =
-        { 
-            firstName, 
-            lastName, 
-            email,
-            description 
-        };
+    const updateData = { firstName, lastName, email, description };
 
-        if (password && password.trim() !== '') {
-            updateData.password = await bcrypt.hash(password, 10);
-        }
-        await User.findOneAndUpdate(
-            { email: findemail },
-            updateData
-        );
-        res.redirect(`/user/profile?email=${encodeURIComponent(email)}`);
+    if (password && password.trim() !== '') {
+        updateData.password = await bcrypt.hash(password, 10);
     }
-    catch (error) {
-        console.error('Error updating profile', error);
-        res.redirect('/user/edit_profile');
-    }
+
+    await User.findByIdAndUpdate(userId, updateData);
+
+    // update session info if email or name changed
+    req.session.user.firstName = firstName;
+    req.session.user.lastName = lastName;
+    req.session.user.email = email;
+
+    res.redirect('/user/profile');
+  } catch (error) {
+    console.error('Error updating profile', error);
+    res.redirect('/user/edit_profile');
+  }
 };
-
 // process registration form
 exports.registerUser = async (req, res) => {
     const { firstName, lastName, email, password, role } = req.body;
@@ -134,8 +121,14 @@ exports.loginUser = async (req, res) => {
         }
 
         // success
+        req.session.user = {
+            _id: user._id,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+            role: user.role
+        };
         res.status(200).json({ message: 'Login successful!' });
-
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: 'Server error.' });
@@ -144,5 +137,8 @@ exports.loginUser = async (req, res) => {
 
 // logs user out
 exports.logoutUser = (req, res) => {
-    res.redirect('/user/login');
+    req.session.destroy(err => {
+        if (err) console.error(err);
+        res.redirect('/user/login');
+    });
 };
