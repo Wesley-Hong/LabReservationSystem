@@ -15,9 +15,8 @@
             <a href="/home?email={{user.email}}" class="back">Back</a>
             {{#if isUser}}
             <a href="/user/edit_profile?email={{user.email}}" class="editprof">Edit Profile</a>
-            <a href="/user/edit_profile?email={{user.email}}" class="editprof">Edit Profile</a>
             <form action="/user/delete_account" method="POST" onsubmit="return confirm('Are you sure? This cannot be undone.')">
-                <button type="submit">Delete Account</button>
+                <button type="submit" class="delete">Delete Account</button>
             </form>
             <a href="/user/login" class="logout">Logout</a>
             {{/if}}
