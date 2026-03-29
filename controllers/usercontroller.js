@@ -142,3 +142,23 @@ exports.logoutUser = (req, res) => {
         res.redirect('/user/login');
     });
 };
+
+exports.deleteUser = async (req, res) =>{
+
+  try {
+    const userId = req.session.user._id;
+
+    await Reservation.deleteMany({ ReservedUnder: userId });
+    await User.findByIdAndDelete(userId);
+
+    req.session.destroy(err => {
+      if (err) console.error(err);
+      res.redirect('/user/login');
+    });
+
+  } 
+  catch (error) {
+    console.error('Delete account error:', error);
+    res.redirect('/user/profile');
+  }
+};
