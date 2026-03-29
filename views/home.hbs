@@ -1,10 +1,17 @@
 <link rel="stylesheet" href="/css/homestyle.css" />
 
-<header id="main-header">Welcome {{firstName}} {{lastName}}!</header>
+<header id="main-header">
+  Welcome {{user.firstName}} {{user.lastName}}!
+</header>
 
 <div class="home-container">
   <a href="/reservation/viewslots" class="btn">View Computer Lab Slots</a>
-  <a href="/user/profile?email={{email}}&viewer={{email}}" class="btn">View my Profile</a>
+  <a href="/user/profile" class="btn">View My Profile</a>
   <a href="/reservation/viewreservations" class="btn">View Reservations</a>
-  <a href="/reservation/studentreserve" class="btn">Make Reservations</a>
+  {{#if isStudent}}
+    <a href="/reservation/studentreserve" class="btn">Make Reservations</a>
+  {{/if}}
+  {{#if isTechnician}}
+    <a href="/reservation/technicianreserve" class="btn">Technician Reserve</a>
+  {{/if}}
 </div>
