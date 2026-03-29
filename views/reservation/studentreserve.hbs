@@ -277,7 +277,7 @@
                 alert(data.message || data.error);
                 console.log(data);
 
-                selectedSeatsByTime = {};
+                Object.keys(selectedSeatsByTime).forEach(key => delete selectedSeatsByTime[key]);
                 reservationForm.reset();
 
                 document.querySelectorAll(".labSeat").forEach(seatCheckbox => {
@@ -303,8 +303,6 @@
             refreshTakenSeats(timeslot);
         }
 
-        let currentTimeslot = null;
-
         checkboxes.forEach(checkbox => {
             checkbox.addEventListener("change", function(event) {
                 if (!labChosen || !dateInput.value) {
@@ -319,6 +317,18 @@
                 // When a timeslot checkbox is checked, show the seat selection modal
                 if (event.target.checked) {
                     openSeatModal(timeslot);
+                }
+                else if (event.target.checked === false) {
+                    // If the timeslot is unchecked, we want to clear any selected seats for that timeslot and update the UI accordingly
+                    if (selectedSeatsByTime[timeslot]) {
+                        delete selectedSeatsByTime[timeslot];
+                    }
+
+                    document.querySelectorAll(".labSeat").forEach(seatCheckbox => {
+                        seatCheckbox.disabled = false;
+                        seatCheckbox.classList.remove("selected");
+                        seatCheckbox.checked = false;
+                    });
                 }
             });
         });
@@ -372,7 +382,13 @@
             fetch(`/reservation/booked?lab=${lab}&date=${date}&timeStart=${timeslot}`)
             .then(res => res.json())
             .then(data => {
-                
+                /*
+                if (!Array.isArray(data)) {
+                    console.error("Expected array but got:", data);
+                    return;
+                }
+                */
+
                 // First, enable all seats and remove taken styling so we can reset the seat selection UI before applying the new data
                 document.querySelectorAll(".labSeat").forEach(seatCheckbox => {
                     seatCheckbox.disabled = false;

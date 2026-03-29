@@ -25,23 +25,10 @@ exports.studentReserve = async (req, res) => {
     const userSession = req.session.user;
     if (!userSession) return res.redirect('/user/login');
 
-    const { lab, date, timeStart, timeEnd } = req.query;
-
-    const reservations = await Reservation.find({
-      lab,
-      reservationDate: date,
-      timeStart,
-      timeEnd,
-      status: 'active'
-    })
-      .populate('lab')
-      .populate('ReservedUnder')
-      .lean();
-
-    res.render('reservation/studentreserve', { reservations, user: userSession });
+    res.render('reservation/studentreserve', { user: userSession });
   } catch (err) {
     console.error(err);
-    res.render('reservation/studentreserve', { reservations: [], user: req.session.user });
+    res.render('reservation/studentreserve', { user: req.session.user });
   }
 };
 
@@ -73,17 +60,14 @@ exports.editReservation = async (req, res) => {
 };
 
 exports.createReservation = async (req, res) => {
+  const { Reservation } = require('../models/Schemas');
   const userSession = req.session.user;
   if (!userSession) return res.status(401).json({ error: 'Unauthorized' });
 
-  const { lab, reservationDate, timeStart, seatNumber, isAnonymous } = req.body;
+  const { lab, reservationDate, isAnonymous, selectedSeatsByTime } = req.body;
   const reservationsToInsert = [];
 
   try {
-    // Normalize arrays
-    const times = Array.isArray(timeStart) ? timeStart : [timeStart];
-    const seats = Array.isArray(seatNumber) ? seatNumber : [seatNumber];
-
     const add30Min = (time) => {
       const [hour, minute] = time.split(':').map(Number);
       const date = new Date();
@@ -91,30 +75,36 @@ exports.createReservation = async (req, res) => {
       return date.toTimeString().slice(0, 5);
     };
 
-    for (let t of times) {
-      for (let s of seats) {
-        const end = add30Min(t);
+    if (!selectedSeatsByTime || typeof selectedSeatsByTime !== 'object') {
+      return res.status(400).json({ error: 'Invalid seat selection data' });
+    }
 
+    for (let timeStart in selectedSeatsByTime) {
+      const seats = selectedSeatsByTime[timeStart];
+      const timeEnd = add30Min(timeStart);
+      for (let s of seats) {
+        
+        const seatNum = Number(s);
         const existing = await Reservation.findOne({
           lab,
           reservationDate,
-          timeStart: t,
-          timeEnd: end,
-          seatNumber: s,
+          timeStart: timeStart,
+          timeEnd: timeEnd,
+          seatNumber: seatNum,
           status: 'active'
         });
 
         if (existing) {
-          return res.status(409).json({ error: `Slot ${t}-${end} for seat ${s} is already reserved.` });
+          return res.status(409).json({ error: `Slot ${timeStart}-${timeEnd} for seat ${seatNum} is already reserved.` });
         }
 
         reservationsToInsert.push(new Reservation({
           ReservedUnder: userSession._id,
           lab,
           reservationDate,
-          timeStart: t,
-          timeEnd: end,
-          timeSlotLabel: `${t} - ${end}`,
+          timeStart: timeStart,
+          timeEnd: timeEnd,
+          timeSlotLabel: `${timeStart} - ${timeEnd}`,
           seatNumber: s,
           isAnonymous,
           status: 'active',

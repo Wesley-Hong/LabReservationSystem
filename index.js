@@ -133,6 +133,7 @@ app.get('/studentreserve', (req, res) => {
 });
 
 app.get('/reservation/booked', async (req, res) => {
+  const { Reservation } = require('../models/Schemas');
   const { lab, date, timeStart } = req.query;
 
   try {
@@ -152,14 +153,14 @@ app.get('/reservation/booked', async (req, res) => {
       query.timeStart = timeStart;
     }
 
-    const { Reservation } = require('./models/Schemas');
+    
     const reservations = await Reservation.find(query).lean();
     
     res.json(reservations); // return as JSON
   }
 
   catch (err) {
-    res.status(500).json({ error: 'Failed to load reservations' });
+    res.status(500).json([{ error: 'Failed to load reservations' }]);
   }
 });
 
