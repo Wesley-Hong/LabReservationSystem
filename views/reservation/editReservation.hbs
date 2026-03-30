@@ -14,7 +14,7 @@
         <h4>Note: You are only editing the specific seat and time of a reservation</h4>
 
         <div id="originalReservation">
-        <p><strong>Requester:  </strong>{{user.firstName}} {{user.lastName}}<span id="reservationId"></span></p>
+        <p><strong>Requester:  </strong>{{reservation.ReservedUnder.firstName}} {{reservation.ReservedUnder.lastName}}<span id="reservationId"></span></p>
         <p><strong>Lab:  </strong>{{reservation.lab.labNum}}<span id="lab"></span></p>
         <p><strong>Reservation Date:  </strong>{{reservation.reservationDate}}<span id="date"></span></p>
         <p><strong>Time Slots:  </strong>{{reservation.timeStart}} - {{reservation.timeEnd}}<span id="timeslots"></span></p>
