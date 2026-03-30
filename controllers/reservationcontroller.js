@@ -294,8 +294,3 @@ exports.getSlotInfo = async (req, res) => {
     res.status(500).json({ error: 'Server error' });
   }
 };
-
-exports.studentReservePrefill = (req, res) => {
-  const { lab, date, timeStart, timeEnd, seat } = req.query;
-  res.render('reservation/studentreserve', { lab, date, timeStart, timeEnd, seat, user: req.session.user });
-};
