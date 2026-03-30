@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - Lab Reservation System</title>
+    <link rel="stylesheet" href="/css/about.css">
+</head>
+<body>
+    <div class="about-container">
+        <a href="/home" class="back-btn">Back</a>
+        
+        <h1>About This Application</h1>
+        
+        <h2>NPM Packages Used</h2>
+        
+        <ul class="packages-list">
+            {{#each npmPackages}}
+            <li>
+                <strong>{{this.name}}</strong> <span class="version">{{this.version}}</span>
+                <span class="description">- {{this.description}}</span>
+            </li>
+            {{/each}}
+        </ul>
+        
+        <footer>
+            <p>Computer Lab Reservation System | CCAPDEV Project</p>
+        </footer>
+    </div>
+</body>
+</html>

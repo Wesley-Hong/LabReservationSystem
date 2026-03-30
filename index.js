@@ -120,18 +120,6 @@ app.get('/api/slots', reservationController.getSlots);
 // API route to get reservation info for a specific slot  
 app.get('/api/slotinfo', reservationController.getSlotInfo);
 
-// route for student reservation to autofill form
-app.get('/studentreserve', (req, res) => {
-  const { lab, date, timeStart, timeEnd, seat } = req.query;
-  res.render('reservation/studentreserve', {
-    lab,
-    date,
-    timeStart,
-    timeEnd,
-    seat
-  });
-});
-
 app.get('/reservation/booked', async (req, res) => {
   const { Lab , Reservation } = require('./models/Schemas');
   const { lab, date, timeStart } = req.query;
@@ -214,6 +202,8 @@ app.get('/home', (req, res) => {
     isTechnician: req.session.user.role === 'technician'
   });
 });
+
+app.get('/about', userController.showAbout);
 
 // user routes
 app.get('/user/registration', userController.showRegistration);
