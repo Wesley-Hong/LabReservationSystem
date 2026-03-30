@@ -355,8 +355,9 @@ exports.cancelReservation = async (req, res) => {
 
 exports.viewSlots = async (req, res) => {
   try {
+    const userSession = req.session.user;
     const labs = await Lab.find().lean();
-    res.render('reservation/viewslots', { labs, user: req.session.user });
+    res.render('reservation/viewslots', { labs, user: userSession, userRole: userSession?.role });
   } catch (err) {
     console.error(err);
     res.render('reservation/viewslots', { labs: [], user: req.session.user });
@@ -385,20 +386,6 @@ exports.getSlots = async (req, res) => {
 exports.getSlotInfo = async (req, res) => {
   const { lab: labNum, date, timeStart, timeEnd, seat } = req.query;
 
-  function normalize(t) {
-    if (!t) return '';
-    t = t.trim();
-    if (!t.includes('AM') && !t.includes('PM')) return t; // already 24hr
-    const match = t.match(/(\d+):(\d+)(AM|PM)/);
-    if (!match) return t;
-    let h = parseInt(match[1]);
-    const m = match[2];
-    const period = match[3];
-    if (period === 'PM' && h !== 12) h += 12;
-    if (period === 'AM' && h === 12) h = 0;
-    return `${String(h).padStart(2,'0')}:${m}`;
-  }
-
   try {
     const lab = await Lab.findOne({ labNum });
     if (!lab) return res.status(404).json({ error: 'Lab not found' });
@@ -406,10 +393,9 @@ exports.getSlotInfo = async (req, res) => {
     const reservation = await Reservation.findOne({
       lab: lab._id,
       reservationDate: date,
-      timeStart: { $in: [timeStart, normalize(timeStart)] },  // check both formats
-      timeEnd: { $in: [timeEnd, normalize(timeEnd)] },
-      seatNumber: seat,
-      status: 'active'
+      timeStart,
+      timeEnd,
+      seatNumber: seat
     }).populate('ReservedUnder');
 
     if (!reservation) return res.status(404).json({ error: 'No reservation found' });
