@@ -45,6 +45,11 @@
                 alert("Please fill in all fields.");
                 return;
             }
+            
+            if (!email.endsWith("@dlsu.edu.ph")) {
+                alert("Please enter a DLSU email address.");
+                return;
+            }
 
             try {
                 const response = await fetch('/user/login', {
