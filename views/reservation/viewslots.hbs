@@ -34,6 +34,7 @@
 const slotsDiv = document.getElementById("slots");
 const labSelect = document.getElementById("lab");
 const dateInput = document.getElementById("date");
+const userRole = '{{userRole}}'
 
 // default date to today
 const today = new Date().toISOString().split("T")[0];
@@ -50,16 +51,6 @@ labSelect.addEventListener("change", loadSlots);
 dateInput.addEventListener("change", loadSlots);
 
 loadSlots(); // initial load
-
-function normalize(t) {
-  if (!t) return '';
-  t = t.trim();
-  if (t.includes('AM') || t.includes('PM')) return t;
-  let [h, m] = t.split(':').map(Number);
-  const period = h >= 12 ? 'PM' : 'AM';
-  h = h % 12 || 12;
-  return `${h}:${String(m).padStart(2,'0')}${period}`;
-}
 
 async function loadSlots() {
   const lab = labSelect.value;
@@ -121,8 +112,8 @@ async function loadSlots() {
 
       const reserved = reservations.some(r =>
         r.seatNumber == seat &&
-        normalize(r.timeStart) == slot.start &&
-        normalize(r.timeEnd) == slot.end
+        r.timeStart == slot.start &&
+        r.timeEnd == slot.end
       );
 
       cell.className = reserved ? "reserved" : "available";
@@ -148,7 +139,13 @@ table.querySelectorAll("td").forEach(cell => {
       const date = dateInput.value;
 
       if (cell.classList.contains("available")) {
-        window.location.href = `/studentreserve`;
+        if (userRole === 'student') {
+            window.location.href = '/reservation/studentreserve';
+        } else if (userRole === 'technician') {
+            window.location.href = '/reservation/technicianreserve';
+        } else {
+            alert("You are not allowed to reserve slots.");
+        }
       } else if (cell.classList.contains("reserved")) {
         // Fetch reservation info for this reserved slot
         const response = await fetch(`/api/slotinfo?lab=${encodeURIComponent(labNum)}&date=${encodeURIComponent(date)}&timeStart=${encodeURIComponent(timeStart)}&timeEnd=${encodeURIComponent(timeEnd)}&seat=${seatNumber}`);
