@@ -11,26 +11,12 @@
 
 <div id="reservationsContainer">
 
-<!-- HARDCODED RESERVATION FOR DEMO -->
-<div class="reservation-container">
-<button class="edit-btn" onclick="window.location.href='/reservation/editReservation'">
-Edit
-</button>
-<p><strong>Seat Number:</strong> 4</p>
-<p><strong>Laboratory:</strong> Computer Lab 01</p>
-<p><strong>Date & Time Requested:</strong> 2026-03-13 10:00 AM</p>
-<p><strong>Reservation Date:</strong> 2026-03-20</p>
-<p><strong>Reservation Time:</strong> 10:00AM - 10:30AM</p>
-<p><strong>Reserved By:</strong> iShowSpeed</p>
-</div>
-
 {{#each reservations}}
 
 <div class="reservation-container">
 
-<button class="edit-btn" onclick="window.location.href='/reservation/editReservation/{{this._id}}'">
-Edit
-</button>
+<button class="edit-btn" onclick="window.location.href='/reservation/editReservation/{{this._id}}'">Edit</button>
+<button class="cancel-btn" onclick="cancelReservation('{{this._id}}', this)">Cancel</button>
 
 <p><strong>Seat Number:</strong> {{this.seatNumber}}</p>
 <p><strong>Laboratory:</strong> {{this.lab.labNum}}</p>
