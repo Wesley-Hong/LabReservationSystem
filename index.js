@@ -233,6 +233,7 @@ app.get('/reservation/viewreservations', requireLogin, reservationController.vie
 app.get('/reservation/studentreserve',requireLogin, requireRole('student'), reservationController.studentReserve);
 app.get('/reservation/technicianreserve', requireLogin, requireRole('technician'), reservationController.technicianReserve);
 app.get('/reservation/editReservation/:id', requireLogin, reservationController.editReservation);
+app.post('/reservation/cancel/:id', requireLogin, reservationController.cancelReservation);
 
 app.post('/reservation/studentreserve', requireLogin, requireRole('student'), reservationController.createReservation);
 app.post('/reservation/technicianreserve', requireLogin, requireRole('technician'), reservationController.createTechnicianReservation);
