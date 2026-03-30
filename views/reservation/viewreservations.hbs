@@ -51,10 +51,10 @@ Anonymous
     if (!confirm('Are you sure you want to cancel this reservation?')) return;
 
     try {
-      const response = await fetch(`/reservation/cancel/${id}`, { method: 'POST' });
+      const res = await fetch(`/reservation/cancel/${id}`, { method: 'POST' });
       const data = await res.json();
 
-      if (!response.ok) {
+      if (!res.ok) {
         alert(data.error);
         return;
       }
