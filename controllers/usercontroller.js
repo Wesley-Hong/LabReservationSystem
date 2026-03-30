@@ -160,21 +160,28 @@ exports.logoutUser = (req, res) => {
     });
 };
 
-exports.deleteUser = async (req, res) =>{
-
+exports.deleteUser = async (req, res) => {
   try {
     const userId = req.session.user._id;
 
-    await Reservation.deleteMany({ ReservedUnder: userId });
-    await User.findByIdAndDelete(userId);
+    // Destroy session FIRST before deleting from DB
+    req.session.destroy(async (err) => {
+      if (err) {
+        console.error('Session destroy error:', err);
+        return res.redirect('/user/profile');
+      }
 
-    req.session.destroy(err => {
-      if (err) console.error(err);
-      res.redirect('/user/login');
+      try {
+        await Reservation.deleteMany({ ReservedUnder: userId });
+        await User.findByIdAndDelete(userId);
+        res.redirect('/user/login');
+      } catch (dbErr) {
+        console.error('Delete account error:', dbErr);
+        res.redirect('/user/login'); // session is gone anyway
+      }
     });
 
-  } 
-  catch (error) {
+  } catch (error) {
     console.error('Delete account error:', error);
     res.redirect('/user/profile');
   }
