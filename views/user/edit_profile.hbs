@@ -69,8 +69,76 @@
         </div>
     </div>
 
-        <button type="submit" class="save">Save Changes</button>
+        <button type="button" class="save" onclick="saveChanges()">Save Changes</button>
         </form>
     </div>
+
+    <script>
+    function showError(id, message) {
+        document.getElementById(id).textContent = message;
+    }
+
+    function clearErrors() {
+        ['first_name_error', 'last_name_error', 'email_error', 'password_error'].forEach(id => {
+            document.getElementById(id).textContent = '';
+        });
+    }
+
+    async function saveChanges() {
+        clearErrors();
+
+        const firstName = document.getElementById('firstName').value.trim();
+        const lastName  = document.getElementById('lastName').value.trim();
+        const email     = document.getElementById('email').value.trim();
+        const password  = document.getElementById('password').value;
+        const description = document.getElementById('description').value.trim();
+
+        let hasError = false;
+
+        if (!firstName) {
+            showError('first_name_error', 'First name is required.');
+            hasError = true;
+        }
+
+        if (!lastName) {
+            showError('last_name_error', 'Last name is required.');
+            hasError = true;
+        }
+
+        if (!email) {
+            showError('email_error', 'Email is required.');
+            hasError = true;
+        } else if (!email.endsWith('@dlsu.edu.ph')) {
+            showError('email_error', 'Please use a DLSU email (@dlsu.edu.ph).');
+            hasError = true;
+        }
+
+        if (hasError) return;
+
+        try {
+            const response = await fetch('/user/update_profile', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ firstName, lastName, email, password, description })
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                if (data.field === 'email') showError('email_error', data.error);
+                else if (data.field === 'firstName') showError('first_name_error', data.error);
+                else if (data.field === 'lastName') showError('last_name_error', data.error);
+                else alert(data.error);
+                return;
+            }
+
+            alert('Profile updated successfully!');
+            window.location.href = '/user/profile';
+
+        } catch (err) {
+            alert('Network error. Please try again.');
+        }
+    }
+</script>
 </body>
 </html>
