@@ -148,8 +148,7 @@ table.querySelectorAll("td").forEach(cell => {
       const date = dateInput.value;
 
       if (cell.classList.contains("available")) {
-        // Redirect to reservation form for available slot
-        window.location.href = `/studentreserve?lab=${encodeURIComponent(labNum)}&date=${encodeURIComponent(date)}&timeStart=${encodeURIComponent(timeStart)}&timeEnd=${encodeURIComponent(timeEnd)}&seat=${seatNumber}`;
+        window.location.href = `/studentreserve`;
       } else if (cell.classList.contains("reserved")) {
         // Fetch reservation info for this reserved slot
         const response = await fetch(`/api/slotinfo?lab=${encodeURIComponent(labNum)}&date=${encodeURIComponent(date)}&timeStart=${encodeURIComponent(timeStart)}&timeEnd=${encodeURIComponent(timeEnd)}&seat=${seatNumber}`);
