@@ -61,8 +61,25 @@ exports.updateProfile = async (req, res) => {
     const { firstName, lastName, email, description, password } = req.body;
     const userId = req.session.user._id;
 
-    const updateData = { firstName, lastName, email, description };
+    if (!firstName || !firstName.trim()) {
+      return res.status(400).json({ field: 'firstName', error: 'First name is required.' });
+    }
+    if (!lastName || !lastName.trim()) {
+      return res.status(400).json({ field: 'lastName', error: 'Last name is required.' });
+    }
+    if (!email || !email.trim()) {
+      return res.status(400).json({ field: 'email', error: 'Email is required.' });
+    }
+    if (!email.endsWith('@dlsu.edu.ph')) {
+      return res.status(400).json({ field: 'email', error: 'Please use a DLSU email.' });
+    }
 
+    const existing = await User.findOne({ email, _id: { $ne: userId } });
+    if (existing) {
+      return res.status(409).json({ field: 'email', error: 'Email is already in use.' });
+    }
+    
+    const updateData = { firstName, lastName, email, description };
     if (password && password.trim() !== '') {
         updateData.password = await bcrypt.hash(password, 10);
     }
@@ -74,10 +91,10 @@ exports.updateProfile = async (req, res) => {
     req.session.user.lastName = lastName;
     req.session.user.email = email;
 
-    res.redirect('/user/profile');
+    res.status(200).json({ message: 'Profile updated successfully!' });
   } catch (error) {
     console.error('Error updating profile', error);
-    res.redirect('/user/edit_profile');
+    res.status(500).json({ error: 'Server error. Please try again.' });
   }
 };
 // process registration form
