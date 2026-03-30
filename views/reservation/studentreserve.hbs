@@ -391,12 +391,6 @@
                 }
             })
             .then(data => {
-                /*
-                if (!Array.isArray(data)) {
-                    console.error("Expected array but got:", data);
-                    return;
-                }
-                */
 
                 // First, enable all seats and remove taken styling so we can reset the seat selection UI before applying the new data
                 document.querySelectorAll(".labSeat").forEach(seatCheckbox => {

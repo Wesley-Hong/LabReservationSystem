@@ -230,6 +230,7 @@ body {
 
 .taken {
     background-color: rgb(255, 0, 0);
+    color: white;
     border-color: rgb(255, 0, 0);
     cursor: not-allowed;
 }
