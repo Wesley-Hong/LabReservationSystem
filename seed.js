@@ -92,7 +92,7 @@ async function seedDatabase() {
                 lab: insertedLabs[0]._id,
                 reservationDate: '2026-04-01',
                 timeStart: '8:00',
-                timeEnd: '08:30',
+                timeEnd: '8:30',
                 timeSlotLabel: '8:00 - 08:30',
                 seatNumber: 1,
                 isAnonymous: false,
