@@ -100,7 +100,11 @@ exports.editTheReservation = async (req, res) => {
 
       // Ensure the reservation belongs to the user and is active
       const oldReservation = await Reservation.findById(req.params.id).populate('lab').populate('ReservedUnder').lean();
-      if (!oldReservation || oldReservation.ReservedUnder._id.toString() !== userSession._id.toString()) {
+      if (!oldReservation) {
+        return res.status(404).send('Reservation not found');
+      }
+
+      if (userSession.role === 'student' && (!oldReservation.ReservedUnder || oldReservation.ReservedUnder._id.toString() !== userSession._id.toString())) {
         return res.status(403).send('Unauthorized');
       }
 
@@ -131,8 +135,16 @@ exports.editTheReservation = async (req, res) => {
             return res.status(409).json({ error: `Slot ${timeStart}-${timeEnd} for seat ${seatNum} is already reserved.` });
           }
 
+          let ReservedUnderID = null;
+
+          if (userSession.role === 'student') {
+            ReservedUnderID = userSession._id;
+          } else if (userSession.role === 'technician') {
+            ReservedUnderID = oldReservation.ReservedUnder._id; // keep the same student for technician edits
+          }
+
           newReservations.push(new Reservation({
-            ReservedUnder: userSession._id,
+            ReservedUnder: ReservedUnderID,
             lab: labId,
             reservationDate,
             timeStart: timeStart,
