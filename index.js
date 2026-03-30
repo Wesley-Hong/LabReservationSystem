@@ -225,6 +225,7 @@ app.get('/user/edit_profile', requireLogin, userController.showEditProfile);
 app.post('/user/registration', userController.registerUser);
 app.post('/user/login', userController.loginUser);
 app.post('/user/update_profile', requireLogin, userController.updateProfile);
+app.post('/user/delete_account', requireLogin, userController.deleteUser);
 
 
 // reservation routes
