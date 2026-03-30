@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="/css/profilestyle.css">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="profile">
+            <div class="prof_pic"><img src="/images/{{user.profilePicture}}" alt="Profile Picture"></div>
+            <div class="info">
+                <h1>{{user.firstName}} {{user.lastName}}</h1>
+                <h2>{{user.email}}</h2>
+
+                <div class="role"> 
+                    <h3>{{user.role}}</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="description">
+            <p>{{user.description}}</p>
+        </div>
+
+        <div class="reserve_container">
+            <div class="reservations">
+
+                {{#each reservations}}
+                 <p>
+                    <strong>Seat Number:</strong> {{this.seatNumber}}<br>
+                    <strong>Laboratory:</strong> {{this.lab.labNum}}<br>
+                    <strong>Date & Time Requested:</strong> {{formatDate this.requestDateTime}}<br>
+                    <strong>Reservation Date:</strong> {{this.reservationDate}}<br>
+                    <strong>Reservation Time:</strong> {{this.timeStart}} - {{this.timeEnd}}<br>
+                </p>
+                {{else}}
+                <p>You have no reservations yet</p>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+</body>
+</html>

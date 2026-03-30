@@ -185,10 +185,10 @@ app.get('/profile/:id', async (req, res) => {
       .populate('lab')
       .lean();
 
-    res.render('user/profile', {
+    res.render('user/viewprofile', {
       user,
       reservations,
-      isUser: true  // optional, controls edit/logout buttons
+      isUser: false 
     });
   } catch (err) {
     console.error(err);
