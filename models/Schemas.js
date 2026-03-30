@@ -102,7 +102,7 @@ const reserveSchema = new mongoose.Schema({
     }
 }, {timestamps: true})
 
-
+// Export all models
 module.exports = {
     User: mongoose.model('User', userSchema),
     Reservation: mongoose.model('Reservation', reserveSchema),
