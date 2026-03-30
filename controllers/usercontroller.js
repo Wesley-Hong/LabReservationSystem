@@ -97,6 +97,7 @@ exports.updateProfile = async (req, res) => {
     res.status(500).json({ error: 'Server error. Please try again.' });
   }
 };
+
 // process registration form
 exports.registerUser = async (req, res) => {
     const { firstName, lastName, email, password, role } = req.body;
@@ -120,6 +121,8 @@ exports.registerUser = async (req, res) => {
     }
 };
 
+// Verify email and password
+// Store user in sessions
 exports.loginUser = async (req, res) => {
     const { email, password } = req.body;
 
@@ -168,6 +171,7 @@ exports.logoutUser = (req, res) => {
     });
 };
 
+// Destroy session then user and reservation from the DB
 exports.deleteUser = async (req, res) => {
   try {
     const userId = req.session.user._id;
@@ -195,6 +199,8 @@ exports.deleteUser = async (req, res) => {
   }
 };
 
+// Save the uploaded picture to DB
+// Update the profile pic and sessions
 exports.uploadPicture = async (req, res) => {
   try {
     const filename = req.file.filename;
@@ -207,6 +213,7 @@ exports.uploadPicture = async (req, res) => {
   }
 };
 
+// Show all the npm packages being used
 exports.showAbout = (req, res) => {
   const npmPackages = [
     { name: "express", version: "^5.2.1", description: "Web framework" },

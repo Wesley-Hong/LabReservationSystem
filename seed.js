@@ -3,6 +3,7 @@ const { User, Lab, Reservation } = require('./models/Schemas'); // adjust path i
 
 const MONGO_URI = 'mongodb://127.0.0.1:27017'; 
 
+// sample user: 4 students, 2 techicians, password are pre-harshed with bcrypt
 const users = [
     {
         firstName: 'Juan',
@@ -60,12 +61,14 @@ const users = [
     }
 ];
 
+// 3 labs and 12 seats each
 const labs = [
     { labNum: 'Computer Lab 01', seats: 12 },
     { labNum: 'Computer Lab 02', seats: 12 },
     { labNum: 'Computer Lab 03', seats: 12 },
 ];
 
+// Clears exisitng data and insert new sample data
 async function seedDatabase() {
     try {
         await mongoose.connect(MONGO_URI);
