@@ -114,6 +114,18 @@ app.use(express.static('public'));
 const userController = require('./controllers/usercontroller');
 const reservationController = require('./controllers/reservationcontroller');
 
+// multer setup (upload profile pic)
+const multer = require('multer');
+const path = require('path');
+
+const storage = multer.diskStorage({
+  destination: './public/images/',
+  filename: (req, file, cb) => {
+    cb(null, req.session.user._id + path.extname(file.originalname));
+  }
+});
+const upload = multer({ storage });
+
 // API route to get available slots for a specific lab and date
 app.get('/api/slots', reservationController.getSlots);
 
@@ -212,7 +224,7 @@ app.post('/user/registration', userController.registerUser);
 app.post('/user/login', userController.loginUser);
 app.post('/user/update_profile', requireLogin, userController.updateProfile);
 app.post('/user/delete_account', requireLogin, userController.deleteUser);
-
+app.post('/user/upload_picture', requireLogin, upload.single('profilePicture'), userController.uploadPicture);
 
 // reservation routes
 app.get('/reservation/viewslots', requireLogin, reservationController.viewSlots);

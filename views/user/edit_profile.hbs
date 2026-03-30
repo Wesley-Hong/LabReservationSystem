@@ -28,8 +28,9 @@
                     <h3>{{user.role}}</h3>
                 </div>
             </div>
-            <button type="button" class="editPic">Edit Profile Picture</button>
-        </div>
+            <input type="file" id="picInput" name="profilePicture" accept="image/*" style="display:none">
+            <button type="button" class="editPic" onclick="document.getElementById('picInput').click()">Edit Profile Picture</button>
+      </div>
 
         <div class="description">
             <textarea id="description" name="description" rows="3" cols="80">{{user.description}}</textarea>
@@ -83,6 +84,31 @@
             document.getElementById(id).textContent = '';
         });
     }
+
+    document.getElementById('picInput').addEventListener('change', async function() {
+    const file = this.files[0];
+    if (!file) return;
+
+    // show preview
+    const reader = new FileReader();
+    reader.onload = e => document.getElementById('profilePreview').src = e.target.result;
+    reader.readAsDataURL(file);
+
+    // upload to the server
+    const formData = new FormData();
+    formData.append('profilePicture', file);
+
+    try {
+        const res = await fetch('/user/upload_picture', {
+        method: 'POST',
+        body: formData
+        });
+        const data = await res.json();
+        if (!res.ok) alert(data.error);
+    } catch (err) {
+        alert('Upload failed. Please try again.');
+    }
+    });
 
     async function saveChanges() {
         clearErrors();

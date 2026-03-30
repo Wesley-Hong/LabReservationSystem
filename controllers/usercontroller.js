@@ -143,7 +143,8 @@ exports.loginUser = async (req, res) => {
             firstName: user.firstName,
             lastName: user.lastName,
             email: user.email,
-            role: user.role
+            role: user.role,
+            profilePicture: user.profilePicture
         };
         res.status(200).json({ message: 'Login successful!' });
     } catch (err) {
@@ -204,3 +205,16 @@ exports.showAbout = (req, res) => {
     user: req.session.user || null
   });
 };
+
+exports.uploadPicture = async (req, res) => {
+  try {
+    const filename = req.file.filename;
+    await User.findByIdAndUpdate(req.session.user._id, { profilePicture: filename });
+    req.session.user.profilePicture = filename;
+    res.status(200).json({ message: 'Picture updated!' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Upload failed.' });
+  }
+};
+

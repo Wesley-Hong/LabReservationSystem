@@ -19,6 +19,7 @@
     "express-session": "^1.19.0",
     "express.js": "^1.0.0",
     "mongodb": "^7.1.0",
-    "mongoose": "^9.3.0"
+    "mongoose": "^9.3.0",
+    "multer": "^2.1.1"
   }
 }
