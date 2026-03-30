@@ -5,13 +5,33 @@ exports.viewReservations = async (req, res) => {
     const userSession = req.session.user;
     if (!userSession) return res.redirect('/user/login');
 
-    const reservations = await Reservation.find({
-      ReservedUnder: userSession._id,
-      status: 'active'
-    })
+    let reservations;
+
+    if (userSession.role === 'student') {
+      // Student sees only their own reservations
+      reservations = await Reservation.find({
+        ReservedUnder: userSession._id,
+        status: 'active'
+      })
       .populate('lab')
       .populate('ReservedUnder')
       .lean();
+    } else if (userSession.role === 'technician') {
+      // Technician sees reservations of all students
+      const studentIds = await User.find({ role: 'student' }).select('_id').lean();
+      const studentIdArray = studentIds.map(s => s._id);
+
+      reservations = await Reservation.find({
+        ReservedUnder: { $in: studentIdArray },
+        status: 'active'
+      })
+      .populate('lab')
+      .populate('ReservedUnder')
+      .lean();
+    } else {
+      // Other roles not allowed
+      return res.status(403).send('Access denied');
+    }
 
     res.render('reservation/viewreservations', { reservations, user: userSession });
   } catch (err) {
