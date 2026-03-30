@@ -133,13 +133,7 @@ app.get('/studentreserve', (req, res) => {
 });
 
 app.get('/reservation/booked', async (req, res) => {
-  const { Lab , Reservation } = require('./models/Schemas');
   const { lab, date, timeStart } = req.query;
-
-  const labDoc = await Lab.findOne({ labNum: lab });
-  if (!labDoc) {
-    return res.status(400).json({ error: 'Invalid lab number' });
-  }
 
   try {
     if (!lab || !date) {
@@ -148,24 +142,24 @@ app.get('/reservation/booked', async (req, res) => {
     
     // Find the lab first, then find reservations for that lab, date, and time
     const query = {
-      lab: labDoc._id, // use the lab's ObjectId for querying
+      lab,
       reservationDate: date,
       status: 'active'
     };
-    query.lab = labDoc._id; // use the lab's ObjectId for querying
+
     // only filter by timeStart if provided
     if (timeStart) {
       query.timeStart = timeStart;
     }
 
-    
+    const { Reservation } = require('./models/Schemas');
     const reservations = await Reservation.find(query).lean();
     
     res.json(reservations); // return as JSON
   }
 
   catch (err) {
-    res.status(500).json([{ error: 'Failed to load reservations' }]);
+    res.status(500).json({ error: 'Failed to load reservations' });
   }
 });
 
@@ -224,7 +218,6 @@ app.get('/user/edit_profile', requireLogin, userController.showEditProfile);
 app.post('/user/registration', userController.registerUser);
 app.post('/user/login', userController.loginUser);
 app.post('/user/update_profile', requireLogin, userController.updateProfile);
-app.post('/user/delete_account', requireLogin, userController.deleteUser);
 
 
 // reservation routes
