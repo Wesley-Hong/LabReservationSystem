@@ -129,7 +129,7 @@ async function seedDatabase() {
                 status: 'cancelled'
             },
             {
-                ReservedUnder: insertedUsers[4]._id,
+                ReservedUnder: insertedUsers[3]._id,
                 lab: insertedLabs[2]._id,
                 reservationDate: '2026-03-30',
                 timeStart: '2:30PM',
