@@ -11,8 +11,12 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "and": "^0.0.3",
+    "bcrypt": "^6.0.0",
+    "connect-mongo": "^6.0.0",
     "express": "^5.2.1",
     "express-handlebars": "^8.0.6",
+    "express-session": "^1.19.0",
     "mongodb": "^7.1.0",
     "mongoose": "^9.3.0"
   }
