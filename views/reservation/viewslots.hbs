@@ -51,6 +51,16 @@ dateInput.addEventListener("change", loadSlots);
 
 loadSlots(); // initial load
 
+function normalize(t) {
+  if (!t) return '';
+  t = t.trim();
+  if (t.includes('AM') || t.includes('PM')) return t;
+  let [h, m] = t.split(':').map(Number);
+  const period = h >= 12 ? 'PM' : 'AM';
+  h = h % 12 || 12;
+  return `${h}:${String(m).padStart(2,'0')}${period}`;
+}
+
 async function loadSlots() {
   const lab = labSelect.value;
   const date = dateInput.value;
@@ -108,14 +118,17 @@ async function loadSlots() {
 
     for (let seat = 1; seat <= seats; seat++) {
       const cell = document.createElement("td");
+
       const reserved = reservations.some(r =>
         r.seatNumber == seat &&
-        r.timeStart == slot.start &&
-        r.timeEnd == slot.end
+        normalize(r.timeStart) == slot.start &&
+        normalize(r.timeEnd) == slot.end
       );
+
       cell.className = reserved ? "reserved" : "available";
       row.appendChild(cell);
     }
+
     table.appendChild(row);
   });
 
