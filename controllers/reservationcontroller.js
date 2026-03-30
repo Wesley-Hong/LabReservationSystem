@@ -1,3 +1,4 @@
+const { request } = require('express');
 const { Lab, Reservation } = require('../models/Schemas');
 
 exports.viewReservations = async (req, res) => {
@@ -58,6 +59,85 @@ exports.editReservation = async (req, res) => {
     res.redirect('/reservation/viewreservations');
   }
 };
+
+// for POST /reservation/editReservation/:id
+exports.editTheReservation = async (req, res) => {
+    const { Reservation, Lab } = require('../models/Schemas');
+    const userSession = req.session.user;
+    if (!userSession) return res.redirect('/user/login');
+    
+    const { lab, reservationDate, selectedSeatsByTime } = req.body;
+    const labDoc = await Lab.findOne({ labNum: lab });
+    
+    let newReservations = [];
+
+    if (!labDoc) {
+      return res.status(400).json({ error: 'Invalid lab number' });
+    }
+
+    const labId = labDoc._id;
+
+    try {
+
+      // Ensure the reservation belongs to the user and is active
+      const oldReservation = await Reservation.findById(req.params.id).populate('lab').populate('ReservedUnder').lean();
+      if (!oldReservation || oldReservation.ReservedUnder._id.toString() !== userSession._id.toString()) {
+        return res.status(403).send('Unauthorized');
+      }
+
+      const add30Min = (time) => {
+        const [hour, minute] = time.split(':').map(Number);
+        const date = new Date();
+        date.setHours(hour, minute + 30);
+        return date.toTimeString().slice(0, 5);
+      }
+
+      for (const timeStart in selectedSeatsByTime) {
+        const seats = selectedSeatsByTime[timeStart];
+        const timeEnd = add30Min(timeStart);
+
+        for (let seat of seats) {
+          const seatNum = Number(seat);
+          const existing = await Reservation.findOne({
+            lab: labId,
+            reservationDate,
+            timeStart,
+            timeEnd,
+            seatNumber: seatNum,
+            status: 'active',
+            _id: { $ne: oldReservation._id }, // exclude the old reservation
+          });
+
+          if (existing) {
+            return res.status(409).json({ error: `Slot ${timeStart}-${timeEnd} for seat ${seatNum} is already reserved.` });
+          }
+
+          newReservations.push(new Reservation({
+            ReservedUnder: userSession._id,
+            lab: labId,
+            reservationDate,
+            timeStart: timeStart,
+            timeEnd: timeEnd,
+            timeSlotLabel: `${timeStart} - ${timeEnd}`,
+            seatNumber: seatNum,
+            isAnonymous: oldReservation.isAnonymous,
+            status: 'active',
+            requestDateTime: new Date()
+          }));
+        }
+      }
+
+      await Reservation.findByIdAndDelete(req.params.id); // delete the old reservation
+      await Reservation.insertMany(newReservations); // insert the new reservations
+
+      res.status(200).json({ message: 'Reservation updated successfully' });
+    }
+      
+  catch (err) {
+      console.error(err);
+      res.status(500).json({ error: 'Server error in editing the reservation' });
+  }
+}
 
 exports.createReservation = async (req, res) => {
   const { Reservation, Lab } = require('../models/Schemas');

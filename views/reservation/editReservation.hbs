@@ -11,101 +11,102 @@
     <body>
         <div id="reservationDetails">
         <h1>Edit Reservation</h1>
-        
+        <h4>Note: You are only editing the specific seat and time of a reservation</h4>
+
         <div id="originalReservation">
-        <p><strong>Requester:  </strong>John Smith<span id="reservationId"></span></p>
-        <p><strong>Lab:  </strong>Computer Lab 2<span id="lab"></span></p>
-        <p><strong>Reservation Date:  </strong>2026-02-16<span id="date"></span></p>
-        <p><strong>Time Slots:  </strong>2:00PM - 2:30PM<span id="timeslots"></span></p>
+        <p><strong>Requester:  </strong>{{user.firstName}} {{user.lastName}}<span id="reservationId"></span></p>
+        <p><strong>Lab:  </strong>{{reservation.lab.labNum}}<span id="lab"></span></p>
+        <p><strong>Reservation Date:  </strong>{{reservation.reservationDate}}<span id="date"></span></p>
+        <p><strong>Time Slots:  </strong>{{reservation.timeStart}} - {{reservation.timeEnd}}<span id="timeslots"></span></p>
         </div>
 
         <form id="editReservationForm">
             <div id="NewComputerLaboratoryBox">
             <p id="ComputerLabLabel">New Computer Laboratory:</p>
-            <input type="radio" class="ComputerLab" name="ComputerLab" id="ComputerLab1">
+            <input type="radio" class="ComputerLab" id="ComputerLab1" value="1">
             <label for="ComputerLab1">Computer Laboratory 1</label>
             
-            <input type="radio" class="ComputerLab" name="ComputerLab"  id="ComputerLab2">
+            <input type="radio" class="ComputerLab" id="ComputerLab2" value="2">
             <label for="ComputerLab2">Computer Laboratory 2</label>
 
-            <input type="radio" class="ComputerLab" name="ComputerLab"  id="ComputerLab3">
+            <input type="radio" class="ComputerLab" id="ComputerLab3" value="3">
             <label for="ComputerLab3">Computer Laboratory 3</label>
             </div>
 
             <div id="NewDateBox">
             <p id="DateLabel">New Date:</p>
-            <input type="date" id="date" name="date" value="2026-02-16">
+            <input type="date" id="newDate" name="reservationDate">
             </div>
 
             <div id="NewTimeSlotsBox">
             <p id="TimeSlotsLabel">New Time Slots:</p>
             
             <div class="timeslots">
-                <input type="checkbox" class="timeslot" id="8:00" value="8:00">
+                <input type="checkbox" class="timeslot" id="8:00" name="timeStart" value="8:00">
                 <label for="8:00">8:00AM - 8:30AM</label>
                 
-                <input type="checkbox" class="timeslot" id="8:30" value="8:30">
+                <input type="checkbox" class="timeslot" id="8:30" name="timeStart" value="8:30">
                 <label for="8:30">8:30AM - 9:00AM</label>
 
-                <input type="checkbox" class="timeslot" id="9:00" value="9:00">
+                <input type="checkbox" class="timeslot" id="9:00" name="timeStart" value="9:00">
                 <label for="9:00">9:00AM - 9:30AM</label>
 
-                <input type="checkbox" class="timeslot" id="9:30" value="9:30">
+                <input type="checkbox" class="timeslot" id="9:30" name="timeStart" value="9:30">
                 <label for="9:30">9:30AM - 10:00AM</label>
                 <br>
 
-                <input type="checkbox" class="timeslot" id="10:00" value="10:00">
+                <input type="checkbox" class="timeslot" id="10:00" name="timeStart" value="10:00">
                 <label for="10:00">10:00AM - 10:30AM</label>
 
-                <input type="checkbox" class="timeslot" id="10:30" value="10:30">
+                <input type="checkbox" class="timeslot" id="10:30" name="timeStart" value="10:30">
                 <label for="10:30">10:30AM - 11:00AM</label>
 
-                <input type="checkbox" class="timeslot" id="11:00" value="11:00">
+                <input type="checkbox" class="timeslot" id="11:00" name="timeStart" value="11:00">
                 <label for="11:00">11:00AM - 11:30AM</label>
 
-                <input type="checkbox" class="timeslot" id="11:30" value="11:30">
+                <input type="checkbox" class="timeslot" id="11:30" name="timeStart" value="11:30">
                 <label for="11:30">11:30AM - 12:00PM</label>
                 <br>
 
-                <input type="checkbox" class="timeslot" id="12:00" value="12:00">
+                <input type="checkbox" class="timeslot" id="12:00" name="timeStart" value="12:00">
                 <label for="12:00">12:00PM - 12:30PM</label>
 
-                <input type="checkbox" class="timeslot" id="12:30" value="12:30">
+                <input type="checkbox" class="timeslot" id="12:30" name="timeStart" value="12:30">
                 <label for="12:30">12:30PM - 1:00PM</label>
 
-                <input type="checkbox" class="timeslot" id="13:00" value="13:00">
+                <input type="checkbox" class="timeslot" id="13:00" name="timeStart" value="13:00">
                 <label for="13:00">1:00PM - 1:30PM</label>
 
-                <input type="checkbox" class="timeslot" id="13:30" value="13:30">
+                <input type="checkbox" class="timeslot" id="13:30" name="timeStart" value="13:30">
                 <label for="13:30">1:30PM - 2:00PM</label>
                 <br>
 
-                <input type="checkbox" class="timeslot" id="14:00" value="14:00">
+                <input type="checkbox" class="timeslot" id="14:00" name="timeStart" value="14:00">
                 <label for="14:00">2:00PM - 2:30PM</label>
 
-                <input type="checkbox" class="timeslot" id="14:30" value="14:30">
+                <input type="checkbox" class="timeslot" id="14:30" name="timeStart" value="14:30">
                 <label for="14:30">2:30PM - 3:00PM</label>
 
-                <input type="checkbox" class="timeslot" id="15:00" value="15:00">
+                <input type="checkbox" class="timeslot" id="15:00" name="timeStart" value="15:00">
                 <label for="15:00">3:00PM - 3:30PM</label>
 
-                <input type="checkbox" class="timeslot" id="15:30" value="15:30">
+                <input type="checkbox" class="timeslot" id="15:30" name="timeStart" value="15:30">
                 <label for="15:30">3:30PM - 4:00PM</label>
                 <br>
 
-                <input type="checkbox" class="timeslot" id="16:00" value="16:00">
+                <input type="checkbox" class="timeslot" id="16:00" name="timeStart" value="16:00">
                 <label for="16:00">4:00PM - 4:30PM</label>
 
-                <input type="checkbox" class="timeslot" id="16:30" value="16:30">
+                <input type="checkbox" class="timeslot" id="16:30" name="timeStart" value="16:30">
                 <label for="16:30">4:30PM - 5:00PM</label>
 
-                <input type="checkbox" class="timeslot" id="17:00" value="17:00">
+                <input type="checkbox" class="timeslot" id="17:00" name="timeStart" value="17:00">
                 <label for="17:00">5:00PM - 5:30PM</label>
 
-                <input type="checkbox" class="timeslot" id="17:30" value="17:30">
+                <input type="checkbox" class="timeslot" id="17:30" name="timeStart" value="17:30">
                 <label for="17:30">5:30PM - 6:00PM</label>
                 <br>
-                </div>
+            </div>
             </div>
             <div id="myModal" class="modal">
             <div class="modal-content">
@@ -155,48 +156,227 @@
 
             <div>
                 <button id="submit" class="button" type="submit" form="editReservationForm">Submit Edited Reservation</button><br>
-                <a id="BackToHome" href="/reservation/viewreservations">&lt- Back To Reservation</a>
+                <a id="BackToViewReservations" href="/reservation/viewreservations">&lt- Back To Reservation</a>
             </div>
 
             <script>
                 const editReservationForm = document.getElementById("editReservationForm");
+                var labChosen = 0;
+                const computerLabRadios = document.querySelectorAll(".ComputerLab");
+                const checkboxes = document.querySelectorAll(".timeslot");
+
+                computerLabRadios.forEach(radio => {
+                    radio.addEventListener("change", function(event) {
+                        if (event.target.checked) {
+                            labChosen = event.target.value;
+                        }
+                    });
+                });
+
+                // Declaration for date input
+                const dateInput = document.getElementById("newDate");
+
+                // default date to today
+                const today = new Date().toISOString().split("T")[0];
+
+                // 7 day range
+                const maxDate = new Date();
+                maxDate.setDate(maxDate.getDate() + 6);
+                dateInput.min = today;
+                dateInput.max = maxDate.toISOString().split("T")[0];
 
                 editReservationForm.addEventListener("submit", function(event) {
                     event.preventDefault();
-                    alert("Reservation updated successfully!");
-                    editReservationForm.reset();
-                });
 
-            var modal = document.getElementById("myModal");
-            var seats = document.querySelectorAll(".labSeat");
-            var closeModal = document.getElementsByClassName("close")[0];
-            const checkboxes = document.querySelectorAll(".timeslot");
-            
-            checkboxes.forEach(checkbox => {
-                checkbox.addEventListener("change", function(event) {
-                    if (event.target.checked) {
-                        modal.style.display = "block";
+                    const lab = `Computer Lab 0${labChosen}`;
+                    const date = dateInput.value;
+
+                    const payload = {
+                        lab,
+                        reservationDate: date,
+                        selectedSeatsByTime
+                    };
+
+                    if (!labChosen) {
+                        alert("Please select a computer laboratory.");
+                        return;
                     }
 
-                    else if (!event.target.checked) {
-                        seats.forEach(seat => {
-                            seat.checked = false;
+                    if (!date) {
+                        alert("Please select a reservation date.");
+                        return;
+                    }
+
+                    if (Object.keys(selectedSeatsByTime).length === 0) {
+                        alert("Please select at least one time slot and seat.");
+                        return;
+                    }
+
+                    const hasSeats = Object.values(selectedSeatsByTime).some(seats => seats.length > 0);
+                    if (!hasSeats) {
+                        alert("Please select at least one seat for the chosen time slots.");
+                        return;
+                    }
+
+                    fetch(`/reservation/editReservation/{{reservation._id}}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(payload)
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        alert(data.message || data.error);
+                        console.log(data);
+
+                        Object.keys(selectedSeatsByTime).forEach(key => delete selectedSeatsByTime[key]);
+                        editReservationForm.reset();
+                            
+                        document.querySelectorAll(".labSeat").forEach(seatCheckbox => {
+                            seatCheckbox.disabled = false;
+                            seatCheckbox.classList.remove("selected");
                         });
-                    }
-
-                    updateModalHeading(checkbox.value);
+                    })
+                    .catch(error => {
+                        console.error('Submission error:', error);
+                        alert('An error occurred while submitting the edited reservation. Please try again.');
+                        });
                 });
-            });
+                
+
+                var modal = document.getElementById("myModal");
+                var seats = document.querySelectorAll(".labSeat");
+                var closeModal = document.getElementsByClassName("close")[0];
+                let currentTimeslot = null;
+
+                function openSeatModal(timeslot) {
+                    currentTimeslot = timeslot;
+                    modal.style.display = "block";
+                    updateModalHeading(timeslot);
+                    refreshTakenSeats(timeslot);
+                }
+
+                checkboxes.forEach(checkbox => {
+                    checkbox.addEventListener("change", function(event) {
+                        if (!labChosen || !dateInput.value) {
+                            alert("Please select a computer laboratory and reservation date before selecting time slots.");
+                            event.target.checked = false;
+                            return;
+                        }
+
+                        const timeslot = event.target.value;
+                        currentTimeslot = timeslot;
+
+                        // When a timeslot is checked, open the seat selection modal for that timeslot
+                        if (event.target.checked) {
+                            openSeatModal(timeslot);
+                        }
+
+                        else if (!event.target.checked) {
+                            if (selectedSeatsByTime[timeslot]) {
+                                delete selectedSeatsByTime[timeslot];
+                            }
+                            
+                            document.querySelectorAll(".labSeat").forEach(seatCheckbox => {
+                                seatCheckbox.disabled = false;
+                                seatCheckbox.classList.remove("selected");
+                                seatCheckbox.checked = false;
+                            });
+                        }
+                    });
+                });
 
 
-            closeModal.onclick = function() {
-                modal.style.display = "none";
-            }
-            
-            function updateModalHeading(timeslot) {
-                const modalHeader = document.getElementById("modalHeader");
-                modalHeader.textContent = `SEAT SELECTION - ${timeslot}`;
-            }
+                closeModal.onclick = function() {
+                    modal.style.display = "none";
+                }
+                
+                function updateModalHeading(timeslot) {
+                    const modalHeader = document.getElementById("modalHeader");
+                    modalHeader.textContent = `SEAT SELECTION - ${timeslot}`;
+                }
+                
+                const selectedSeatsByTime = {};
+
+                document.querySelectorAll(".labSeat").forEach(seatCheckbox => {
+                    seatCheckbox.addEventListener("click", function(event) {
+                        if (currentTimeslot) {
+                            if(!selectedSeatsByTime[currentTimeslot]) {
+                                selectedSeatsByTime[currentTimeslot] = [];
+                            }
+                            
+                            if (event.target.checked) {
+                                if (selectedSeatsByTime[currentTimeslot].includes(event.target.value)) {
+                                    alert("You have already selected this seat for this timeslot!");
+                                    event.target.checked = false;
+                                    return;
+                                }
+
+                                selectedSeatsByTime[currentTimeslot].push(event.target.value);
+                                event.target.classList.add("selected");
+                            } else if (event.target.checked === false) {
+                                // Remove the seat from the selected seats for the current timeslot
+                                selectedSeatsByTime[currentTimeslot] = selectedSeatsByTime[currentTimeslot].filter(seat => seat !== event.target.value);
+                                event.target.classList.remove("selected");
+                            }
+                        }
+                    });
+                });
+
+                function refreshTakenSeats(timeslot) {
+                    const lab = `Computer Lab 0${labChosen}`;
+                    const date = dateInput.value;
+
+                    currentTimeslot = timeslot;
+
+                    fetch(`/reservation/booked?lab=${lab}&date=${date}&timeStart=${timeslot}`)
+                    .then(async res => {
+                        const text = await res.text();
+
+                        try {
+                            return JSON.parse(text);
+                        } catch (e) {
+                            console.error("Non-JSON response:", text);
+                            throw new Error("Server did not return JSON");
+                        }
+                    })
+
+                    .then(data => {
+
+                        document.querySelectorAll(".labSeat").forEach(seatCheckbox => {
+                            seatCheckbox.disabled = false;
+                            seatCheckbox.classList.remove("taken", "selected");
+                            seatCheckbox.checked = false;
+                        });
+
+                        data.forEach(resv => {
+                            const seat = resv.seatNumber;
+                            const seatCheckbox2 = document.getElementById(`labSeat${seat}`);
+
+                            if (seatCheckbox2) {
+                                seatCheckbox2.disabled = true;
+                                seatCheckbox2.classList.add("taken"); // Add taken class to style taken seats
+                            }
+                        });
+
+                        const savedSeats = selectedSeatsByTime[currentTimeslot] || [];
+
+                        savedSeats.forEach(seat => {
+                            const seatCheckbox3 = document.getElementById(`labSeat${seat}`);
+                            if (seatCheckbox3 && !seatCheckbox3.disabled) {
+                                seatCheckbox3.checked = true;
+                                seatCheckbox3.classList.add("selected"); // Add selected class to style user's selected seats
+                            }
+                        });
+                    })
+
+                    .catch(err => {
+                        console.error("Error fetching booked seats:", err);
+                        alert("An error occurred while fetching booked seats. Please try again.");
+                    });
+                }
+
             </script>
         </form>
         </div>

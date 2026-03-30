@@ -238,6 +238,7 @@ app.post('/reservation/cancel/:id', requireLogin, reservationController.cancelRe
 
 app.post('/reservation/studentreserve', requireLogin, requireRole('student'), reservationController.createReservation);
 app.post('/reservation/technicianreserve', requireLogin, requireRole('technician'), reservationController.createTechnicianReservation);
+app.post('/reservation/editReservation/:id', requireLogin, reservationController.editTheReservation);
 // start server
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
