@@ -208,7 +208,7 @@ exports.showAbout = (req, res) => {
     { name: "bcrypt", version: "^6.0.0", description: "Password hashing" },
     { name: "express-session", version: "^1.19.0", description: "Session management" },
     { name: "connect-mongo", version: "^6.0.0", description: "MongoDB session store" },
-    { name: "multer", version: "^2.1.1", description: "Updating profile picture" },
+    { name: "multer", version: "^2.1.1", description: "File Uploads" },
     { name: "mongodb", version: "^7.1.0", description: "MongoDB driver" }
   ];
 
