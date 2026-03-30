@@ -114,7 +114,7 @@
         <div id="myModal" class="modal">
             <div class="modal-content">
                 <div id="modalHeading">
-                <!-- The "close" class is used to style the close button (the "x") and position it in the top right corner of the modal -->
+                
                 <span class="close">&times;</span>
                     <p id="modalHeader">SEAT SELECTION</p>
                 </div>
@@ -319,7 +319,7 @@
                     openSeatModal(timeslot);
                 }
                 else if (event.target.checked === false) {
-                    // If the timeslot is unchecked, we want to clear any selected seats for that timeslot and update the UI accordingly
+                    // If the timeslot is unchecked, clear any selected seats for that timeslot and update the UI accordingly
                     if (selectedSeatsByTime[timeslot]) {
                         delete selectedSeatsByTime[timeslot];
                     }
@@ -354,7 +354,7 @@
                     // event.target.value = the seat number, event.target.checked = whether the seat is selected or deselected
                     if (event.target.checked) {
                         
-                        // in the case of duplicate seat selection being added to the timeslot seat array, we alert the user and remove the duplicate selection. 
+                        // in the case of duplicate seat selection being added to the timeslot seat array, alert the user and remove the duplicate selection. 
                         // This is to prevent a user from selecting the same seat multiple times for the same timeslot, which could cause issues with reservation creation and database storage
                         if (selectedSeatsByTime[currentTimeslot].includes(event.target.value)) {
                             alert("You have already selected this seat for this timeslot!");
@@ -392,13 +392,13 @@
             })
             .then(data => {
 
-                // First, enable all seats and remove taken styling so we can reset the seat selection UI before applying the new data
+                // Enable all seats and remove taken styling to reset the seat selection UI before applying the new data
                 document.querySelectorAll(".labSeat").forEach(seatCheckbox => {
                     seatCheckbox.disabled = false;
                     seatCheckbox.classList.remove("taken", "selected"); // Remove class to reset styling
                     seatCheckbox.checked = false; // Uncheck all seats to reset selection
                 });
-                // We can use this data to disable timeslots that are fully booked and show how many slots are left for others
+                // Disable timeslots that are fully booked and show how many slots are left for others
                 data.forEach(resv => {
                     const seat = resv.seatNumber;
                     const seatCheckbox2 = document.getElementById(`labSeat${seat}`);
