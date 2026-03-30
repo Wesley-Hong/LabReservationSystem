@@ -12,7 +12,7 @@ const users = [
         password: '$2a$12$PyhXvRQ1BCUCMbwYchwDuOfvSOyuq4C3PUhUbZTOujbQ6v9g2YvAS',
         role: 'student',
         description: 'CS student',
-        profilePicture: 'default.png'
+        profilePicture: 'speed.png'
     },
     {
         firstName: 'Maria',
