@@ -30,7 +30,7 @@ const users = [
         password: '$2a$12$v5R7GLSwJEvKqa4hOPsXr.fFPBEjlImuv774cjPfhZ46n8mkNULMC',
         role: 'student',
         description: 'Math student',
-        profilePicture: 'default.png'
+        profilePicture: 'images.jpeg'
     },
     {
         firstName: 'Ana',
