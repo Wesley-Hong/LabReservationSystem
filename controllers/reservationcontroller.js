@@ -1,4 +1,4 @@
-const { Lab, Reservation } = require('../models/Schemas');
+const { Lab, Reservation, User } = require('../models/Schemas');
 
 exports.viewReservations = async (req, res) => {
   try {
@@ -130,7 +130,77 @@ exports.createReservation = async (req, res) => {
 };
 
 exports.createTechnicianReservation = async (req, res) => {
-  res.send('Technician reservation not implemented yet');
+  const userSession = req.session.user;
+
+  if (!userSession || userSession.role !== 'technician') 
+      return res.status(401).json({ error: 'Unauthorized' });
+
+  const { lab, reservationDate, selectedSeatsByTime, studentEmail } = req.body;
+
+  if (!studentEmail) {
+      return res.status(400).json({ error: 'Student email is required' });
+  }
+
+  // Find the student
+  const student = await User.findOne({ email: studentEmail, role: 'student' });
+  if (!student) return res.status(404).json({ error: 'Student not found' });
+
+  const reservationsToInsert = [];
+  const labDoc = await Lab.findOne({ labNum: lab });
+  if (!labDoc) return res.status(400).json({ error: 'Invalid lab number' });
+
+  const labId = labDoc._id;
+
+  try {
+      const add30Min = (time) => {
+          const [hour, minute] = time.split(':').map(Number);
+          const date = new Date();
+          date.setHours(hour, minute + 30);
+          return date.toTimeString().slice(0, 5);
+      };
+
+      for (let timeStart in selectedSeatsByTime) {
+          const seats = selectedSeatsByTime[timeStart];
+          const timeEnd = add30Min(timeStart);
+
+          for (let s of seats) {
+              const seatNum = Number(s);
+
+              const existing = await Reservation.findOne({
+                  lab: labId,
+                  reservationDate,
+                  timeStart,
+                  timeEnd,
+                  seatNumber: seatNum,
+                  status: 'active'
+              });
+
+              if (existing) {
+                  return res.status(409).json({ error: `Slot ${timeStart}-${timeEnd} for seat ${seatNum} is already reserved.` });
+              }
+
+              reservationsToInsert.push(new Reservation({
+                  ReservedUnder: student._id,
+                  lab: labId,
+                  reservationDate,
+                  timeStart,
+                  timeEnd,
+                  timeSlotLabel: `${timeStart} - ${timeEnd}`,
+                  seatNumber: seatNum,
+                  isAnonymous: false,
+                  status: 'active',
+                  requestDateTime: new Date()
+              }));
+          }
+      }
+
+      await Reservation.insertMany(reservationsToInsert);
+      res.status(201).json({ message: 'Reservation created successfully' });
+
+  } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: 'Server error' });
+  }
 };
 
 exports.cancelReservation = async (req, res) => {
