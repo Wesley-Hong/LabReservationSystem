@@ -4,12 +4,12 @@ const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoStore = require('connect-mongo').MongoStore;
 const app = express();
-const mongoURI = 'mongodb://127.0.0.1:27017'; //change this to your MongoDB URI
+const MONGO_URI = 'mongodb://127.0.0.1:27017'; //change this to your MongoDB URI
 const PORT = 3000;
 
 // MongoDB connection  
 /* Edit the db */             
-mongoose.connect(mongoURI)
+mongoose.connect(MONGO_URI)
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.error('MongoDB error:', err));
 
@@ -53,7 +53,7 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
   store: MongoStore.create({
-    mongoUrl: mongoURI
+    mongoUrl: MONGO_URI
   })
 }));
 
