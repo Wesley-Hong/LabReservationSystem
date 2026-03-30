@@ -159,7 +159,7 @@ app.get('/reservation/booked', async (req, res) => {
 });
 
 // dynamic profile page by user ID
-app.get('/profile/:id', async (req, res) => {
+app.get('/profile/:id', requireLogin, async (req, res) => {
   const { id } = req.params;
   const { User, Reservation, Lab } = require('./models/Schemas');
 
@@ -176,7 +176,7 @@ app.get('/profile/:id', async (req, res) => {
     res.render('user/viewprofile', {
       user,
       reservations,
-      isUser: false 
+      isUser: req.session.user && req.session.user._id.toString() === user._id.toString()
     });
   } catch (err) {
     console.error(err);
@@ -190,11 +190,7 @@ app.get('/', (req, res) => {
 });
 
 // home page
-app.get('/home', (req, res) => {
-  if (!req.session.user) {
-    return res.redirect('/user/login');
-  }
-
+app.get('/home', requireLogin, (req, res) => {
   // Pass user info to template
   res.render('home', {
     user: req.session.user,                   
