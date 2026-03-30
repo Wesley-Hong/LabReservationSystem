@@ -203,6 +203,8 @@ app.get('/home', (req, res) => {
   });
 });
 
+app.get('/about', userController.showAbout);
+
 // user routes
 app.get('/user/registration', userController.showRegistration);
 app.get('/user/login', userController.showLogin);
