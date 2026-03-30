@@ -299,30 +299,3 @@ exports.studentReservePrefill = (req, res) => {
   const { lab, date, timeStart, timeEnd, seat } = req.query;
   res.render('reservation/studentreserve', { lab, date, timeStart, timeEnd, seat, user: req.session.user });
 };
-
-exports.cancelReservation = async (req, res) => {
-  try {
-    const userSession = req.session.user;
-    if (!userSession) return res.redirect('/user/login');
-
-    const { id } = req.params;
-
-    const reservation = await Reservation.findById(id);
-    if (!reservation) {
-      return res.status(404).send('Reservation not found');
-    }
-
-    // Optional: ensure user owns the reservation
-    if (reservation.ReservedUnder.toString() !== userSession._id.toString()) {
-      return res.status(403).send('Unauthorized');
-    }
-
-    reservation.status = 'cancelled';
-    await reservation.save();
-
-    res.redirect('/reservation/viewreservations');
-  } catch (err) {
-    console.error(err);
-    res.status(500).send('Server error');
-  }
-};
