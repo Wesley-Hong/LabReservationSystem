@@ -133,6 +133,45 @@ exports.createTechnicianReservation = async (req, res) => {
   res.send('Technician reservation not implemented yet');
 };
 
+exports.cancelReservation = async (req, res) => {
+  const { Reservation } = require('../models/Schemas');
+  const userSession = req.session.user;
+  if (!userSession) return res.status(401).json({ error: 'Unauthorized' });
+
+  try {
+    const reservation = await Reservation.findById(req.params.id).populate('lab');
+    if (!reservation) return res.status(404).json({ error: 'Reservation not found.' });
+
+    if (userSession.role === 'technician') {
+      const now = new Date();
+      const reservationDate = reservation.reservationDate;
+      const timeStart = reservation.timeStart;       
+      const [datePart] = reservationDate.split('T');
+      const startDateTime = new Date(`${datePart} ${timeStart}`);
+      const diffMinutes = (now - startDateTime) / 1000 / 60;
+
+      if (diffMinutes < 0 || diffMinutes > 10) {
+        return res.status(403).json({ error: 'You can only cancel a reservation within 10 minutes of its start time.' });
+      }
+    }
+    
+    if (userSession.role === 'student') {
+      if (reservation.ReservedUnder.toString() !== userSession._id.toString()) {
+        return res.status(403).json({ error: 'You can only cancel your own reservations.' });
+      }
+    }
+
+    reservation.status = 'cancelled';
+    await reservation.save();
+
+    res.status(200).json({ message: 'Reservation cancelled successfully.' });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Server error.' });
+  }
+};
+
 exports.viewSlots = async (req, res) => {
   try {
     const labs = await Lab.find().lean();

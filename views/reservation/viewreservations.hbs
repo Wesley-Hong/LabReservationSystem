@@ -44,6 +44,32 @@ Anonymous
 </div>
 
 <a id="BackToHome" href="/home">&lt- Back To Home</a>
+  
+<script>
+  
+  async function cancelReservation(id, btn) {
+    if (!confirm('Are you sure you want to cancel this reservation?')) return;
 
+    try {
+      const response = await fetch(`/reservation/cancel/${id}`, { method: 'POST' });
+      const data = await res.json();
+
+      if (!response.ok) {
+        alert(data.error);
+        return;
+      }
+
+      alert(data.message);
+      btn.closest('.reservation-container').remove();
+
+      const container = document.getElementById('reservationsContainer');
+      if (!container.querySelector('.reservation-container')) {
+        container.innerHTML = '<p>No active reservations found.</p>';
+      }
+
+    } catch (err) {
+      alert('Network error. Please try again.');
+    }
+  }
 </body>
 </html>
