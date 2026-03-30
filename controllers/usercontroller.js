@@ -121,10 +121,9 @@ exports.registerUser = async (req, res) => {
     }
 };
 
-// Verify email and password
 // Store user in sessions
 exports.loginUser = async (req, res) => {
-    const { email, password } = req.body;
+    const { email, password, remember } = req.body;
 
     try {
 
@@ -134,7 +133,7 @@ exports.loginUser = async (req, res) => {
         if (!password || !password.trim()) {
             return res.status(400).json({ error: 'Password is required.' });
         }
-        // find user in DB
+
         const user = await User.findOne({ email });
 
         if (!user) {
@@ -142,12 +141,17 @@ exports.loginUser = async (req, res) => {
         }
         
         const matching= await bcrypt.compare(password, user.password)
-        // added hashing
         if (!matching) {
             return res.status(401).json({ error: 'Incorrect password.' });
         }
 
-        // success
+        if (remember === 'true' || remember === true) {
+            req.session.cookie.maxAge = 1000 * 60 * 60 * 24 * 21;
+        } 
+        else {
+            req.session.cookie.maxAge = null;
+        }
+
         req.session.user = {
             _id: user._id,
             firstName: user.firstName,
@@ -171,12 +175,10 @@ exports.logoutUser = (req, res) => {
     });
 };
 
-// Destroy session then user and reservation from the DB
 exports.deleteUser = async (req, res) => {
   try {
     const userId = req.session.user._id;
 
-    // Destroy session FIRST before deleting from DB
     req.session.destroy(async (err) => {
       if (err) {
         console.error('Session destroy error:', err);
@@ -189,7 +191,7 @@ exports.deleteUser = async (req, res) => {
         res.redirect('/user/login');
       } catch (dbErr) {
         console.error('Delete account error:', dbErr);
-        res.redirect('/user/login'); // session is gone anyway
+        res.redirect('/user/login');
       }
     });
 
