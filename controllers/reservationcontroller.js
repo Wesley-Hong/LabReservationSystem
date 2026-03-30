@@ -1,5 +1,7 @@
 const { Lab, Reservation, User } = require('../models/Schemas');
 
+// Students view their own reservation
+// Technician can view everyones reservation
 exports.viewReservations = async (req, res) => {
   try {
     const userSession = req.session.user;
@@ -40,6 +42,7 @@ exports.viewReservations = async (req, res) => {
   }
 };
 
+//Reservation page for student
 exports.studentReserve = async (req, res) => {
   try {
     const userSession = req.session.user;
@@ -52,6 +55,7 @@ exports.studentReserve = async (req, res) => {
   }
 };
 
+// Reservation page for technician
 exports.technicianReserve = (req, res) => {
   const userSession = req.session.user;
   if (!userSession) return res.redirect('/user/login');
@@ -59,7 +63,7 @@ exports.technicianReserve = (req, res) => {
   res.render('reservation/technicianreserve', { user: userSession });
 };
 
-
+// Renders the edit reservation form
 exports.editReservation = async (req, res) => {
   try {
     const userSession = req.session.user;
@@ -79,7 +83,7 @@ exports.editReservation = async (req, res) => {
   }
 };
 
-// for POST /reservation/editReservation/:id
+// Remove old reservation data and add the updated data
 exports.editTheReservation = async (req, res) => {
     const { Reservation, Lab } = require('../models/Schemas');
     const userSession = req.session.user;
@@ -170,6 +174,7 @@ exports.editTheReservation = async (req, res) => {
   }
 }
 
+// Create new reservation (student)
 exports.createReservation = async (req, res) => {
   const { Reservation, Lab } = require('../models/Schemas');
   const userSession = req.session.user;
@@ -240,6 +245,7 @@ exports.createReservation = async (req, res) => {
   }
 };
 
+// Technician will help student make reservation
 exports.createTechnicianReservation = async (req, res) => {
   const userSession = req.session.user;
 
@@ -314,6 +320,8 @@ exports.createTechnicianReservation = async (req, res) => {
   }
 };
 
+// Student cancel their own reservation
+// Technician need to wait for 10 min for to cancel
 exports.cancelReservation = async (req, res) => {
   const { Reservation } = require('../models/Schemas');
   const userSession = req.session.user;
@@ -353,6 +361,7 @@ exports.cancelReservation = async (req, res) => {
   }
 };
 
+// View all reservation slot (available or occupied)
 exports.viewSlots = async (req, res) => {
   try {
     const userSession = req.session.user;
@@ -364,6 +373,7 @@ exports.viewSlots = async (req, res) => {
   }
 };
 
+// API: returns all reservation (lab and date)
 exports.getSlots = async (req, res) => {
   const { lab: labNum, date } = req.query;
 
@@ -383,6 +393,7 @@ exports.getSlots = async (req, res) => {
   }
 };
 
+// APIL return reservation info (lab, date, time, and seat)
 exports.getSlotInfo = async (req, res) => {
   const { lab: labNum, date, timeStart, timeEnd, seat } = req.query;
 
