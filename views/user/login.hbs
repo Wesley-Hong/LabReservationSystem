@@ -23,6 +23,13 @@
                 <input type="password" id="password" name="password" placeholder="Enter your password" required>
             </div>
 
+            <div class="full-width">
+                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                    <input type="checkbox" id="remember" name="remember" value="true">
+                    <span>Remember Me</span>
+                </label>
+            </div>
+
             <div class="form-footer">
                 <button class="log-in" onclick="login()">Log in</button>
 
@@ -40,6 +47,7 @@
         async function login() {
             const email    = document.getElementById("email").value.trim();
             const password = document.getElementById("password").value.trim();
+            const remember = document.getElementById("remember").checked;
 
             if (!email || !password) {
                 alert("Please fill in all fields.");
@@ -55,7 +63,7 @@
                 const response = await fetch('/user/login', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email, password })
+                    body: JSON.stringify({ email, password, remember })
                 });
 
                 const data = await response.json();
