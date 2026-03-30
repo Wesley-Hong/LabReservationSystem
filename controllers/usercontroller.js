@@ -127,6 +127,13 @@ exports.loginUser = async (req, res) => {
     const { email, password } = req.body;
 
     try {
+
+        if (!email || !email.trim()) {
+            return res.status(400).json({ error: 'Email is required.' });
+        }
+        if (!password || !password.trim()) {
+            return res.status(400).json({ error: 'Password is required.' });
+        }
         // find user in DB
         const user = await User.findOne({ email });
 
