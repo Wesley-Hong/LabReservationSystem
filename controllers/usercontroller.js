@@ -186,3 +186,21 @@ exports.deleteUser = async (req, res) => {
     res.redirect('/user/profile');
   }
 };
+
+exports.showAbout = (req, res) => {
+  const npmPackages = [
+    { name: "express", version: "^5.2.1", description: "Web framework" },
+    { name: "express-handlebars", version: "^8.0.6", description: "Template engine" },
+    { name: "mongoose", version: "^9.3.0", description: "MongoDB ODM" },
+    { name: "bcrypt", version: "^6.0.0", description: "Password hashing" },
+    { name: "express-session", version: "^1.19.0", description: "Session management" },
+    { name: "connect-mongo", version: "^6.0.0", description: "MongoDB session store" },
+    { name: "multer", version: "^2.1.1", description: "File upload" },
+    { name: "mongodb", version: "^7.1.0", description: "MongoDB driver" }
+  ];
+
+  res.render('about', { 
+    npmPackages,
+    user: req.session.user || null
+  });
+};
