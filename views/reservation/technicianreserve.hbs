@@ -4,44 +4,41 @@
     <!-- For displaying of characters correctly-->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Lab Reservation</title>
-    <link rel="stylesheet" href="/css/technicianreservestyles.css"> 
+    <title>Technician Lab Reservation</title>
+    <link rel="stylesheet" href="/css/studentreservestyles.css">
 </head>
 <body>
     <div id="reserve_outerContainer">
-        <h2>Student Laboratory Slot Reservation</h2>
+        <div id="reservationTitle">
+            <h2>Technician Laboratory Slot Reservation</h2>
+        </div>
+        
         
         <form id="reservationform">
         <div id="reserve_computerLabBox">
         
             <label>Pick a Laboratory:</label>
 
-            <button id="ComputerLab1" class="button" type="button" form="reservationform">Computer Lab 1</button>
-            <button id="ComputerLab2" class="button" type="button" form="reservationform">Computer Lab 2</button>
-            <button id="ComputerLab3" class="button" type="button" form="reservationform">Computer Lab 3</button>
+            <input type="hidden" name="lab" id="labInput">
+
+            <button id="ComputerLab1" class="button" type="button" form="reservationform" onclick="selectLab('lab1')">Computer Lab 1</button>
+            <button id="ComputerLab2" class="button" type="button" form="reservationform" onclick="selectLab('lab2')">Computer Lab 2</button>
+            <button id="ComputerLab3" class="button" type="button" form="reservationform" onclick="selectLab('lab3')">Computer Lab 3</button>
 
             <p id="ComputerLab">No Lab Chosen</p>
         </div>
 
-        <div id="reserve_inputs">
-        
-            <div id="fieldGroup">
-                <label for="reserve_date">Date:</label>
-            <input id="reserve_date" name="reserve_date" type="date">
-            </div>
-            
-            <div id="fieldGroup">
-                <input type="radio" id="add" name="edit" value="add">
-                <label for="add">Add</label><br>
-                <input type="radio" id="remove" name="edit" value="remove">
-                <label for="remove">Remove</label><br>
-            </div>
-
-            <div id="fieldGroup">
-                <input type="search" id="searchuser" name="searchuser" placeholder="Search User">
-            </div>
+        <div id="reserve_studentBox">
+            <label for="reserve_student">Select Student:</label>
+            <input type="text" id="reserve_student" name="studentEmail" placeholder="Search student by email">
         </div>
 
+        <div id="reserve_dateBox">
+        
+            <label for="reserve_date">Date:</label>
+            <input id="reserve_date" name="reservationDate" type="date">
+        
+        </div>
 
         <div class="reserve_timeslotBox">
         
@@ -50,73 +47,119 @@
             
             <div class="box1">
 
-            <input type="checkbox" class="timeslot" id="8:00" value="8:00">
-            <label for="8:00">8:00AM - 8:30AM</label>
+            <input type="checkbox" class="timeslot" id="8:00" name="timeStart" value="8:00">
+            <label for="8:00">8:00AM - 8:30AM<br><span id="8:00-slots"></span></label>
             
-            <input type="checkbox" class="timeslot" id="8:30" value="8:30">
-            <label for="8:30">8:30AM - 9:00AM</label>
+            <input type="checkbox" class="timeslot" id="8:30" name="timeStart" value="8:30">
+            <label for="8:30">8:30AM - 9:00AM<br><span id="8:30-slots"></span></label>
 
-            <input type="checkbox" class="timeslot" id="9:00" value="9:00">
-            <label for="9:00">9:00AM - 9:30AM</label>
+            <input type="checkbox" class="timeslot" id="9:00" name="timeStart" value="9:00">
+            <label for="9:00">9:00AM - 9:30AM<br><span id="9:00-slots"></span></label>
 
-            <input type="checkbox" class="timeslot" id="9:30" value="9:30">
-            <label for="9:30">9:30AM - 10:00AM</label>
+            <input type="checkbox" class="timeslot" id="9:30" name="timeStart" value="9:30">
+            <label for="9:30">9:30AM - 10:00AM<br><span id="9:30-slots"></span></label>
             <br>
 
-            <input type="checkbox" class="timeslot" id="10:00" value="10:00">
-            <label for="10:00">10:00AM - 10:30AM</label>
+            <input type="checkbox" class="timeslot" id="10:00" name="timeStart" value="10:00">
+            <label for="10:00">10:00AM - 10:30AM<br><span id="10:00-slots"></span></label>
 
-            <input type="checkbox" class="timeslot" id="10:30" value="10:30">
-            <label for="10:30">10:30AM - 11:00AM</label>
+            <input type="checkbox" class="timeslot" id="10:30" name="timeStart" value="10:30">
+            <label for="10:30">10:30AM - 11:00AM<br><span id="10:30-slots"></span></label>
 
-            <input type="checkbox" class="timeslot" id="11:00" value="11:00">
-            <label for="11:00">11:00AM - 11:30AM</label>
+            <input type="checkbox" class="timeslot" id="11:00" name="timeStart" value="11:00">
+            <label for="11:00">11:00AM - 11:30AM<br><span id="11:00-slots"></span></label>
 
-            <input type="checkbox" class="timeslot" id="11:30" value="11:30">
-            <label for="11:30">11:30AM - 12:00PM</label>
+            <input type="checkbox" class="timeslot" id="11:30" name="timeStart" value="11:30">
+            <label for="11:30">11:30AM - 12:00PM<br><span id="11:30-slots"></span></label>
             <br>
 
-            <input type="checkbox" class="timeslot" id="12:00" value="12:00">
-            <label for="12:00">12:00PM - 12:30PM</label>
+            <input type="checkbox" class="timeslot" id="12:00" name="timeStart" value="12:00">
+            <label for="12:00">12:00PM - 12:30PM<br><span id="12:00-slots"></span></label>
 
-            <input type="checkbox" class="timeslot" id="12:30" value="12:30">
-            <label for="12:30">12:30PM - 1:00PM</label>
+            <input type="checkbox" class="timeslot" id="12:30" name="timeStart" value="12:30">
+            <label for="12:30">12:30PM - 1:00PM<br><span id="12:30-slots"></span></label>
 
-            <input type="checkbox" class="timeslot" id="13:00" value="13:00">
-            <label for="13:00">1:00PM - 1:30PM</label>
+            <input type="checkbox" class="timeslot" id="13:00" name="timeStart" value="13:00">
+            <label for="13:00">1:00PM - 1:30PM<br><span id="13:00-slots"></span></label>
 
-            <input type="checkbox" class="timeslot" id="13:30" value="13:30">
-            <label for="13:30">1:30PM - 2:00PM</label>
+            <input type="checkbox" class="timeslot" id="13:30" name="timeStart" value="13:30">
+            <label for="13:30">1:30PM - 2:00PM<br><span id="13:30-slots"></span></label>
             <br>
 
-            <input type="checkbox" class="timeslot" id="14:00" value="14:00">
-            <label for="14:00">2:00PM - 2:30PM</label>
+            <input type="checkbox" class="timeslot" id="14:00" name="timeStart" value="14:00">
+            <label for="14:00">2:00PM - 2:30PM<br><span id="14:00-slots"></span></label>
 
-            <input type="checkbox" class="timeslot" id="14:30" value="14:30">
-            <label for="14:30">2:30PM - 3:00PM</label>
+            <input type="checkbox" class="timeslot" id="14:30" name="timeStart" value="14:30">
+            <label for="14:30">2:30PM - 3:00PM<br><span id="14:30-slots"></span></label>
 
-            <input type="checkbox" class="timeslot" id="15:00" value="15:00">
-            <label for="15:00">3:00PM - 3:30PM</label>
+            <input type="checkbox" class="timeslot" id="15:00" name="timeStart" value="15:00">
+            <label for="15:00">3:00PM - 3:30PM<br><span id="15:00-slots"></span></label>
 
-            <input type="checkbox" class="timeslot" id="15:30" value="15:30">
-            <label for="15:30">3:30PM - 4:00PM</label>
+            <input type="checkbox" class="timeslot" id="15:30" name="timeStart" value="15:30">
+            <label for="15:30">3:30PM - 4:00PM<br><span id="15:30-slots"></span></label>
             <br>
 
-            <input type="checkbox" class="timeslot" id="16:00" value="16:00">
-            <label for="16:00">4:00PM - 4:30PM</label>
+            <input type="checkbox" class="timeslot" id="16:00" name="timeStart" value="16:00">
+            <label for="16:00">4:00PM - 4:30PM<br><span id="16:00-slots"></span></label>
 
-            <input type="checkbox" class="timeslot" id="16:30" value="16:30">
-            <label for="16:30">4:30PM - 5:00PM</label>
+            <input type="checkbox" class="timeslot" id="16:30" name="timeStart" value="16:30">
+            <label for="16:30">4:30PM - 5:00PM<br><span id="16:30-slots"></span></label>
 
-            <input type="checkbox" class="timeslot" id="17:00" value="17:00">
-            <label for="17:00">5:00PM - 5:30PM</label>
+            <input type="checkbox" class="timeslot" id="17:00" name="timeStart" value="17:00">
+            <label for="17:00">5:00PM - 5:30PM<br><span id="17:00-slots"></span></label>
 
-            <input type="checkbox" class="timeslot" id="17:30" value="17:30">
-            <label for="17:30">5:30PM - 6:00PM</label>
+            <input type="checkbox" class="timeslot" id="17:30" name="timeStart" value="17:30">
+            <label for="17:30">5:30PM - 6:00PM<br><span id="17:30-slots"></span></label>
             <br>
 
             </div>
-        
+            
+        </div>
+
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+                <div id="modalHeading">
+                <!-- The "close" class is used to style the close button (the "x") and position it in the top right corner of the modal -->
+                <span class="close">&times;</span>
+                    <p id="modalHeader">SEAT SELECTION</p>
+                </div>
+                <div class="modalSeats">
+                    <input type="checkbox" class="labSeat" id="labSeat1" value="1" name="seatNumber">
+                    <label for="labSeat1">1</label>
+                    <input type="checkbox" class="labSeat" id="labSeat2" value="2" name="seatNumber">
+                    <label for="labSeat2">2</label>
+                    <input type="checkbox" class="labSeat" id="labSeat3" value="3" name="seatNumber">
+                    <label for="labSeat3">3</label>
+
+                    <br>
+
+                    <input type="checkbox" class="labSeat" id="labSeat4" value="4" name="seatNumber">
+                    <label for="labSeat4">4</label>
+                    <input type="checkbox" class="labSeat" id="labSeat5" value="5" name="seatNumber">
+                    <label for="labSeat5">5</label>
+                    <input type="checkbox" class="labSeat" id="labSeat6" value="6" name="seatNumber">
+                    <label for="labSeat6">6</label>
+
+                    <br>
+
+                    <input type="checkbox" class="labSeat" id="labSeat7" value="7" name="seatNumber">
+                    <label for="labSeat7">7</label>
+                    <input type="checkbox" class="labSeat" id="labSeat8" value="8" name="seatNumber">
+                    <label for="labSeat8">8</label>
+                    <input type="checkbox" class="labSeat" id="labSeat9" value="9" name="seatNumber">
+                    <label for="labSeat9">9</label>
+
+                    <br>
+                    
+                    <input type="checkbox" class="labSeat" id="labSeat10" value="10" name="seatNumber">
+                    <label for="labSeat10">10</label>
+                    <input type="checkbox" class="labSeat" id="labSeat11" value="11" name="seatNumber">
+                    <label for="labSeat11">11</label>
+                    <input type="checkbox" class="labSeat" id="labSeat12" value="12" name="seatNumber">
+                    <label for="labSeat12">12</label>                    
+                </div>
+
+            </div>
         </div>
         </form>
 
@@ -129,50 +172,55 @@
     </div>
 
     <script>
+        // Declarations for Computer Lab buttons, chosen lab paragraph
         const buttonlab1 = document.getElementById("ComputerLab1");
         const buttonlab2 = document.getElementById("ComputerLab2");
         const buttonlab3 = document.getElementById("ComputerLab3");
         const computerLabParagraph = document.getElementById("ComputerLab");
-        let isClickedButtonLab1 = false, isClickedButtonLab2 = false, isClickedButtonLab3 = false;
 
+        // Declaration for submit button
+        const submitButton = document.getElementById("submit");
+        submitButton.disabled = true;
+
+        // Function to set the value of the hidden lab input when a lab button is clicked
+        function selectLab(labId) {
+            document.getElementById('labInput').value = labId;
+        }
+
+        // helper variable to store which lab button clicked
+        var labChosen = 0;
+
+        const checkboxes = document.querySelectorAll(".timeslot");
+        
+        // Formatting of chosen lab paragraph
         computerLabParagraph.style.fontWeight = "bold";
         computerLabParagraph.style.fontSize = "20px";
-        
-        buttonlab1.addEventListener("click", function(){
-            isClickedButtonLab1 = true;
-            computerLabParagraph.textContent ="Chosen Lab: Computer Laboratory 1";
-            /*
-            const checkboxInputs = document.getElementById("8:00");
-            checkboxInputs.disabled = true;
-            */
 
+
+        // Event listeners for computer lab buttons to set chosen lab and enable submit button
+        buttonlab1.addEventListener("click", function(){
+            labChosen = 1;
+            submitButton.disabled = false;
+            computerLabParagraph.textContent ="Chosen Lab: Computer Laboratory 1";
         })
 
         buttonlab2.addEventListener("click", function(){
-            isClickedButtonLab2 = true;
+            labChosen = 2;
+            submitButton.disabled = false;
             computerLabParagraph.textContent ="Chosen Lab: Computer Laboratory 2";
-            /*
-            const checkboxInputs = document.getElementById("10:00");
-            checkboxInputs.disabled = true;
-            */
         })
 
         buttonlab3.addEventListener("click", function(){
-            isClickedButtonLab3 = true;
+            labChosen = 3;
+            submitButton.disabled = false;
             computerLabParagraph.textContent ="Chosen Lab: Computer Laboratory 3";
         })
 
-        /*
-        if (isClickedButtonLab1 == false && isClickedButtonLab2 == false && isClickedButtonLab3 == false){
-            submitButton.disabled = true;
-        }
-        */
-       
+        // Declaration for date input
         const dateInput = document.getElementById("reserve_date");
 
         // default date to today
         const today = new Date().toISOString().split("T")[0];
-        dateInput.value = today;
 
         // 7 day range
         const maxDate = new Date();
@@ -180,35 +228,211 @@
         dateInput.min = today;
         dateInput.max = maxDate.toISOString().split("T")[0];
 
-        const submitButton = document.getElementById("reservationform");
+        // Declaration for reservation form
+        const reservationForm = document.getElementById("reservationform");
 
-
-        submitButton.addEventListener("submit", function(event) {
+        reservationForm.addEventListener("submit", function(event) {
             event.preventDefault(); // prevent page refresh
 
-            const selectedLab = computerLabParagraph.textContent;
-            const selectedDate = dateInput.value;
+            const lab = `Computer Lab 0${labChosen}`;
+            const date = dateInput.value;
+            const studentEmail = document.getElementById("reserve_student").value.trim();
 
-            // query selector returns a NodeList, so we convert it to an array to easily map the values
-            const selectedTimeslots = Array.from(document.querySelectorAll(".timeslot:checked")).map(input => input.value);
-            
-            // .checked returns true if the checkbox is checked, false otherwise
-            const isAnonymous = document.getElementById("reserve_anonymous").checked;
+            if (!studentEmail) {
+                alert("Please enter a student email.");
+                return;
+            }
 
-            console.log("Selected Lab:", selectedLab);
-            console.log("Selected Date:", selectedDate);
-            console.log("Selected Timeslots:", selectedTimeslots);
-            console.log("Reserve Anonymously:", isAnonymous);
-            selectedTimeslots.forEach(slot => {
-                slot.disabled = true;
+            console.log("SUBMITTING PAYLOAD", { lab, date, studentEmail, selectedSeatsByTime });
+            const payload = {
+                lab,
+                reservationDate: date,
+                selectedSeatsByTime,
+                studentEmail
+            };
+
+            // Lab must be selected
+            if (!labChosen) {
+                alert("Please select a lab.");
+                return;
+            }
+
+            // Date must be selected
+            if (!date) {
+                alert("Please select a date.");
+                return;
+            }
+
+            // Must select at least one timeslot
+            if (Object.keys(selectedSeatsByTime).length === 0) {
+                alert("Please select at least one time slot.");
+                return;
+            }
+
+            // Must select at least one seat total
+            const hasSeats = Object.values(selectedSeatsByTime).some(seats => seats.length > 0);
+            if (!hasSeats) {
+                alert("Please select at least one seat.");
+                return;
+            }
+
+            fetch('/reservation/technicianreserve', {  // <-- new route
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message || data.error);
+                console.log(data);
+
+                Object.keys(selectedSeatsByTime).forEach(key => delete selectedSeatsByTime[key]);
+                reservationForm.reset();
+
+                document.querySelectorAll(".labSeat").forEach(seatCheckbox => {
+                    seatCheckbox.disabled = false;
+                    seatCheckbox.classList.remove("selected");
+                });
+            })
+            .catch(err => {
+                console.error("Submission error:", err);
+                alert("An error occurred while submitting the reservation. Please try again.");
             });
-            
-            alert("Reservation submitted! Check console for details.");
-            document.getElementById("reservationform").reset();
         });
 
-        const checkboxInputs = document.getElementsByClassName("timeslot");
-    
+        var modal = document.getElementById("myModal");
+        var seats = document.querySelectorAll(".labSeat");
+        var closeModal = document.getElementsByClassName("close")[0];
+        let currentTimeslot = null;
+
+        function openSeatModal(timeslot) {
+            currentTimeslot = timeslot;
+            modal.style.display = "block";
+            updateModalHeading(timeslot);
+            refreshTakenSeats(timeslot);
+        }
+
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener("change", function(event) {
+                if (!labChosen || !dateInput.value) {
+                    alert("Please select a lab and date before choosing a time slot.");
+                    event.target.checked = false;
+                    return;
+                }
+
+                const timeslot = event.target.value;
+                currentTimeslot = timeslot;
+
+                // When a timeslot checkbox is checked, show the seat selection modal
+                if (event.target.checked) {
+                    openSeatModal(timeslot);
+                }
+                else if (event.target.checked === false) {
+                    // If the timeslot is unchecked, we want to clear any selected seats for that timeslot and update the UI accordingly
+                    if (selectedSeatsByTime[timeslot]) {
+                        delete selectedSeatsByTime[timeslot];
+                    }
+
+                    document.querySelectorAll(".labSeat").forEach(seatCheckbox => {
+                        seatCheckbox.disabled = false;
+                        seatCheckbox.classList.remove("selected");
+                        seatCheckbox.checked = false;
+                    });
+                }
+            });
+        });
+
+        closeModal.onclick = function() {
+            modal.style.display = "none";
+        }
+        
+        function updateModalHeading(timeslot) {
+            const modalHeader = document.getElementById("modalHeader");
+            modalHeader.textContent = `SEAT SELECTION - ${timeslot}`;
+        }
+
+        const selectedSeatsByTime = {};
+
+        document.querySelectorAll(".labSeat").forEach(seatCheckbox => {
+            seatCheckbox.addEventListener("click", function(event) {
+                if (currentTimeslot) {
+                    if (!selectedSeatsByTime[currentTimeslot]) {
+                        selectedSeatsByTime[currentTimeslot] = [];
+                    }
+
+                    // event.target.value = the seat number, event.target.checked = whether the seat is selected or deselected
+                    if (event.target.checked) {
+                        
+                        // in the case of duplicate seat selection being added to the timeslot seat array, we alert the user and remove the duplicate selection. 
+                        // This is to prevent a user from selecting the same seat multiple times for the same timeslot, which could cause issues with reservation creation and database storage
+                        if (selectedSeatsByTime[currentTimeslot].includes(event.target.value)) {
+                            alert("You have already selected this seat for this timeslot!");
+                            event.target.checked = false;
+                            return;
+                        }
+                        
+                        selectedSeatsByTime[currentTimeslot].push(event.target.value);
+                        event.target.classList.add("selected");
+                    } else if (event.target.checked === false) {
+                        // Remove the deselected seat from the array of selected seats for the current timeslot
+                        selectedSeatsByTime[currentTimeslot] = selectedSeatsByTime[currentTimeslot].filter(seat => seat !== event.target.value);
+                        event.target.classList.remove("selected");
+                    }
+                }
+            });
+        });
+
+        function refreshTakenSeats(timeslot){
+            const lab = `Computer Lab 0${labChosen}`;
+            const date = dateInput.value;
+
+            currentTimeslot = timeslot;
+        
+            fetch(`/reservation/booked?lab=${lab}&date=${date}&timeStart=${timeslot}`)
+            .then(async res => {
+                const text = await res.text();
+
+                try {
+                    return JSON.parse(text);
+                } catch (e) {
+                    console.error("Non-JSON response:", text);
+                    throw new Error("Server did not return JSON");
+                }
+            })
+            .then(data => {
+
+                // First, enable all seats and remove taken styling so we can reset the seat selection UI before applying the new data
+                document.querySelectorAll(".labSeat").forEach(seatCheckbox => {
+                    seatCheckbox.disabled = false;
+                    seatCheckbox.classList.remove("taken", "selected"); // Remove class to reset styling
+                    seatCheckbox.checked = false; // Uncheck all seats to reset selection
+                });
+                // We can use this data to disable timeslots that are fully booked and show how many slots are left for others
+                data.forEach(resv => {
+                    const seat = resv.seatNumber;
+                    const seatCheckbox2 = document.getElementById(`labSeat${seat}`);
+
+                    if (seatCheckbox2) {
+                        seatCheckbox2.disabled = true;
+                        seatCheckbox2.classList.add("taken"); // Add taken class to style taken seats
+                    }
+                });
+
+                const savedSeats = selectedSeatsByTime[timeslot] || [];
+
+                savedSeats.forEach(seat => {
+                    const seatCheckbox3 = document.getElementById(`labSeat${seat}`);
+                    if (seatCheckbox3 && !seatCheckbox3.disabled) {
+                        seatCheckbox3.checked = true;
+                        seatCheckbox3.classList.add("selected"); // Add selected class to style user's selected seats
+                    }
+                });
+            })
+
+            .catch(err => {
+                console.error("Error fetching booked seats:", err);
+            });
+        }
     </script>
 </body>
 </html>
