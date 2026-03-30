@@ -2,7 +2,6 @@
 
 ```
 LabReservationSystem
-├── all mco1 files/       # Files from MCO1
 ├── controllers/          # Route handler functions
 ├── models/               # Database models
 ├── public/               # Static assets (CSS and images)
