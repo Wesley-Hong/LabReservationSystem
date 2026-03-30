@@ -133,7 +133,13 @@ app.get('/studentreserve', (req, res) => {
 });
 
 app.get('/reservation/booked', async (req, res) => {
+  const { Lab , Reservation } = require('./models/Schemas');
   const { lab, date, timeStart } = req.query;
+
+  const labDoc = await Lab.findOne({ labNum: lab });
+  if (!labDoc) {
+    return res.status(400).json({ error: 'Invalid lab number' });
+  }
 
   try {
     if (!lab || !date) {
@@ -142,17 +148,18 @@ app.get('/reservation/booked', async (req, res) => {
     
     // Find the lab first, then find reservations for that lab, date, and time
     const query = {
-      lab,
+      lab: labDoc._id,
       reservationDate: date,
       status: 'active'
     };
+
+    query.lab = labDoc._id; // filter by lab ID
 
     // only filter by timeStart if provided
     if (timeStart) {
       query.timeStart = timeStart;
     }
-
-    const { Reservation } = require('./models/Schemas');
+    
     const reservations = await Reservation.find(query).lean();
     
     res.json(reservations); // return as JSON
