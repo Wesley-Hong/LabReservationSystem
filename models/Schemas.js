@@ -120,6 +120,6 @@ const errorSchema = new mongoose.Schema({
 module.exports = {
     User: mongoose.model('User', userSchema),
     Reservation: mongoose.model('Reservation', reserveSchema),
-    Lab: mongoose.model('Lab', labSchema)
-
+    Lab: mongoose.model('Lab', labSchema),
+    Error: mongoose.model('Error', errorSchema)
 }
