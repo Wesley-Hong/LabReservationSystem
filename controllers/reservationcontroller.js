@@ -1,5 +1,4 @@
-const { Lab, Reservation, User } = require('../models/Schemas');
-const { Reservation, Lab, User, ErrorModel } = require('../models/Schemas'); // comment out this line if needed
+const { Lab, Reservation, User, ErrorModel } = require('../models/Schemas'); // Comment out ErrorModel if needed
 
 // Students view their own reservation
 // Technician can view everyones reservation
