@@ -102,6 +102,20 @@ const reserveSchema = new mongoose.Schema({
     }
 }, {timestamps: true})
 
+// error schema for demo
+const errorSchema = new mongoose.Schema({
+    alert: {
+        type: String,
+    },
+    from: {
+        type: String,
+    },
+    requestDateTime: {
+        type: Date,
+        default: Date.now
+    }
+}, {timestamps: true})
+
 // Export all models
 module.exports = {
     User: mongoose.model('User', userSchema),
