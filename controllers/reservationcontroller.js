@@ -1,4 +1,5 @@
 const { Lab, Reservation, User } = require('../models/Schemas');
+const { Reservation, Lab, User, ErrorModel } = require('../models/Schemas'); // comment out this line if needed
 
 // Students view their own reservation
 // Technician can view everyones reservation
@@ -80,12 +81,18 @@ exports.editReservation = async (req, res) => {
   } catch (err) {
     console.error(err);
     res.redirect('/reservation/viewreservations');
+    const error = new ErrorModel({
+      alert: 'Error loading reservation for editing',
+      from: 'exports.editReservation',
+      requestDateTime: new Date()
+    });
+    await error.save();
   }
 };
 
 // Remove old reservation data and add the updated data
 exports.editTheReservation = async (req, res) => {
-    const { Reservation, Lab } = require('../models/Schemas');
+    const { Reservation, Lab, ErrorModel } = require('../models/Schemas');
     const userSession = req.session.user;
     if (!userSession) return res.redirect('/user/login');
     
@@ -171,12 +178,18 @@ exports.editTheReservation = async (req, res) => {
   catch (err) {
       console.error(err);
       res.status(500).json({ error: 'Server error in editing the reservation' });
+      const error = new ErrorModel({
+        alert: 'Server error in editing the reservation',
+        from: 'exports.editTheReservation',
+        requestDateTime: new Date()
+      });
+      await error.save();
   }
 }
 
 // Create new reservation (student)
 exports.createReservation = async (req, res) => {
-  const { Reservation, Lab } = require('../models/Schemas');
+  const { Reservation, Lab, ErrorModel } = require('../models/Schemas');
   const userSession = req.session.user;
   if (!userSession) return res.status(401).json({ error: 'Unauthorized' });
 
@@ -242,6 +255,12 @@ exports.createReservation = async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Server error' });
+    const error = new ErrorModel({
+      alert: 'Server error in creating reservation',
+      from: 'exports.createReservation',
+      requestDateTime: new Date()
+    });
+    await error.save();
   }
 };
 
